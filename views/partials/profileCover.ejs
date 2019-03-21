@@ -1,0 +1,23 @@
+<div class="cover-picture">
+        <%console.log(user.coverUrl)%>
+        <%if(typeof user.coverUrl === 'undefined'){ %>
+            <img onclick="coverPicUpload()" src="https://cdn0.iconfinder.com/data/icons/interface-set-vol-2/50/No_data_No_info_Missing-512.png" alt="image">
+        <%}else{%>
+            <img onclick="coverPicUpload()" src="<%=user.coverUrl%>" alt="image">
+        <%}%>
+        <div class="profile-picture" >
+            <%if(typeof user.profileUrl === 'undefined'){ %>
+                <img onclick="profilePicUpload()" src="https://cdn0.iconfinder.com/data/icons/interface-set-vol-2/50/No_data_No_info_Missing-512.png" alt="image">
+            <%}else{%>
+                <img onclick="profilePicUpload()" src="<%=user.profileUrl%>" alt="image">
+            <%}%>
+        </div>
+    <form action="uploadCover" method="post" enctype="multipart/form-data">
+        <input type="file" name="image" id="cover-picture">
+        <button type="submit" id="cover-submit"></button>
+    </form>
+    <form action="uploadProfile" method="post" enctype="multipart/form-data">
+        <input type="file" name="image" id="profile-picture">
+        <button type="submit" id="profile-submit"></button>
+    </form>
+</div>

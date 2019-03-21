@@ -1,25 +1,37 @@
-<% if(typeof musicQueue === 'undefined'){ %>
+<% if(typeof user !== 'undefined'){ %>
     <nav class="vertical-nav">
-        <div class="nav-item "><a href="/" id="home-link"><i class="fas fa-home"></i><span class="nav-text">Home</span></a></div>
+        <div class="nav-item active " ><a href="/" id="home-link" ><i class="fas fa-home"></i><span class="nav-text">Home</span></a></div>
         <div class="nav-item"><a href="/discover" id="discover-link"><i class="fas fa-globe-europe"></i><span class="nav-text">Discover</span></a></div>
         <div class="nav-item"><a href="/store" id="store-link"><i class="fas fa-store"></i><span class="nav-text">Store</span></a></div>
-        <%if(typeof user !== 'undefined'){%>
-            <div class="nav-item"><a href="/users/profile" id="profile-link"><i class="fas fa-user-circle"></i><span class="nav-text">Profile</span></a></div>
-            <div class="nav-item"><a href="/users/logout" id="logout-link"><i class="fas fa-sign-out-alt"></i><span class="nav-text">Log Out</span></a></div>
-            <%if(user.account_type === 'artists'){%>
-                <div class="nav-item"><a href="/upload" id="upload-link"><i class="fas fa-upload"></i><span class="nav-text">Upload</span></a></div>
-            <%}%>
-        <%}else{%>
-            <div class="nav-item"><a href="/login" id="login-link"><i class="fas fa-sign-in-alt"></i><span class="nav-text">Login</span></a></div>
+        <div class="nav-item">
+            <a href="/users/profile" id="profile-link">
+                <i class="fas fa-user-circle"></i><span class="nav-text">Profile</span>
+            </a>
+            <div class="side-dropdown">
+                <ul>
+                    <li><a href="/users/profile/overview">Overview</a></li>
+                    <li><a href="/users/profile/playlists">Playlists</a></li>
+                    <%if(user.account_type === 'artists'){%>
+                        <li><a href="/users/profile/songs">My Songs</a></li>
+                    <%}%>
+                </ul>
+            </div>
+        </div>
+
+        <div class="nav-item"><a href="/users/spotify" id="spotify-link"><i class="fab fa-spotify"></i><span class="nav-text">Spotify</span></a></div>
+        <div class="nav-item"><a href="/users/logout" id="logout-link"><i class="fas fa-sign-out-alt"></i><span class="nav-text">Log Out</span></a></div>
+        <%if(user.account_type === 'artists'){%>
+            <div class="nav-item"><a href="/users/upload" id="upload-link"><i class="fas fa-upload"></i><span class="nav-text">Upload</span></a></div>
         <%}%>
-        <div class="nav-item"><a href="/login" id="player-link"><i class="fas fa-play"></i><span class="nav-text">Player</span></a></div>
+        <%if(typeof musicQueue === "undefined"){%>
+            <div class="nav-item"><a href="/login" id="player-link"><i class="fas fa-play"></i><span class="nav-text">Player</span></a></div>
+        <%}%>
     </nav>
 <% }else{ %>
     <nav class="vertical-nav">
-        <div class="nav-item"><a href="/" id="home-link"><span class="nav-text">Home</span></a></div>
-        <div class="nav-item"><a href="/discover" id="discover-link"><span class="nav-text">Discover</span></a></div>
-        <div class="nav-item"><a href="/store" id="store-link"><span class="nav-text">Store</span></a></div>
-        <div class="nav-item"><a href="/login" id="login-link"><span class="nav-text">Login</span></a></div>
-        <div class="nav-item player">\></div>
+        <div class="nav-item active " ><a href="/" id="home-link" ><i class="fas fa-home"></i><span class="nav-text">Home</span></a></div>
+        <div class="nav-item"><a href="/discover" id="discover-link"><i class="fas fa-globe-europe"></i><span class="nav-text">Discover</span></a></div>
+        <div class="nav-item"><a href="/store" id="store-link"><i class="fas fa-store"></i><span class="nav-text">Store</span></a></div>
+        <div class="nav-item"><a href="/login" id="login-link"><i class="fas fa-sign-in-alt"></i><span class="nav-text">Login</span></a></div>
     </nav>
-<% } %>
+<%}%>

@@ -47,6 +47,7 @@ button{
 */
 .vertical-nav{
   position: fixed;
+  z-index: 1;
   width: 3vw;
   height: 100vh;
   border-right: 1px solid #9a9a9a;
@@ -84,9 +85,39 @@ button{
 .active{
   font-size: 1.4em;
 }
-.active a{
+.active a:first-child{
   color: crimson;
 }
+.side-dropdown{
+  display: none;
+  border:1px solid #9a9a9a;
+  border-left: none;
+  background-color: #1a1a1a;
+  z-index: 100;
+  position: absolute;
+  width: 10vw;
+  margin-top: -3vw;
+  margin-left:12.1vw;
+}
+.side-dropdown ul{
+  list-style-type: none;
+}
+.side-dropdown li{
+  border-bottom: 1px solid #9a9a9a;
+  transition: 0.3s background-color ease-in-out;
+}
+.side-dropdown li:hover{
+  background-color: #9a9a9a;
+}
+.side-dropdown li:last-child{
+  border: none;
+}
+.side-dropdown a{
+  font-size: 0.8em !important;
+  color: white !important;
+  padding: 2vh !important;
+}
+
 
 /*
   MAIN CONTENT AREA CSS
@@ -98,7 +129,7 @@ button{
 }
 .content{
   display: block;
-  width: 100vw;
+  width: 68vw;
   height: auto;
   padding:10vh 16vw;
   color: #fff;
@@ -123,7 +154,7 @@ button{
 */
 .form-wrapper {
   display: block;
-  margin: auto;
+  margin-left:20vw;
   width: 30vw;
   border-radius: 3vh;
   background-color: #1a1a1a;
@@ -172,7 +203,7 @@ button{
 }
 .form-footer button{
   width: 80%;
-  margin:2vh auto;
+  margin:2vh auto !important;
   background-color: #1a1a1a;
   padding-bottom:7px;
 }
@@ -237,7 +268,7 @@ MUSIC PLAYER STYLES
 }
 .music-player{
   margin-top: 10px;
-  border-top: 1px solid crimson;
+  border: 1px solid crimson;
   position: relative;
   display: block;
   float: left;
@@ -249,7 +280,14 @@ MUSIC PLAYER STYLES
   position: relative;
   display: block;
   float: left;
-  height: 30%;
+  height: auto;
+  background-color:#4d4d4d ;
+  padding: 0;
+
+}
+.thumbnail img{
+  height: 26vh;
+  width: 15vw;
 }
 .info{
   padding: 5vh 0 0 0 ;
@@ -319,7 +357,7 @@ MUSIC PLAYER STYLES
   float: left;
 }
 .end-time{
-  float: right;
+  float: left;
 }
 .play-button{
   font-size: 0.7em;
@@ -388,3 +426,137 @@ MUSIC OPTIONS STYLES
   Discover Page
 */
 
+
+
+/*
+  PROFILE PAGE
+*/
+.profile-content-wrap{
+  height: 100%;
+  background-color: #6d6d6d;
+  display:block;
+}
+.heading-wrapper{
+  position: relative;
+  display: block;
+  text-align: left;
+  padding: 20px;
+}
+.overview-values-wrap{
+  display: block;
+  width: 100%;
+  float: left;
+  background-color: #9a9a9a;
+  text-align: left;
+}
+.overview-content{
+  position: relative;
+  display: block;
+  padding: 20px;
+}
+
+.overview-content ul{
+  list-style-type: none;
+}
+.overview-content li{
+  color: crimson;
+  display: inline;
+  margin: 2vh 0;
+}
+.heading{
+  font-size: 2em;
+}
+/*
+    PROFILE PICTURES STYLES
+*/
+.cover-picture{
+  position: relative;
+  z-index: 0;
+  width: 100%;
+  height: 40vh;
+}
+.cover-picture input[type=file]{
+  display: none;
+}
+.cover-picture img{
+  height: 100%;
+  width: 100%;
+}
+.profile-picture{
+  z-index: 1;
+  position: absolute;
+  top: 40%;
+  right: 2%;
+  width: auto;
+  height: 50%;
+  border: 2px solid crimson;
+  background: #1a1a1a;
+  border-radius:50% 50%;
+}
+.profile-picture img{
+  position: relative;
+  border-radius:50%;
+}
+.cover-picture button{
+  display: none;
+}
+/*
+    PROFILE SIDE NAVIGATION BAR STYLES
+*/
+.side-nav-item{
+  padding: 3vh 0;
+  border-top: 1px solid white;
+}
+.side-nav-item:last-child{
+  border-bottom: 1px solid white;
+}
+.side-nav-item a{
+  display: inline-block;
+  font-size: 1.2em;
+  cursor: pointer;
+  height: 100%;
+  width: 100%;
+}
+.side-nav-item.active{
+  border-left:4px solid crimson;
+}
+
+/*
+  UPLOADS PAGE
+*/
+.upload_area {
+  width: 80%;
+  margin: auto;
+}
+.upload_area ul{
+  margin-left: 10%;
+}
+.upload_area input{
+  width: 30%;
+}
+.upload_area select{
+  padding: 10px;
+  font-size: 0.5em;
+}
+.fileContainer input[type=file]{
+  display: none;
+
+}
+#songPath,#imgPath{
+  width: 61.5% !important;
+}
+.fileContainer{
+  width:10vw;
+  font-size: 0.5em;
+  padding:10px;
+  cursor: pointer;
+}
+#uploadSong{
+  margin-left: 10%!important;
+}
+#songPath{
+  cursor: pointer;
+}
+#imgPath{
+  cursor: pointer;
+}

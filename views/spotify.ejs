@@ -1,0 +1,25 @@
+<div class="content-wrapper">
+    <div class="content">
+        <div class="profile-heading">
+            <% include partials/profileCover.ejs %>
+        </div>
+        <div class="profile-content-wrap">
+            <div class="heading-wrapper">
+                <h1>Account Overview</h1>
+            </div>
+            <div class="overview-values-wrap">
+                <div class="overview-content">
+                    <%if(typeof user.spotifyToken === 'undefined'){%>
+                        <div class="spotify-button">
+                            <button onclick=""><i class="fab fa-spotify"></i>Connect To Spotify</button>
+                        </div>
+                    <%}else{%>
+                        <div class="spotify-button">
+                            <button onclick=""><i class="fab fa-spotify"></i>Connect To Spotify</button>
+                        </div>
+                    <%}%>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

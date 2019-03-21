@@ -80,7 +80,34 @@ $(document).ready(function () {
             })
         }
     });
+
+    $('#uploadSong').on('click',function (event){
+        event.preventDefault();
+        const song = $('#song').val();
+        const thumbnail = $('#thumbnail').val();
+
+        if(typeof song === "undefined" || song ===''){
+            $('#songPath').css('border','2px solid red');
+            $('.error-message').text("Select a song to upload").css("display", "block");
+        }else if(typeof thumbnail === "undefined" ||thumbnail ===''){
+            $('#imgPath').css('border','2px solid red');
+            $('.error-message').text("Select a thumbnail for the sing").css("display", "block");
+        }else if($('#agree').is(":not(:checked)")){
+            $('.error-message').text("You must agree to our rules").css("display", "block");
+            $('#agree').css('outline','2px solid red');
+        }else{
+            $('#upload-form').submit();
+        }
+    });
 });
+
+function songUpload() {
+    document.getElementById('song').click();
+}
+
+function thumbnailUpload() {
+    document.getElementById('thumbnail').click();
+}
 
 function validateRegister(uname, pwd, cpwd) {
     if (pwd !== cpwd) {
@@ -107,3 +134,4 @@ function validateLogin(username, password) {
         return 0;
     }
 }
+

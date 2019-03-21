@@ -1,0 +1,45 @@
+<div class="upload_area">
+    <form id="upload-form" action="/users/upload" method="post" enctype="multipart/form-data">
+        <div class="form-body">
+            <ul>
+                <li>
+                    <div class="error-message" style="display: block; width: 100%;"></div>
+                </li>
+                <li>
+                    <input type="text" name="songName" id="songName" placeholder="Song Name..." required>
+                    <input type="text" name="albumName" id="albumName" placeholder="Album Name..." required>
+                    <select id="genreSelect" name="genre">
+                        <option id="category" value="default" selected>Genre...</option>
+                        <option id="rapAndHipHop" value="RapHipHop">Rap & Hip Hop</option>
+                        <option id="classical" value="Classical">Classical</option>
+                        <option id="trap" value="Trap">Trap</option>
+                    </select>
+                </li>
+                <li>
+                    <input type="text" id="songPath" onclick="songUpload()" disabled placeholder="Path/Of/File">
+                    <button class="fileContainer" type="button" onclick="songUpload()">
+                        Song
+                        <input type="file" id="song" name="song">
+                    </button>
+                </li>
+                <li>
+                    <input type="text" id="imgPath" onclick="thumbnailUpload()" disabled placeholder="Path/Of/File">
+                    <button class="fileContainer" type="button" onclick="thumbnailUpload()">
+                        Thumbnail
+                        <input type="file" id="thumbnail" name="thumbnail">
+                    </button>
+                </li>
+                <li>
+                    <div class="checkboxes">
+                        <input type="checkbox" name="agree" value="agree" id="agree">
+                        <span>By clicking this you agree to share your music</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="form-footer">
+            <button id="uploadSong">Upload</button>
+        </div>
+    </form>
+    <script src="/javascripts/forms.js"></script>
+</div>
