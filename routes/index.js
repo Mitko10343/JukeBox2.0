@@ -63,9 +63,9 @@ router.post('/login', notLoggedIn, (req, res) => {
     //authenticate user with firestore
     const username = req.body.username;
     const password = req.body.password;
-    const loginType = typeof req.body.artist_account === `undefined` ? 'users' : 'artists';
+    const artist_account = typeof req.body.artist_account === `undefined` ? 'users' : 'artists';
 
-    db.getUser(username, loginType)
+    db.getUser(username, artist_account)
         .then(user => {
             if (!user)
                 res.redirect('/login');
@@ -87,11 +87,12 @@ router.post('/login', notLoggedIn, (req, res) => {
 /*WORKING CORRECTLY*/
 /*POST REGISTER ACCOUNT*/
 router.post('/register', notLoggedIn, (req, res) => {
+    const account = typeof req.body.artist_account === `undefined` ? 'users' : 'artists';
     const account_details = {
         username: req.body.username,
         password: req.body.pwd,
         email: req.body.email,
-        account: req.body.account
+        account_type:account
     };
 
     //enter user credentials to firestore

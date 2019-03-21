@@ -6,7 +6,6 @@ const multer = require('multer');
 const uploads = multer({
     storage: multer.memoryStorage(),
 }).any();
-
 const loggedIn = (req, res, next) => {
     if (typeof req.session.user !== 'undefined')
         next();
@@ -14,27 +13,26 @@ const loggedIn = (req, res, next) => {
         res.redirect('/');
 };
 
-/*WORKING CORRECTLY*/
+
 /* GET users listing. */
 router.get('/', loggedIn, (req, res, next) => {
     res.render('index', {title: 'Users', user: req.session.user});
 });
 
-
 /*GET Profile PAGE*/
 router.get('/profile', loggedIn, (req, res, next) => {
-    res.render('profile', {user:req.session.user});
+    res.render('profile', {user: req.session.user});
 
 });
-router.get('/profile/songs',loggedIn,(req,res,next)=>{
+router.get('/profile/songs', loggedIn, (req, res, next) => {
     const username = req.session.user.user;
 
-    db.getUserSongs(username,10,0).then(songData =>{
-        res.render('my_songs',{title:'My Songs',user:req.session.user,songData});
-    }).catch(error=>console.error(error));
+    db.getUserSongs(username, 10, 0).then(songData => {
+        res.render('my_songs', {title: 'My Songs', user: req.session.user, songData});
+    }).catch(error => console.error(error));
 });
 
-router.get('/spotify',loggedIn,(req,res,next)=>{
+router.get('/spotify', loggedIn, (req, res, next) => {
     const username = req.session.user.user;
     const collection = req.session.user.account_type;
     db.getUser(username, collection)
@@ -43,11 +41,11 @@ router.get('/spotify',loggedIn,(req,res,next)=>{
         });
 });
 
-router.get('/upload',loggedIn,(req,res,next)=>{
-   res.render('uploads',{user:req.session.user});
+router.get('/upload', loggedIn, (req, res, next) => {
+    res.render('uploads', {user: req.session.user});
 });
 
-router.post('/upload',loggedIn,uploads,(req,res,next)=>{
+router.post('/upload', loggedIn, uploads, (req, res, next) => {
     if (typeof req.files === 'undefined' && typeof req.body === 'undefined')
         res.sendStatus(404).render('uploads');
     else {
@@ -72,6 +70,44 @@ router.post('/upload',loggedIn,uploads,(req,res,next)=>{
         }
     }
 });
+router.post('/uploadCover', loggedIn, uploads, (req, res, next) => {
+    if (typeof req.files === 'undefined' && typeof req.body === 'undefined')
+        res.sendStatus(404).render('profile', {user: req.session.user});
+    else {
+        if (req.files[0].mimetype !== 'image/jpeg' && req.files[0].mimetype !== 'image/png') {
+            console.log("Invalid Image format");
+        } else {
+            const user = req.session.user.user;
+            const account = req.session.user.account_type;
+            db.uploadImg(user, keys.COVERS, req.files[0],req.files[0].originalname)
+                .then(url => {
+                    req.session.user.coverUrl = url;
+                    return db.addImgUrl(user, account, url, keys.COVERURL);
+                }).then(() => {
+                res.status(200).render('profile', {user: req.session.user});
+            }).catch(error => console.error(`Error: ${error.message} -users.js`));
+        }
+    }
+});
+router.post('/uploadProfile', loggedIn, uploads, (req, res, next) => {
+    if (typeof req.files === 'undefined' && typeof req.body === 'undefined')
+        res.sendStatus(404).render('profile', {user: req.session.user});
+    else {
+        if (req.files[0].mimetype !== 'image/jpeg' && req.files[0].mimetype !== 'image/png') {
+            console.log("Invalid Image format");
+        } else {
+            const user = req.session.user.user;
+            const account = req.session.user.account_type;
 
+            db.uploadImg(user, keys.PROFILES, req.files[0])
+                .then(url => {
+                    req.session.user.profileUrl = url;
+                    return db.addImgUrl(user, account, url, keys.PROFILEURL);
+                }).then(() => {
+                res.status(200).render('profile', {user: req.session.user});
+            }).catch(error => console.error(`Error: ${error.message} -users.js`));
+        }
+    }
+});
 
 module.exports = router;

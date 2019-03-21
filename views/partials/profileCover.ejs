@@ -12,11 +12,11 @@
                 <img onclick="profilePicUpload()" src="<%=user.profileUrl%>" alt="image">
             <%}%>
         </div>
-    <form action="uploadCover" method="post" enctype="multipart/form-data">
+    <form action="/users/uploadCover" method="post" enctype="multipart/form-data">
         <input type="file" name="image" id="cover-picture">
         <button type="submit" id="cover-submit"></button>
     </form>
-    <form action="uploadProfile" method="post" enctype="multipart/form-data">
+    <form action="/users/uploadProfile" method="post" enctype="multipart/form-data">
         <input type="file" name="image" id="profile-picture">
         <button type="submit" id="profile-submit"></button>
     </form>

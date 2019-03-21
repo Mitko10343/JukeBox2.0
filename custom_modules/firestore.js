@@ -39,11 +39,11 @@ const registerUser = async (userData) => {
         getUserRecord(userData.username, userData.account_type)
             .then(response => {
                 if (response === false)
-                    db.collection(keys.USERS).doc(userData.username).set({
+                    db.collection(userData.account_type).doc(userData.username).set({
                         username: userData.username,
                         email: userData.email,
                         password: userData.password,
-                        account_type: userData.account,
+                        account_type: userData.account_type,
                     }, {merge: false}).then(() => {
                         resolve({
                             code: 1,
@@ -129,7 +129,6 @@ const uploadSong = async (mp3File, imgFile, songData) => {
             return err;
         });
 };
-
 //Asynchronous Function that handles the upload of files
 //returns the public url of the asset upon success
 //returns an error if it encounters one
@@ -154,6 +153,19 @@ const uploadFile = async (file, fileBucket) => {
         });
         uploadStream.end(file.buffer);
     });
+};
+const uploadImage = async(user,collection,file,filename)=>{
+    return await new Promise((resolve,reject)=>{
+        if(!file && !collection)
+            reject('missing file or bucket name');
+
+        const uname = user.replace(/ /g, '');
+        const imageBucket = bucket.file(`${collection}/${uname}/${filename}`);
+
+        uploadFile(file,imageBucket)
+            .then(url=>resolve(url))
+            .catch(err=>reject(err));
+    })
 };
 
 //First add a song reference in the songs collection
@@ -181,6 +193,31 @@ const addSong = async (songData, mp3url, pathName, thumbnailUrl) => {
             return err;
         });
 };
+const addImgUrl = async(user,collection,url,imgType)=>{
+    if(imgType === keys.COVERURL){
+        return await new Promise((resolve,reject)=>{
+            db.collection(collection).doc(user).set({
+                coverUrl:url,
+            },{merge:true}).then(()=>{
+                resolve();
+            }).catch(error=>{
+                reject(error);
+            })
+        });
+    }else{
+        return await new Promise((resolve,reject)=>{
+            db.collection(collection).doc(user).set({
+                profileUrl:url,
+            },{merge:true}).then(()=>{
+                resolve();
+            }).catch(error=>{
+                reject(error);
+            })
+        });
+    }
+
+};
+
 
 /*Functions that are used when refining songs in discover*/
 const order = async (order) => {
@@ -240,6 +277,8 @@ const getGenre = async (genre) => {
 };
 
 
+module.exports.addImgUrl = addImgUrl;
+module.exports.uploadImg = uploadImage;
 module.exports.genreOrder =genreOrder;
 module.exports.order = order;
 module.exports.getGenre =getGenre;
