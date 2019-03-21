@@ -1,0 +1,27 @@
+<div class="content-wrapper">
+    <div class="content">
+        <div class="form-wrapper">
+            <form method="post" action="/login" id="login-form">
+                <div class="form-header">
+                    Artist Login
+                    <div class="border-bottom-80"></div>
+                </div>
+                <div class="form-body">
+                    <div class="error-message"></div>
+                    <input type="text" id="username-input" name="username" placeholder="Username">
+                    <input type="password" id="pwd-input" name="password" placeholder="Password">
+                    <div class="checkboxes">
+                        <label for="artist_account">
+                            <input type="checkbox" name="artist_account" value="artists" id="artist_account"> <span>This an artist account</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-footer">
+                    <button id='login-button' type="submit">Login<i style="display:none" class="fa fa-spinner fa-pulse fa-3x fa-fw spinner"></i> </button>
+                    <p>Don't have an account? <a href="/register">Register Here!</a></p>
+                </div>
+                <script src="/javascripts/forms.js"></script>
+            </form>
+        </div>
+    </div>
+</div>

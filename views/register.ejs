@@ -1,0 +1,30 @@
+<div class="content-wrapper">
+    <div class="content">
+        <div class="form-wrapper">
+            <form id="register-form">
+                <div class="form-header">
+                    Register an Account
+                    <div class="border-bottom-80"></div>
+                </div>
+                <div class="form-body">
+                    <input type="text" id="username-input" name="username" placeholder="Display Username" required>
+                    <input type="email" id="email-input" name="email" placeholder="Email" required>
+                    <input type="password" id="pwd-input" name="password" placeholder="Password" required>
+                    <input type="password" id="pwd-confirm" name="c-password" placeholder="Confirm Password" required>
+                    <div class="checkboxes">
+                        <label for="artist_account">
+                            <input type="checkbox" name="artist_account" value="artists" id="artist_account"> <span>Register as an artist</span>
+                        </label>
+
+                    </div>
+                    <div class="border-bottom-80"></div>
+                </div>
+                <div class="form-footer">
+                    <button id="reg-button" type="submit">Register<i style="display:none" class="fa fa-spinner fa-pulse fa-3x fa-fw spinner"></i></button>
+                    <p>Already have an account? <a href="/login">Login Here!</a></p>
+                </div>
+                <script src="/javascripts/forms.js"></script>
+            </form>
+        </div>
+    </div>
+</div>

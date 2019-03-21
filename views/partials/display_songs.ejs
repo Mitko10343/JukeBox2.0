@@ -1,0 +1,48 @@
+<% if(typeof songData === 'object' && songData && Object.keys(songData).length !== 0){ %>
+    <% songData.forEach(song =>{ %>
+        <div class="music-player">
+            <div class="thumbnail">
+                <img src="<%= song.thumbnailUrl %>" alt="Thumbnail Image">
+            </div>
+            <div class="info">
+                <div class="song-info">
+                    <div class="song-heading">
+                        <span class="songName">Song:<%= song.name %></span>
+                        <span class="artistName">By:<%= song.artist %></span>
+                    </div>
+                    <div class="song-album">
+                        <span class="Album">Album: <%= song.album %></span>
+                    </div>
+                </div>
+                <div class="play-buttons">
+                    <button class="play-button"><i style="display: none" class="fas fa-pause pause"></i><i class="fas fa-play play"></i></button>
+                </div>
+                <div class="views-likes">
+                    <i class="far fa-eye"></i><span class="views"><%=song.views%></span></br>
+                    <i class="far fa-heart"></i><span class="likes"><%=song.likes%></span>
+                </div>
+                <div class="audio-wrapper" id="audio-player-container">
+                    <audio class="audio-player" >
+                        <source src="<%=song.mp3url%>">
+                    </audio>
+                </div>
+            </div>
+            <div class="progress-bar-wrapper">
+                <div class="progress-background">
+                    <div class="progress">
+
+                    </div>
+                </div>
+                <p class="current-time">
+
+                </p>
+                <p class="end-time">
+                </p>
+            </div>
+        </div>
+<% })}
+else{ %>
+    <div class="No songs"><h1>No Uploaded songs yet</h1></div>
+<% } %>
+
+<script src="../../javascripts/musicPlayer.js"> </script>
