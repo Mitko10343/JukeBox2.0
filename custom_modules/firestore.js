@@ -8,9 +8,12 @@ admin.initializeApp({
     databaseURL: "https://finalyearproject-a8f42.firebaseio.com",
     storageBucket: "finalyearproject-a8f42.appspot.com"
 });
+
 //get an instance of the database
 const db = admin.firestore();
 const bucket = admin.storage().bucket();
+const USERS = db.collection(keys.USERS);
+const SONGS = db.collection(keys.SONGS);
 
 /*Function that converts an array of firestore records into JSON objects*/
 const extractData = async (data) => {
@@ -21,63 +24,66 @@ const extractData = async (data) => {
 
     return dataObj;
 };
-const getSongData = async (refs) => {
-    let songData = [];
+const addUserToDb = async (userData) => {
+    return await new Promise((resolve, reject) => {
+        USERS.doc(userData.username).set({
+            username: userData.username,
+            email: userData.email,
+            password: userData.password,
+            account_type: userData.account_type,
+        }).then(() => {
+            resolve(`Added user ${userData.username}`);
+        }).catch(error => {
+            reject(error);
+        });
+    })
+};
+const addSongToDb = async (songData, mp3url, thumbnailUrl) => {
+    const songDocRef = db.collection(keys.SONGS).doc(songData.songName);
 
-    for (let ref of refs) {
-        await db.collection(keys.SONGS).doc(ref.name).get()
-            .then(data => songData.push(data.data()))
-            .catch(error => console.error(error));
-    }
-
-    return songData;
+    songDocRef.set({
+        name: songData.songName,
+        album: songData.album,
+        artist: songData.artist,
+        views: songData.views,
+        likes: songData.likes,
+        mp3url,
+        thumbnailUrl,
+        uploadDate: Date.now(),
+    }).catch(err => {
+        console.error(err);
+    });
 };
 
 /*FUNCTION TO ADD A USER TO THE DATABASE*/
 const registerUser = async (userData) => {
     return await new Promise((resolve, reject) => {
-        getUserRecord(userData.username, userData.account_type)
-            .then(response => {
-                if (response === false)
-                    db.collection(userData.account_type).doc(userData.username).set({
-                        username: userData.username,
-                        email: userData.email,
-                        password: userData.password,
-                        account_type: userData.account_type,
-                    }, {merge: false}).then(() => {
-                        resolve({
-                            code: 1,
-                            message: `Added user ${userData.username}`
-                        });
-                    });
-                else {
-                    reject({
-                        code: -1,
-                        message: `User already exists`
-                    });
-                }
-            }).catch(error => {
-            console.error(error);
+        //Check if a user record exists
+        getUser(userData.username).then(response => {
+            addUserToDb(userData).then(message => resolve(message)).catch(error => reject(error));
+        }).catch(error => {
+            reject(`User already has an account`);
         });
     })
 };
-const getUserRecord = async (username, collection) => {
-    return await db.collection(collection).doc(username).get()
-        .then(record => {
-            if (record.exists) {
-                return record.data();
-            } else {
-                return false;
-            }
-        }).catch(error => {
-            console.error(error);
-        })
+const getUser = async (username) => {
+    return await new Promise((resolve, reject) => {
+        USERS.doc(username).get()
+            .then(record => {
+                resolve(record.data());
+            })
+            .catch(error => {
+                reject(error);
+            })
+    })
 };
+
+//Get all songs
 const getSongs = async (limit, page) => {
     limit = limit === 0 ? 10 : limit;
     page = page === 0 ? 1 : page;
 
-    return await db.collection(keys.SONGS).limit(limit, page).get()
+    return await SONGS.limit(limit, page).get()
         .then(songs => {
             return extractData(songs.docs);
         })
@@ -88,26 +94,52 @@ const getSongs = async (limit, page) => {
             return err
         });
 };
-const getUserSongs = async (user, limit, page) => {
+const createPlaylist = async(uname,pname,thumbnailUrl)=>{
+    console.log(uname);
+    console.log(pname);
+    USERS.doc(uname).collection(keys.PLAYLISTS).doc(pname).set({
+        thumbnailUrl,
+        name:pname,
+    },{merge:false});
+    return Promise.resolve();
+};
+const getPlaylists = async (username)=>{
+    return await new Promise(resolve => {
+        USERS.doc(username).collection(keys.PLAYLISTS).get()
+            .then(playlists=>{
+                return extractData(playlists.docs);
+            })
+            .then(playlistData=>{
+                resolve(playlistData);
+            })
+            .catch(error=>console.error(error));
+    });
+};
+
+const getUserSongs = async (artist, limit, page) => {
     return await new Promise((resolve, reject) => {
-        db.collection(keys.ARTIST).doc(user).collection(keys.SONGS).limit(limit).get()
+        SONGS.where('artist', '==', artist)
+            .limit(limit).get()
             .then(songRecords => {
                 return extractData(songRecords.docs);
-            }).then(songsRefs => {
-            return getSongData(songsRefs);
-        }).then(songData => {
-            resolve(songData);
-        }).catch(error => {
-            reject(error);
-        })
+            })
+            .then(songData => {
+                console.log(JSON.stringify(songData));
+                resolve(songData);
+            })
+            .catch(error => {
+                reject(error);
+            })
     });
 };
 const updateViewsForSong = (songName, views) => {
-    db.collection(keys.SONGS).doc(songName).set({views: +views}, {merge: true})
+    SONGS.doc(songName)
+        .set({
+            views: +views
+        }, {merge: true})
+        .then(() => console.log(`Views updated for songName`))
         .catch(error => console.error(error));
 };
-
-
 const uploadSong = async (mp3File, imgFile, songData) => {
     if (!mp3File && !imgFile)
         return 'Error: Some Files are not uploaded';
@@ -123,12 +155,13 @@ const uploadSong = async (mp3File, imgFile, songData) => {
 
     return await Promise.all([mp3Upload, imgUpload])
         .then(values => {
-            return addSong(songData, values[0], pathName, values[1]);
+            return addSongToDb(songData, values[0], values[1]);
         })
         .catch(err => {
             return err;
         });
 };
+
 //Asynchronous Function that handles the upload of files
 //returns the public url of the asset upon success
 //returns an error if it encounters one
@@ -154,75 +187,52 @@ const uploadFile = async (file, fileBucket) => {
         uploadStream.end(file.buffer);
     });
 };
-const uploadImage = async(user,collection,file,filename)=>{
-    return await new Promise((resolve,reject)=>{
-        if(!file && !collection)
-            reject('missing file or bucket name');
+const uploadImage = async (user,collection,file,name) => {
+    return await new Promise((resolve, reject) => {
+        if (!file)
+            reject('missing file');
+
 
         const uname = user.replace(/ /g, '');
-        const imageBucket = bucket.file(`${collection}/${uname}/${filename}`);
+        name = name.replace(/ /g,'');
+        const imageBucket = bucket.file(`${keys.USERS}/${uname}/${collection}/${name}`);
 
-        uploadFile(file,imageBucket)
-            .then(url=>resolve(url))
-            .catch(err=>reject(err));
+        uploadFile(file, imageBucket)
+            .then(url => resolve(url))
+            .catch(err => reject(err));
     })
 };
 
 //First add a song reference in the songs collection
 //Then add a song reference to the artist document
-const addSong = async (songData, mp3url, pathName, thumbnailUrl) => {
-    const songDocRef = db.collection(keys.SONGS).doc(songData.songName);
-    const artistDocRef = db.collection(keys.ARTIST).doc(songData.artist).collection(keys.SONGS).doc(pathName);
-
-    songDocRef.set({
-        name: songData.songName,
-        album: songData.album,
-        artist: songData.artist,
-        views: songData.views,
-        likes: songData.likes,
-        mp3url,
-        thumbnailUrl,
-        uploadDate: Date.now(),
-        path: `${songData.artist}/${pathName}`
-    }).then(() =>
-        artistDocRef.set({
-            name: songData.songName,
-            reference: `${keys.SONGS}/${songData.songName}`,
-        }))
-        .catch(err => {
-            return err;
-        });
-};
-const addImgUrl = async(user,collection,url,imgType)=>{
-    if(imgType === keys.COVERURL){
-        return await new Promise((resolve,reject)=>{
-            db.collection(collection).doc(user).set({
-                coverUrl:url,
-            },{merge:true}).then(()=>{
+const addImgUrl = async (user, url, imgType) => {
+    if (imgType === keys.COVERURL) {
+        return await new Promise((resolve, reject) => {
+            USERS.doc(user).set({
+                coverUrl: url,
+            }, {merge: true}).then(() => {
                 resolve();
-            }).catch(error=>{
+            }).catch(error => {
                 reject(error);
             })
         });
-    }else{
-        return await new Promise((resolve,reject)=>{
-            db.collection(collection).doc(user).set({
-                profileUrl:url,
-            },{merge:true}).then(()=>{
+    } else {
+        return await new Promise((resolve, reject) => {
+            USERS.doc(user).set({
+                profileUrl: url,
+            }, {merge: true}).then(() => {
                 resolve();
-            }).catch(error=>{
+            }).catch(error => {
                 reject(error);
             })
         });
     }
-
 };
-
 
 /*Functions that are used when refining songs in discover*/
 const order = async (order) => {
     let orderBy = '';
-    let direction ='asc';
+    let direction = 'asc';
 
     if (order === 'NewToOld' || order === "OldToNew") {
         orderBy = 'uploadDate';
@@ -234,9 +244,7 @@ const order = async (order) => {
             direction = 'desc'
     }
 
-    console.log(direction);
-    console.log(orderBy);
-    return await db.collection(keys.SONGS).orderBy(orderBy, direction).get()
+    return await SONGS.orderBy(orderBy, direction).get()
         .then(data => {
             return extractData(data.docs)
         })
@@ -258,7 +266,7 @@ const genreOrder = async (genre, order) => {
             direction = 'desc'
     }
 
-    return await db.collection(keys.SONGS).where('genre', '==', genre).orderBy(orderBy, direction).get()
+    return await SONGS.where('genre', '==', genre).orderBy(orderBy, direction).get()
         .then(data => {
             return extractData(data.docs)
         })
@@ -267,7 +275,7 @@ const genreOrder = async (genre, order) => {
         }).catch(err => console.error(`Error: ${err}`));
 };
 const getGenre = async (genre) => {
-    return await db.collection(keys.SONGS).where('genre', '==', genre).get()
+    return await SONGS.where('genre', '==', genre).get()
         .then(data => {
             return extractData(data.docs)
         })
@@ -276,15 +284,32 @@ const getGenre = async (genre) => {
         }).catch(err => console.error(`Error: ${err}`));
 };
 
+const getArtists = async () => {
+    return await new Promise((resolve, reject) => {
+        USERS.where('account_type', '==', 'artists').get()
+            .then(artists => {
+                return extractData(artists.docs);
+            })
+            .then(artistsData => {
+                resolve(artistsData);
+            }).catch(error => {
+            reject(error);
+        })
+    });
+};
 
+
+module.exports.getUserPlaylists = getPlaylists;
+module.exports.createPlaylist = createPlaylist;
+module.exports.getArtists = getArtists;
 module.exports.addImgUrl = addImgUrl;
 module.exports.uploadImg = uploadImage;
-module.exports.genreOrder =genreOrder;
+module.exports.genreOrder = genreOrder;
 module.exports.order = order;
-module.exports.getGenre =getGenre;
+module.exports.getGenre = getGenre;
 module.exports.uploadSong = uploadSong;
 module.exports.updateViews = updateViewsForSong;
 module.exports.registerUser = registerUser;
-module.exports.getUser = getUserRecord;
+module.exports.getUser = getUser;
 module.exports.getSongs = getSongs;
 module.exports.getUserSongs = getUserSongs;

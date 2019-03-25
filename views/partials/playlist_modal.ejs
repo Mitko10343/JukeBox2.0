@@ -1,0 +1,28 @@
+<div class="modal">
+    <div class="modal-content">
+        <div class="modal_header">
+            <span class="close_button">&times;</span>
+            <span class="modal_heading">Create a playlist</span>
+
+        </div>
+        <div  class="modal_body">
+            <form action="/users/createPlaylist" method="post" enctype="multipart/form-data">
+                <input type="text" id="imgPath" onclick="thumbnailUpload()" disabled placeholder="Upload Thumbnail">
+                <button class="create_button" type="button" onclick="thumbnailUpload()">
+                    Thumbnail
+                    <input type="file" id="thumbnail" name="thumbnail">
+                </button>
+                <input type="text" id="playlist_name" name="playlist_name">
+                <button type="submit" class="create_button">Create</button>
+            </form>
+        </div>
+        <div class="modal_footer">
+            <span>Juke box copyrights apply <i class="far fa-copyright"></i></span>
+        </div>
+        <script>
+            function thumbnailUpload() {
+                document.getElementById('thumbnail').click();
+            }
+        </script>
+    </div>
+</div>

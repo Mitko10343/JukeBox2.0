@@ -7,7 +7,7 @@ const session = require('express-session');
 const createError = require('http-errors');
 const cookieParser = require('cookie-parser');
 const ejsLayout = require('express-ejs-layouts');
-
+const cors = require("cors");
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 
@@ -30,12 +30,25 @@ app.use(session({
 app.use(ejsLayout);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+app.use(cors());
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+express.static.mime.define({
+  'application/babylon': ['babylon'],
+  'application/fx': ['fx'],
+  'application/babylonmeshdata': ['babylonmeshdata']});
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
+
+
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

@@ -36,6 +36,8 @@ $(document).ready(function () {
             }
         });
     });
+
+
 });
 
 
@@ -49,16 +51,14 @@ function fadeNavOut() {
 
 //Function that submits a post request to /uploadCover
 function coverPicUpload() {
-    $('#cover-picture').click();
-    $('#cover-picture').on('change', function () {
+    $('#cover-picture').click().on('change', function () {
         $('#cover-submit').click();
     })
 }
 
 //Function that submits a post request to /uploadProfile
 function profilePicUpload() {
-    $('#profile-picture').click();
-    $('#profile-picture').on('change', function () {
+    $('#profile-picture').click().on('change', function () {
         $('#profile-submit').click();
     })
 }

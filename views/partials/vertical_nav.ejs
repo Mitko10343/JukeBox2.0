@@ -1,7 +1,7 @@
 <% if(typeof user !== 'undefined'){ %>
     <nav class="vertical-nav">
         <div class="nav-item active " ><a href="/" id="home-link" ><i class="fas fa-home"></i><span class="nav-text">Home</span></a></div>
-        <div class="nav-item"><a href="/discover" id="discover-link"><i class="fas fa-globe-europe"></i><span class="nav-text">Discover</span></a></div>
+        <div class="nav-item"><a href="/discover/music" id="discover-link"><i class="fas fa-globe-europe"></i><span class="nav-text">Discover</span></a></div>
         <div class="nav-item"><a href="/store" id="store-link"><i class="fas fa-store"></i><span class="nav-text">Store</span></a></div>
         <div class="nav-item">
             <a href="/users/profile" id="profile-link">
@@ -10,6 +10,7 @@
             <div class="side-dropdown">
                 <ul>
                     <li><a href="/users/profile/overview">Overview</a></li>
+                    <li><a href="/users/profile/design">Design</a></li>
                     <li><a href="/users/profile/playlists">Playlists</a></li>
                     <%if(user.account_type === 'artists'){%>
                         <li><a href="/users/profile/songs">My Songs</a></li>
@@ -30,7 +31,7 @@
 <% }else{ %>
     <nav class="vertical-nav">
         <div class="nav-item active " ><a href="/" id="home-link" ><i class="fas fa-home"></i><span class="nav-text">Home</span></a></div>
-        <div class="nav-item"><a href="/discover" id="discover-link"><i class="fas fa-globe-europe"></i><span class="nav-text">Discover</span></a></div>
+        <div class="nav-item"><a href="/discover/music" id="discover-link"><i class="fas fa-globe-europe"></i><span class="nav-text">Discover</span></a></div>
         <div class="nav-item"><a href="/store" id="store-link"><i class="fas fa-store"></i><span class="nav-text">Store</span></a></div>
         <div class="nav-item"><a href="/login" id="login-link"><i class="fas fa-sign-in-alt"></i><span class="nav-text">Login</span></a></div>
     </nav>

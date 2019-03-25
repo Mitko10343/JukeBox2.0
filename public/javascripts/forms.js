@@ -49,7 +49,7 @@ $(document).ready(function () {
         const email = $('#email-input').val();
         const pwd = $('#pwd-input').val();
         const cpwd = $('#pwd-confirm').val();
-        const account = $('checkbox').is(':checked') ? 'artists' : 'users'; //if box is checked then true else false
+        const account = $('#artist_account').is(':checked') ? 'artists' : 'users'; //if box is checked then true else false
 
         const validate = validateRegister(username, pwd, cpwd);
 

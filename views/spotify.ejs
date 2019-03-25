@@ -9,13 +9,21 @@
             </div>
             <div class="overview-values-wrap">
                 <div class="overview-content">
-                    <%if(typeof user.spotifyToken === 'undefined'){%>
+                    <%if(typeof token === 'undefined'){%>
                         <div class="spotify-button">
-                            <button onclick=""><i class="fab fa-spotify"></i>Connect To Spotify</button>
+                            <a href="spotifyConnect"><i class="fab fa-spotify"></i> Connect To Spotify</a>
                         </div>
                     <%}else{%>
+                        <div class="spotif-nav">
+                            <ul>
+                                <li><a href="spotifyPlaylist" id="">Playlists</a></li>
+                                <li><a href="#" id=""></a></li>
+                                <li><a href="#" id=""></a></li>
+                                <li><a href="#" id=""></a></li>
+                            </ul>
+                        </div>
                         <div class="spotify-button">
-                            <button onclick=""><i class="fab fa-spotify"></i>Connect To Spotify</button>
+                            <p><%=token%></p>
                         </div>
                     <%}%>
                 </div>

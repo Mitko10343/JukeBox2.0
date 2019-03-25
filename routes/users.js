@@ -1,4 +1,5 @@
 const express = require('express');
+const spotify = require('../custom_modules/spotify');
 const router = express.Router();
 const keys = require('../keys/keys');
 const db = require('../custom_modules/firestore');
@@ -6,6 +7,8 @@ const multer = require('multer');
 const uploads = multer({
     storage: multer.memoryStorage(),
 }).any();
+
+//Authentication function
 const loggedIn = (req, res, next) => {
     if (typeof req.session.user !== 'undefined')
         next();
@@ -13,17 +16,26 @@ const loggedIn = (req, res, next) => {
         res.redirect('/');
 };
 
-
 /* GET users listing. */
 router.get('/', loggedIn, (req, res, next) => {
     res.render('index', {title: 'Users', user: req.session.user});
 });
-
 /*GET Profile PAGE*/
 router.get('/profile', loggedIn, (req, res, next) => {
-    res.render('profile', {user: req.session.user});
-
+    db.getUser(req.session.user.user)
+        .then(record => {
+            res.render('profile', {
+                user: {
+                    username: record.username,
+                    email: record.email,
+                    account_type: record.account_type,
+                    coverUrl: record.coverUrl,
+                    profileUrl: record.profileUrl
+                }
+            });
+        })
 });
+//GET REQUEST FOR TO LIST USERS SONGS
 router.get('/profile/songs', loggedIn, (req, res, next) => {
     const username = req.session.user.user;
 
@@ -31,28 +43,88 @@ router.get('/profile/songs', loggedIn, (req, res, next) => {
         res.render('my_songs', {title: 'My Songs', user: req.session.user, songData});
     }).catch(error => console.error(error));
 });
+router.get('/profile/playlists', loggedIn, (req, res) => {
+    db.getUserPlaylists(req.session.user.user)
+        .then(playlists=>{
+            res.render('playlists',{playlists});
+        }).catch(error=>{
+            console.error(error);
+    });
 
-router.get('/spotify', loggedIn, (req, res, next) => {
-    const username = req.session.user.user;
-    const collection = req.session.user.account_type;
-    db.getUser(username, collection)
-        .then(user => {
-            res.render('spotify', {user});
-        });
+});
+router.get('/profile/design', (req, res) => {
+    res.render('design.ejs');
 });
 
+router.post('/createPlaylist',loggedIn,uploads,(req,res,next)=>{
+    if (typeof req.files === 'undefined' && typeof req.body === 'undefined')
+        res.sendStatus(404).render('uploads');
+    else {
+        if (req.files[0].mimetype !== 'image/jpeg' && req.files[0].mimetype !== 'image/png')
+            console.error('Invalid image type of thumbnail');
+        else {
+            db.uploadImg(req.session.user.user,keys.THUMBNAILS,req.files[0],req.files[0].originalname)
+                .then(url=>{
+                    db.createPlaylist(req.session.user.user,req.body.playlist_name,url)
+                        .then(res.redirect('profile/playlists'))
+                            .catch(error=>console.error(error))
+                })
+        }
+    }
+});
+
+//GET REQUEST TO USER SPOTIFY PAGE
+router.get('/spotify', loggedIn, (req, res, next) => {
+    const username = req.session.user.user;
+    db.getUser(username)
+        .then(user => {
+            res.render('spotify', {user, token: req.session.user.spotify_acces_token});
+        });
+});
+router.get('/spotifyConnect', loggedIn, (req, res) => {
+    res.redirect(spotify.getAuthUrl);
+});
+router.get('/spotifyAuth', loggedIn, (req, res, next) => {
+    const code = req.query.code;
+    const authOptions = {
+        url: "https://accounts.spotify.com/api/token",
+        form: {
+            code,
+            redirect_uri: spotify.redirectUrl,
+            grant_type: "authorization_code"
+        },
+        headers: {
+            'Authorization': 'Basic ' + (Buffer.from(spotify.clientId + ':' + spotify.clientSecret).toString('base64'))
+        },
+        json: true
+    };
+
+    spotify.setToken(authOptions).then(tokens => {
+        req.session.user.spotify_acces_token = tokens.access_token;
+        res.redirect('/users/spotify');
+    }).catch(error => console.error);
+});
+router.get('/spotifyPlaylist', loggedIn, (req, res, next) => {
+    spotify.getPlaylists()
+        .then(playlist => {
+            console.log(playlist);
+        }).catch(error => console.error(error));
+});
+
+
+//GETS THE UPLOAD PAGE
 router.get('/upload', loggedIn, (req, res, next) => {
     res.render('uploads', {user: req.session.user});
 });
-
+//POST ROUTES
 router.post('/upload', loggedIn, uploads, (req, res, next) => {
     if (typeof req.files === 'undefined' && typeof req.body === 'undefined')
         res.sendStatus(404).render('uploads');
     else {
         if (req.files[0].mimetype !== 'audio/mp3')
-            console.error('Invalid Filetype Upload for song');
-        else if (req.files[1].mimetype !== 'image/jpeg')
-            console.error('Invalid Image filetype');
+            console.error('Invalid ile type of song');
+        else if (req.files[1].mimetype !== 'image/jpeg' && req.files[1].mimetype !== 'image/png')
+            console.error('Invalid image type of thumbnail');
         else {
             const album = typeof req.body.albumName === 'undefined' ? '' : req.body.albumName;
             const songData = {
@@ -64,9 +136,11 @@ router.post('/upload', loggedIn, uploads, (req, res, next) => {
                 album,
             };
 
-            db.uploadSong(req.files[0], req.files[1], songData).then(response => {
-                res.status(200).redirect('profile');
-            }).catch(err => console.log(`Error: ${err.message} ---users.js`));
+            db.uploadSong(req.files[0], req.files[1], songData)
+                .then(response => {
+                    res.status(200).redirect('upload');
+                })
+                .catch(err => console.log(`Error: ${err.message} ---users.js`));
         }
     }
 });
@@ -78,13 +152,13 @@ router.post('/uploadCover', loggedIn, uploads, (req, res, next) => {
             console.log("Invalid Image format");
         } else {
             const user = req.session.user.user;
-            const account = req.session.user.account_type;
             db.uploadImg(user, keys.COVERS, req.files[0],req.files[0].originalname)
                 .then(url => {
                     req.session.user.coverUrl = url;
-                    return db.addImgUrl(user, account, url, keys.COVERURL);
+                    return db.addImgUrl(user, url, keys.COVERURL);
                 }).then(() => {
-                res.status(200).render('profile', {user: req.session.user});
+                    console.log(req.session.user.coverUrl);
+                res.status(200).redirect('profile');
             }).catch(error => console.error(`Error: ${error.message} -users.js`));
         }
     }
@@ -97,14 +171,13 @@ router.post('/uploadProfile', loggedIn, uploads, (req, res, next) => {
             console.log("Invalid Image format");
         } else {
             const user = req.session.user.user;
-            const account = req.session.user.account_type;
 
-            db.uploadImg(user, keys.PROFILES, req.files[0])
+            db.uploadImg(user, keys.PROFILES, req.files[0],req.files[0].originalname)
                 .then(url => {
                     req.session.user.profileUrl = url;
-                    return db.addImgUrl(user, account, url, keys.PROFILEURL);
+                    return db.addImgUrl(user, url, keys.PROFILEURL);
                 }).then(() => {
-                res.status(200).render('profile', {user: req.session.user});
+                res.status(200).redirect('profile');
             }).catch(error => console.error(`Error: ${error.message} -users.js`));
         }
     }

@@ -1,0 +1,44 @@
+<div class="content-wrapper">
+    <div class="content">
+        <div class="page-header">
+            Your Merchandise:
+        </div>
+        <div class="playlist-display">
+            <%if(typeof mechandise === 'undefined' || Object.keys(mechandise).length === 0){%>
+                <h1>You currently don't have any merchandise created</h1>
+            <%}else{
+                merchandise.forEach(merch =>{%>
+
+
+            <%})}%>
+            <button id="open_modal"><i class="fas fa-music"></i> Design Merchandise</button>
+        </div>
+        <canvas id="canvas">
+
+        </canvas>
+        <select id="color_select">
+            <option value="blue">Blue</option>
+            <option value="red">Red</option>
+            <option value="green">Green</option>
+            <option value="yellow">Yellow</option>
+            <option value="black">Black</option>
+            <option value="purple">Purple</option>
+        </select>
+        <select id="merch_selects">
+            <option value="t-shirt">T-shirt</option>
+            <option value="pants">Pants</option>
+            <option value="socks">Pants</option>
+        </select>
+        <select id="texture_select">
+            <option value="textile">Textile</option>
+            <option value="fur">Fur</option>
+            <option value="waves">Waves</option>
+            <option value="image">Image</option>
+        </select>
+
+
+        <script src="../../javascripts/babylonjs/babylon.max.js"></script>
+        <script src="../../javascripts/design_tool.js"></script>
+        <script src="https://preview.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
+    </div>
+</div>

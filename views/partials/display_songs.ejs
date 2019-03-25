@@ -5,15 +5,6 @@
                 <img src="<%= song.thumbnailUrl %>" alt="Thumbnail Image">
             </div>
             <div class="info">
-                <div class="song-info">
-                    <div class="song-heading">
-                        <span class="songName">Song:<%= song.name %></span>
-                        <span class="artistName">By:<%= song.artist %></span>
-                    </div>
-                    <div class="song-album">
-                        <span class="Album">Album: <%= song.album %></span>
-                    </div>
-                </div>
                 <div class="play-buttons">
                     <!--<p class="current-time">
 
@@ -22,9 +13,14 @@
                     <!--<p class="end-time">
                     </p>-->
                 </div>
-                <div class="views-likes">
-                    <i class="far fa-eye"></i><span class="views"><%=song.views%></span></br>
-                    <i class="far fa-heart"></i><span class="likes"><%=song.likes%></span>
+                <div class="song-info">
+                    <div class="song-heading">
+                        Song:<span class="songName"><%= song.name %></span>
+                             <span class="artistName">By:<%= song.artist %></span>
+                    </div>
+                    <div class="song-album">
+                        <span class="Album">Album: <%= song.album %></span>
+                    </div>
                 </div>
                 <div class="audio-wrapper" id="audio-player-container">
                     <audio class="audio-player" >
@@ -38,6 +34,10 @@
 
                     </div>
                 </div>
+            </div>
+            <div class="views-likes">
+                <button disabled><i class="far fa-eye"></i><span class="views"><%=song.views%></span></button>
+                <button><i class="far fa-heart"></i><span class="likes"><%=song.likes%></span></button>
             </div>
         </div>
 <% })}

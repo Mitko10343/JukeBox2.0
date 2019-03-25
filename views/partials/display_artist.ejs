@@ -1,0 +1,14 @@
+<%if(typeof artists !== 'undefined' && Object.keys(artists).length > 0){
+    artists.forEach(artist=>{%>
+
+    <div class="profile-picture-discover">
+        <div class="thumbnail">
+            <img src="<%=artist.profileUrl%>" alt="profile photo">
+            <div class="profile-info">
+                <a href="/view/profile?username=<%=artist.username%>"><%=artist.username%></a>
+            </div>
+        </div>
+    </div>
+<%})}else{%>
+
+<%}%>
