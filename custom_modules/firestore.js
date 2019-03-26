@@ -95,19 +95,20 @@ const getSongs = async (limit, page) => {
         });
 };
 const createPlaylist = async(uname,pname,thumbnailUrl)=>{
-    console.log(uname);
-    console.log(pname);
     USERS.doc(uname).collection(keys.PLAYLISTS).doc(pname).set({
         thumbnailUrl,
         name:pname,
-    },{merge:false});
+    });
     return Promise.resolve();
 };
 const getPlaylists = async (username)=>{
-    return await new Promise(resolve => {
-        USERS.doc(username).collection(keys.PLAYLISTS).get()
+    return await new Promise((resolve,reject) => {
+        USERS.doc(username).collection(keys.PLAYLISTS).limit(10).get()
             .then(playlists=>{
-                return extractData(playlists.docs);
+                if(playlists.exists)
+                    return extractData(playlists.docs);
+                else
+                    reject('No Playlist found');
             })
             .then(playlistData=>{
                 resolve(playlistData);
@@ -115,7 +116,6 @@ const getPlaylists = async (username)=>{
             .catch(error=>console.error(error));
     });
 };
-
 const getUserSongs = async (artist, limit, page) => {
     return await new Promise((resolve, reject) => {
         SONGS.where('artist', '==', artist)
@@ -132,6 +132,7 @@ const getUserSongs = async (artist, limit, page) => {
             })
     });
 };
+
 const updateViewsForSong = (songName, views) => {
     SONGS.doc(songName)
         .set({

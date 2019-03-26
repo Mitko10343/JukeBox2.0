@@ -26,6 +26,21 @@ const getPlaylist = async ()=>{
         })
     });
 };
+const getPlaylistTracks = async (id)=>{
+    return await new Promise((resolve,reject)=>{
+       request.get({
+           url:`https://api.spotify.com/v1/playlists/${id}/tracks`,
+           headers:{
+               'Authorization':`Bearer ${spotifyAPI.getAccessToken()}`
+           }
+       }, (err,response,body)=>{
+          if(err)
+              reject(err);
+
+          resolve(JSON.parse(body));
+       });
+    });
+};
 const setToken = async (options) => {
     const tokens = await new Promise((resolve)=>{
         request.post(options, (err, res, body) => {
@@ -65,6 +80,8 @@ const getProfile = async()=>{
     });
 };
 
+
+module.exports.getPlaylistTracks = getPlaylistTracks;
 module.exports.getProfile =getProfile;
 module.exports.setToken = setToken;
 module.exports.getPlaylists = getPlaylist;

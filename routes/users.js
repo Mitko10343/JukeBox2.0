@@ -13,7 +13,7 @@ const loggedIn = (req, res, next) => {
     if (typeof req.session.user !== 'undefined')
         next();
     else
-        res.redirect('/');
+        res.redirect('/login');
 };
 
 /* GET users listing. */
@@ -46,11 +46,11 @@ router.get('/profile/songs', loggedIn, (req, res, next) => {
 router.get('/profile/playlists', loggedIn, (req, res) => {
     db.getUserPlaylists(req.session.user.user)
         .then(playlists=>{
-            res.render('playlists',{playlists});
+            res.render('playlists',{playlists,user:req.session.user});
         }).catch(error=>{
             console.error(error);
+            res.render('playlists',{user:req.session.user});
     });
-
 });
 router.get('/profile/design', (req, res) => {
     res.render('design.ejs');
@@ -66,9 +66,8 @@ router.post('/createPlaylist',loggedIn,uploads,(req,res,next)=>{
             db.uploadImg(req.session.user.user,keys.THUMBNAILS,req.files[0],req.files[0].originalname)
                 .then(url=>{
                     db.createPlaylist(req.session.user.user,req.body.playlist_name,url)
-                        .then(res.redirect('profile/playlists'))
-                            .catch(error=>console.error(error))
-                })
+                        .then(res.redirect('/users/profile/playlists'));
+                }) .catch(error=>console.error(error));
         }
     }
 });
@@ -106,11 +105,27 @@ router.get('/spotifyAuth', loggedIn, (req, res, next) => {
 });
 router.get('/spotifyPlaylist', loggedIn, (req, res, next) => {
     spotify.getPlaylists()
-        .then(playlist => {
-            console.log(playlist);
+        .then(playlists => {
+            const playlist = JSON.parse(playlists);
+            console.log(playlist.items);
+            res.render("spotify_playlists",{user:req.session.user,playlist:playlist.items});
         }).catch(error => console.error(error));
 });
+router.get('/spotify/playlist/tracks',loggedIn,(req,res,next)=>{
+   if(Object.keys(req.query).length === 0 && typeof req.query === 'undefined'){
+       res.status(400).end();
+   }
 
+   const playlist_id = req.query.playlist_id;
+   spotify.getPlaylistTracks(playlist_id)
+       .then(tracks=>{
+           res.send(tracks.items).end();
+       }).catch(error=>{
+           console.error(error);
+   })
+
+
+});
 
 //GETS THE UPLOAD PAGE
 router.get('/upload', loggedIn, (req, res, next) => {
@@ -119,7 +134,7 @@ router.get('/upload', loggedIn, (req, res, next) => {
 //POST ROUTES
 router.post('/upload', loggedIn, uploads, (req, res, next) => {
     if (typeof req.files === 'undefined' && typeof req.body === 'undefined')
-        res.sendStatus(404).render('uploads');
+        res.sendStatus(404).render('uploads',{user:req.session.user});
     else {
         if (req.files[0].mimetype !== 'audio/mp3')
             console.error('Invalid ile type of song');

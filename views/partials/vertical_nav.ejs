@@ -20,13 +20,13 @@
         </div>
 
         <div class="nav-item"><a href="/users/spotify" id="spotify-link"><i class="fab fa-spotify"></i><span class="nav-text">Spotify</span></a></div>
-        <div class="nav-item"><a href="/users/logout" id="logout-link"><i class="fas fa-sign-out-alt"></i><span class="nav-text">Log Out</span></a></div>
         <%if(user.account_type === 'artists'){%>
             <div class="nav-item"><a href="/users/upload" id="upload-link"><i class="fas fa-upload"></i><span class="nav-text">Upload</span></a></div>
         <%}%>
         <%if(typeof musicQueue === "undefined"){%>
             <div class="nav-item"><a href="/login" id="player-link"><i class="fas fa-play"></i><span class="nav-text">Player</span></a></div>
         <%}%>
+        <div class="nav-item"><a href="/users/logout" id="logout-link"><i class="fas fa-sign-out-alt"></i><span class="nav-text">Log Out</span></a></div>
     </nav>
 <% }else{ %>
     <nav class="vertical-nav">

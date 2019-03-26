@@ -5,7 +5,7 @@ const db = require('../custom_modules/firestore');
 
 const notLoggedIn = (req, res, next) => {
     if (typeof req.session.user !== 'undefined')
-        res.redirect(`/users/${req.session.user.user}`);
+        res.redirect(`/users/`);
     else
         next();
 };
@@ -38,7 +38,7 @@ router.get('/discover/music', (req, res) => {
             db.getSongs(pagination, page).then(songData => res.render('discover_music', {songData})).catch(err => console.log(err));
         }
     } else {
-        db.getSongs(20, 1).then(songData => res.render('discover_music', {songData}))
+        db.getSongs(0, 1).then(songData => res.render('discover_music', {songData}))
             .catch(err => console.log(err));
     }
 });
@@ -79,7 +79,6 @@ router.post('/login', notLoggedIn, (req, res) => {
     const password = req.body.password;
 
     db.getUser(username).then(user => {
-        console.log(user);
         if (!user)
             res.redirect('/login');
         else if (user.password !== password)

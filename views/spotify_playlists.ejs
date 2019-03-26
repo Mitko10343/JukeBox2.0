@@ -1,0 +1,22 @@
+<div class="content-wrapper">
+    <div class="content">
+        <div class="playlist-list">
+            <% playlist.forEach(playlist =>{ %>
+            <div class="playlist">
+                <div class="spotify_thumbnail">
+                    <img src="<%= playlist.images[0].url%>">
+                </div>
+                <div class="playlist_info">
+                    <div class="name"><%= playlist.name %></div>
+                    <div class="owner"><%= playlist.owner.display_name%></div>
+                    <div class="playlist_id"><%=playlist.id%></div>
+                </div>
+            </div>
+            <% }) %>
+        </div>
+        <div id="playlist-tracks">
+
+        </div>
+        <script src="/javascripts/spotify.js"></script>
+    </div>
+</div>

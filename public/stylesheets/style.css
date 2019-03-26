@@ -4,12 +4,13 @@
 }
 
 body {
-  padding: 0;
-  margin: 0;
+  width: 100vw;
+  height: 100vh;
+  position: relative;
   font: 1em "Lucida Grande", Helvetica, Arial, sans-serif;
-  background-color: #0a0a0a;
+  background: rgb(0, 0, 0) linear-gradient(0deg, rgba(0, 0, 0, 1) 23%, rgb(30, 11, 19) 100%) no-repeat;
   overflow-x: hidden;
-  text-transform: uppercase;
+  text-transform: initial;
   text-align: center;
 }
 
@@ -46,6 +47,7 @@ button{
   NAVIGATION BAR CSS
 */
 .vertical-nav{
+  background: rgb(0, 0, 0);
   position: fixed;
   z-index: 1;
   width: 3vw;
@@ -69,7 +71,7 @@ button{
 }
 .nav-item a{
   display: block;
-  padding: 2vh;
+  padding: 2vh 1.5vh;
 }
 .player{
   position: absolute;
@@ -82,9 +84,7 @@ button{
   margin-left: 10px;
   position: fixed;
 }
-.active{
-  font-size: 1.4em;
-}
+
 .active a:first-child{
   color: crimson;
 }
@@ -261,11 +261,10 @@ MUSIC PLAYER STYLES
   height: auto;
   width: 70%;
   padding:0;
-  background-color: #161616;
-  border: 1px solid crimson;
 }
 .music-player{
-  margin: 1%;
+  text-transform: initial;
+  margin: 0 1% ;
   position: relative;
   display: block;
   float: left;
@@ -277,14 +276,14 @@ MUSIC PLAYER STYLES
   position: relative;
   display: block;
   float: left;
-  height: auto;
-  background-color:#4d4d4d ;
+  height: 10vh;
   padding: 0;
   width: 20%;
 
 }
 .thumbnail img{
-  height: 26vh;
+  opacity: 0.8;
+  height: 25vh;
   width: 100%;
 }
 .info{
@@ -293,7 +292,6 @@ MUSIC PLAYER STYLES
   display: block;
   float: left;
   width: 80%;
-  height: auto;
 }
 .song-info{
   margin-left: 1vw;
@@ -306,7 +304,8 @@ MUSIC PLAYER STYLES
 .views-likes{
   text-align: left;
   float: left;
-  margin-top: 3.5vh;
+  margin-top: 7.1vh;
+  margin-left: 20%;
 }
 .views-likes button{
   font-size: 0.8em;
@@ -334,7 +333,6 @@ MUSIC PLAYER STYLES
   display: block;
   float: left;
   width: 79.9%;
-  margin-top: 10vh;
 }
 .progress-background{
   background:#4d4d4d;
@@ -387,6 +385,7 @@ MUSIC PLAYER STYLES
   font-size: 1em;
   width: 100%;
   height: 5vh;
+  border-top: 1px solid crimson;
 }
 .discover-nav-bar ul{
   position: relative;
@@ -398,7 +397,6 @@ MUSIC PLAYER STYLES
   display: inline;
   padding: 10px 42px;
   transition:0.3s background-color ease-in-out;
-  border-right: 1px solid crimson;
 }
 .discover-nav-bar li:hover{
   background-color: #9a9a9a;
@@ -408,7 +406,6 @@ MUSIC PLAYER STYLES
 }
 .discover-nav-bar a.active{
   color: crimson;
-  font-size: 1em !important;
 }
 
 /*
@@ -438,7 +435,8 @@ MUSIC OPTIONS STYLES
   border: none;
   border-bottom:1px solid #6d6d6d;
   font-size: 1em;
-  background-color: #393939;
+  padding:10px 10px 3px 10px;
+  background: transparent;
 }
 
 .music-options-nav-wrap button:hover{
@@ -449,8 +447,15 @@ MUSIC OPTIONS STYLES
   border: none;
   border-bottom:1px solid #6d6d6d;
   font-size: 1em;
-  background-color: #393939;
+  background:transparent;
   padding: 10px 10px 3px 10px;
+}
+
+.music-options-nav-wrap select option{
+  background: rgb(12, 6, 6);
+}
+.music-options-nav-wrap select option:hover{
+  box-shadow: 0 0 10px 100px #1e0b13 !important;
 }
 .music-options-nav-wrap button{
   margin: 0 !important;
@@ -474,20 +479,18 @@ MUSIC OPTIONS STYLES
 */
 .profile-content-wrap{
   height: 100%;
-  background-color: #6d6d6d;
   display:block;
 }
 .heading-wrapper{
   position: relative;
   display: block;
   text-align: left;
-  padding: 20px;
+  padding: 10px 20px 0 20px;
 }
 .overview-values-wrap{
   display: block;
   width: 100%;
   float: left;
-  background-color: #9a9a9a;
   text-align: left;
 }
 .overview-content{
@@ -495,17 +498,19 @@ MUSIC OPTIONS STYLES
   display: block;
   padding: 20px;
 }
+.overview-content .music-player{
+  margin: 0;
+}
 
-.overview-content ul{
-  list-style-type: none;
-}
-.overview-content li{
-  color: crimson;
-  display: inline;
-  margin: 2vh 0;
-}
-.heading{
-  font-size: 2em;
+.overview-content input{
+  color: rgb(255,255,255);
+  width: 60%;
+  font-size: 1em;
+  background: transparent;
+  padding: 10px 10px 0 0;
+  margin: 10px 0;
+  border: none;
+  border-bottom: 1px solid rgb(255,255,255);
 }
 /*
     PROFILE PICTURES STYLES
@@ -731,4 +736,57 @@ MUSIC OPTIONS STYLES
 
 .spotif-nav a{
   padding: 10px 20px;
+}
+
+/*
+  Spotify Playlist
+*/
+
+.playlist-list{
+  position: absolute;
+  width: 40%;
+  float: left;
+}
+
+.playlist{
+  position: relative;
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 10px 0;
+}
+
+.spotify_thumbnail{
+  padding-right:20px;
+  position: relative;
+  float: left;
+}
+.spotify_thumbnail img{
+  height:20vh ;
+}
+.spotify_thumbnail img:hover{
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+.playlist_info{
+  text-align: left;
+  height:20vh;
+}
+
+.playlist_id{
+  display: none;
+}
+
+#playlist-tracks{
+  background: rgb(0,0,0);
+  display: none;
+  width:50%;
+  float:right;
+  text-align: left;
+}
+.track{
+  width: 100%;
+  height: 80px;
+  position: relative;
 }
