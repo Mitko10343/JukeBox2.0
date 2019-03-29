@@ -30,7 +30,6 @@ $(document).ready(function () {
             success: function (data) {
                 $('.wrapper').fadeOut(500, function () {
                     const newPage = $(data).find("div").filter('div .content-wrapper').html();
-                    console.log(newPage);
                     $('.wrapper').html(newPage).fadeIn(500);
                 });
             }

@@ -24,6 +24,19 @@ const extractData = async (data) => {
 
     return dataObj;
 };
+
+const getSongData = async (tracks)=>{
+    let songData = [];
+    for(let track of tracks){
+        await getSong(track.name)
+            .then( song =>{
+                songData.push(song);
+            })
+            .catch(error=>console.error(error));
+    }
+
+    return songData;
+};
 const addUserToDb = async (userData) => {
     return await new Promise((resolve, reject) => {
         USERS.doc(userData.username).set({
@@ -79,6 +92,15 @@ const getUser = async (username) => {
 };
 
 //Get all songs
+const getSong = async (name)=>{
+    return await new Promise((resolve)=>{
+        SONGS.doc(name).get()
+            .then(songRecord =>{
+                resolve(songRecord.data())
+            })
+            .catch(error=>console.error(error));
+    })
+};
 const getSongs = async (limit, page) => {
     limit = limit === 0 ? 10 : limit;
     page = page === 0 ? 1 : page;
@@ -102,19 +124,39 @@ const createPlaylist = async(uname,pname,thumbnailUrl)=>{
     return Promise.resolve();
 };
 const getPlaylists = async (username)=>{
-    return await new Promise((resolve,reject) => {
+    return await new Promise((resolve) => {
         USERS.doc(username).collection(keys.PLAYLISTS).limit(10).get()
             .then(playlists=>{
-                if(playlists.exists)
-                    return extractData(playlists.docs);
-                else
-                    reject('No Playlist found');
+                return extractData(playlists.docs);
             })
             .then(playlistData=>{
                 resolve(playlistData);
             })
             .catch(error=>console.error(error));
     });
+};
+const getPlaylistTracks = async (name,owner)=>{
+    return await new Promise ((resolve)=> {
+        USERS.doc(owner).collection(keys.PLAYLISTS).doc(name).get()
+            .then(records => {
+                let data = records.data();
+                if (typeof data.tracks === 'undefined')
+                    resolve(undefined);
+                else
+                    return getSongData(data.tracks);
+            }).then(songs=>resolve(songs))
+            .catch(error => console.error(error));
+    });
+};
+const addTrack = async (song,artist,playlist,user)=>{
+  return await new Promise((resolve)=>{
+      USERS.doc(user).collection(keys.PLAYLISTS).doc(playlist).update({
+          tracks:   admin.firestore.FieldValue.arrayUnion({
+              name:song,
+              artist
+          })
+      }).then(()=>{resolve(`Track added successfully`)})
+  })
 };
 const getUserSongs = async (artist, limit, page) => {
     return await new Promise((resolve, reject) => {
@@ -299,7 +341,8 @@ const getArtists = async () => {
     });
 };
 
-
+module.exports.addTrack = addTrack;
+module.exports.getPlaylistTracks = getPlaylistTracks;
 module.exports.getUserPlaylists = getPlaylists;
 module.exports.createPlaylist = createPlaylist;
 module.exports.getArtists = getArtists;

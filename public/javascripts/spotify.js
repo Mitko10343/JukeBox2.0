@@ -1,5 +1,5 @@
 const playlists =document.getElementsByClassName('playlist_id');
-$('.spotify_thumbnail').each(function (index) {
+$('.playlist-thumbnail').each(function (index) {
     $(this).on('click',function (event) {
         let playlist_id = $(playlists[index]).text();
 
@@ -21,4 +21,4 @@ $('.spotify_thumbnail').each(function (index) {
             }
         })
     })
-})
+});

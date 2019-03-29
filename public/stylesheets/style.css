@@ -572,33 +572,44 @@ MUSIC OPTIONS STYLES
 */
 .upload_area {
   width: 80%;
-  margin: auto;
+  margin: 0 auto;
 }
 .upload_area ul{
-  margin-left: 10%;
+  list-style-type: none;
 }
 .upload_area input{
+  font-size:0.6em;
+  background: rgba(0,0,0,0.5);
+  border-bottom: 1px solid #fff;
   width: 30%;
 }
+.upload_area input:focus{
+  outline:none ;
+  border-bottom: 1px solid #fff;
+}
 .upload_area select{
-  padding: 10px;
-  font-size: 0.5em;
+  padding:0 0 2px 0;
+  font-size: 0.6em;
 }
 .fileContainer input[type=file]{
   display: none;
-
 }
 #songPath,#imgPath{
-  width: 61.5% !important;
+  width: 63% !important;
 }
 .fileContainer{
-  width:10vw;
+  width: 12vw;
   font-size: 0.5em;
-  padding:10px;
+  padding: 5px 20px 4px 20px;
   cursor: pointer;
+  margin-bottom:10px;
+  border: none;
 }
 #uploadSong{
-  margin-left: 10%!important;
+  float: left;
+  border: none;
+  width: 87%;
+  margin-left: 2% !important ;
 }
 #songPath{
   cursor: pointer;
@@ -656,6 +667,8 @@ MUSIC OPTIONS STYLES
 
 .modal_body{
   padding: 20px;
+  overflow: scroll;
+  height: 30vh !important;
 }
 #playlist_name{
   padding: 0.5em;
@@ -693,6 +706,13 @@ MUSIC OPTIONS STYLES
 .create_button input{
   display: none;
 }
+#open_modal{
+  border: none;
+  width: 20vw;
+}
+#open_modal:hover{
+  background-color: #393939;
+}
 
 
 /*
@@ -703,6 +723,7 @@ MUSIC OPTIONS STYLES
   text-align: left;
   background-color: #1a1a1a;
 }
+
 
 /*
   Design tool canvas css
@@ -728,6 +749,7 @@ MUSIC OPTIONS STYLES
 
 .spotif-nav ul{
   list-style-type: none;
+  width: 100%;
 }
 
 .spotif-nav li{
@@ -737,17 +759,41 @@ MUSIC OPTIONS STYLES
 .spotif-nav a{
   padding: 10px 20px;
 }
-
+.token-button{
+  margin: auto;
+}
 /*
   Spotify Playlist
 */
 
 .playlist-list{
   position: absolute;
-  width: 40%;
+  width: 50%;
   float: left;
 }
 
+.playlist-display{
+  position: absolute;
+  width: 30vw;
+  background: transparent;
+}
+
+.playlist-wrap{
+  margin: 5vh 0;
+  display: block;
+  width: 30vw;
+  height: 30vh;
+}
+.playlist-thumbnail img{
+  float: left;
+  height: 30vh;
+  width: 20vw;
+  transition: 0.3s opacity ease-in-out;
+}
+.playlist-thumbnail img:hover{
+  opacity: 0.6;
+  cursor: pointer;
+}
 .playlist{
   position: relative;
   width: 100%;
@@ -756,23 +802,13 @@ MUSIC OPTIONS STYLES
   margin: 10px 0;
 }
 
-.spotify_thumbnail{
-  padding-right:20px;
-  position: relative;
-  float: left;
-}
-.spotify_thumbnail img{
-  height:20vh ;
-}
-.spotify_thumbnail img:hover{
-  opacity: 0.6;
-  cursor: pointer;
-}
-
 .playlist_info{
   text-align: left;
   height:20vh;
+  margin-top: 6vh;
+  margin-left: 21vw;
 }
+
 
 .playlist_id{
   display: none;
@@ -789,4 +825,32 @@ MUSIC OPTIONS STYLES
   width: 100%;
   height: 80px;
   position: relative;
+}
+
+/*
+  Add song modal
+*/
+
+.add_song{
+  z-index: 200;
+  border:none;
+}
+.add_song:hover{
+  cursor: pointer;
+  background: #393939;
+}
+.song{
+  height:30vh
+}
+.song-wrap .thumbnail{
+  width: 15vw;
+}
+.add{
+  font-size: 0.7em;
+  float: right;
+  border: none;
+  transition: 0.3s background-color ease-in-out;
+}
+.add:hover{
+  background-color: #393939;
 }

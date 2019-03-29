@@ -3,35 +3,30 @@
         <div class="page-header">
             Your playlists:
         </div>
-        <div class="playlist-display">
-            <%if(typeof playlists === 'undefined' || Object.keys(playlists).length === 0){%>
-                <h1>You currently don't have any playlists created</h1>
-            <%}else{
-                playlists.for(playlist=>{
-            %>
-                    <div class="playlist-wrap">
-                        <div class="thumbnail">
-                            <img src="<%=playlist.thumbnailUrl%>" alt="playlist-thumbnail">
-                            <div class="name">
-                                <%=playlist.name%>
-                            </div>
-                        </div>
-                    </div>
-            <%})}%>
-            <button id="open_modal"><i class="fas fa-music"></i> Create Playlist</button>
-        </div>
-        <%include partials/playlist_modal.ejs%>
-        <script>
-            $('#open_modal').on('click',function(){
-                console.log("clicked");
-                $('.modal').fadeIn(500);
-            });
-            $('.close_button').on('click',function(){
-                $('.modal').fadeOut(500);
-            });
-            $('.create_button').on('click',function(){
 
-            })
-        </script>
+        <div class="playlist-display">
+            <button id="open_modal"><i class="fas fa-music"></i> Create Playlist</button>
+            <% if(typeof playlists === 'undefined' || Object.keys(playlists).length === 0){ %>
+                <h1>You currently don't have any playlists created</h1>
+            <% }else{
+            playlists.forEach(playlist=>{
+            %>
+                <div class="playlist-wrap">
+                    <div class="playlist-thumbnail">
+                        <img src="<%= playlist.thumbnailUrl %>" alt="playlist-thumbnail">
+                    </div>
+                    <div class="playlist_info">
+                        <div class="playlist-name"><%= playlist.name %></div>
+                        <div class="owner"><%= user.user %></div>
+                    </div>
+                </div>
+            <% })} %>
+        </div>
+        <div id="playlist-tracks">
+
+        </div>
+        <% include partials/playlist_modal.ejs %>
+        <% include partials/add_song_modal.ejs%>
+        <script src="../../javascripts/playlists.js"></script>
     </div>
 </div>

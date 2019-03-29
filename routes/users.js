@@ -52,6 +52,33 @@ router.get('/profile/playlists', loggedIn, (req, res) => {
             res.render('playlists',{user:req.session.user});
     });
 });
+router.get('/playlist/tracks',loggedIn,(req,res)=>{
+    if(Object.keys(req.query).length === 0 && typeof  req.query === 'undefined'){
+        res.status(400).end();
+    }
+
+    const playlist_name = req.query.playlist_name;
+    const owner = req.query.owner;
+
+    db.getPlaylistTracks(playlist_name,owner)
+        .then(tracks =>{
+            res.status(200).render("playlist_tracks",{playlist_name,songData:tracks});
+        }).catch(error=>{
+            res.status(500).end();
+    });
+});
+router.get('/playlist/getSongs',loggedIn,(req,res)=>{
+    db.getSongs(0,0).then(songs=>{
+        res.status(200).send(songs).end();
+    }).catch(error=>{
+        console.error(error);
+    })
+});
+router.post('/playlist/addSong',loggedIn,(req,res)=>{
+    db.addTrack(req.body.name,req.body.artist,req.body.playlist,req.session.user.user)
+        .then((tracks)=>res.redirect('/users/profile/playlists'))
+        .catch(error=>console.error(error));
+});
 router.get('/profile/design', (req, res) => {
     res.render('design.ejs');
 });
@@ -111,6 +138,7 @@ router.get('/spotifyPlaylist', loggedIn, (req, res, next) => {
             res.render("spotify_playlists",{user:req.session.user,playlist:playlist.items});
         }).catch(error => console.error(error));
 });
+//Refracto it so it returns only the track ids
 router.get('/spotify/playlist/tracks',loggedIn,(req,res,next)=>{
    if(Object.keys(req.query).length === 0 && typeof req.query === 'undefined'){
        res.status(400).end();
