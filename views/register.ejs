@@ -7,10 +7,15 @@
                     <div class="border-bottom-80"></div>
                 </div>
                 <div class="form-body">
-                    <input type="text" id="username-input" name="username" placeholder="Display Username" required>
+                    <div class="error-message">
+                        <%if(typeof error !== 'undefined'){%>
+                            <%=error%>
+                        <%}%>
+                    </div>
+                    <input type="text" id="username-input" name="username" placeholder="Display Username">
                     <input type="email" id="email-input" name="email" placeholder="Email" required>
-                    <input type="password" id="pwd-input" name="password" placeholder="Password" required>
-                    <input type="password" id="pwd-confirm" name="c-password" placeholder="Confirm Password" required>
+                    <input type="password" id="pwd-input" name="password" placeholder="Password">
+                    <input type="password" id="pwd-confirm" name="c-password" placeholder="Confirm Password">
                     <div class="checkboxes">
                         <label for="artist_account">
                             <input type="checkbox" name="artist_account" value="artists" id="artist_account"> <span>Register as an artist</span>

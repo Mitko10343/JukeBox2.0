@@ -28,6 +28,7 @@ button{
   transition: 0.2s background-color linear;
 }
 
+
 /*
   index page css
 */
@@ -218,7 +219,7 @@ button{
   color: crimson;
 }
 .error-message{
-  display: none;
+  display: block;
   float: left;
   font-size: 0.5em;
   color: crimson;
@@ -485,13 +486,16 @@ MUSIC OPTIONS STYLES
   position: relative;
   display: block;
   text-align: left;
+  text-transform: uppercase;
   padding: 10px 20px 0 20px;
+  background: rgba(35, 35, 35, 0.4);
 }
 .overview-values-wrap{
   display: block;
   width: 100%;
   float: left;
   text-align: left;
+  background: rgba(62, 62, 62, 0.4);
 }
 .overview-content{
   position: relative;
@@ -618,8 +622,6 @@ MUSIC OPTIONS STYLES
   cursor: pointer;
 }
 
-
-
 /*
   Modal csss
 */
@@ -633,7 +635,6 @@ MUSIC OPTIONS STYLES
   left: 0;
   background-color: rgba(0,0,0,0.7);
 }
-
 .modal-content{
   text-transform: initial;
   width:50%;
@@ -642,7 +643,6 @@ MUSIC OPTIONS STYLES
   color: black;
   text-align: left;
 }
-
 .modal_header{
   background-color: #1a1a1a;
   color: #dc6675;
@@ -664,7 +664,6 @@ MUSIC OPTIONS STYLES
   cursor: pointer;
   color: #ff0000;
 }
-
 .modal_body{
   padding: 20px;
   overflow: scroll;
@@ -687,7 +686,6 @@ MUSIC OPTIONS STYLES
   cursor: pointer;
   background-color: #393939;
 }
-
 .modal_footer{
   background-color: #1a1a1a;
   color: crimson;
@@ -723,6 +721,19 @@ MUSIC OPTIONS STYLES
   text-align: left;
   background-color: #1a1a1a;
 }
+.add_playlist{
+  border: none;
+  color: #ffffff;
+  background: transparent;
+  float: left;
+  margin-left: 1%;
+  transition: 0.3s color ease-in-out;
+}
+.add_playlist:hover{
+  cursor: pointer;
+  color: #969696;
+}
+
 
 
 /*
@@ -765,21 +776,18 @@ MUSIC OPTIONS STYLES
 /*
   Spotify Playlist
 */
-
 .playlist-list{
   position: absolute;
   width: 50%;
   float: left;
 }
-
 .playlist-display{
   position: absolute;
   width: 30vw;
   background: transparent;
 }
-
 .playlist-wrap{
-  margin: 5vh 0;
+  margin: 5vh 0 0 0;
   display: block;
   width: 30vw;
   height: 30vh;
@@ -801,25 +809,27 @@ MUSIC OPTIONS STYLES
   display: block;
   margin: 10px 0;
 }
-
 .playlist_info{
   text-align: left;
   height:20vh;
   margin-top: 6vh;
   margin-left: 21vw;
 }
-
-
 .playlist_id{
   display: none;
 }
-
+.playlist-frame{
+  float: left;
+  width: 40%;
+  margin-top: 6%;
+  padding: 0 4% 0 0;
+}
 #playlist-tracks{
-  background: rgb(0,0,0);
+  margin-top: 6%;
+  margin-left:5%;
   display: none;
   width:50%;
   float:right;
-  text-align: left;
 }
 .track{
   width: 100%;
@@ -830,7 +840,6 @@ MUSIC OPTIONS STYLES
 /*
   Add song modal
 */
-
 .add_song{
   z-index: 200;
   border:none;
@@ -853,4 +862,26 @@ MUSIC OPTIONS STYLES
 }
 .add:hover{
   background-color: #393939;
+}
+
+/*
+  View Profile Css
+*/
+.profile_nav{
+  width: 96%;
+  margin: 2%;
+}
+.profile_nav ul{
+  list-style: none;
+}
+.profile_nav li{
+  display: inline;
+}
+.profile_nav a{
+  padding: 10px;
+  border-bottom: 1px solid crimson;
+  transition: 0.3s background ease-in-out;
+}
+.profile_nav a:hover{
+  background: #6d6d6d;
 }

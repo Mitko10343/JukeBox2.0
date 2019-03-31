@@ -1,0 +1,24 @@
+<% if(typeof playlists === 'undefined' || Object.keys(playlists).length === 0){ %>
+    <h1>You currently don't have any playlists created</h1>
+<% }else{
+playlists.forEach(playlist=>{
+%>
+    <div class="playlist-wrap">
+        <div class="playlist-thumbnail">
+            <img src="<%= playlist.thumbnailUrl %>" alt="playlist-thumbnail">
+        </div>
+        <div class="playlist_info">
+            <div class="playlist-name"><%= playlist.playlist_name %></div>
+            <div class="owner"><%=playlist.original_owner%></div>
+            <div class="shares"><%=playlist.shares%></div>
+            <%if(typeof playlist.tracks !== 'undefined'){%>
+                <div class="tracks">Tracks: <%= playlist.tracks.length %></div>
+            <%}%>
+        </div>
+        <%if(add_button === true || playlist.original_owner !== user){%>
+            <div class="add_playlist_btn">
+                <button class="add_playlist"><i class="fas fa-plus"></i></button>
+            </div>
+        <%}else{}%>
+    </div>
+<% })} %>

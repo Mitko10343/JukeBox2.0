@@ -3,53 +3,7 @@
         <h3 id="p_name"><%=playlist_name%></h3>
     </div>
     <button class="add_song" type="button" onclick="addSong()">Add a song </button>
-    <% if(typeof songData === 'object' && songData && Object.keys(songData).length !== 0){ %>
-        <% songData.forEach(song =>{ %>
-            <div class="music-player">
-                <div class="thumbnail">
-                    <img src="<%= song.thumbnailUrl %>" alt="Thumbnail Image">
-                </div>
-                <div class="info">
-                    <div class="play-buttons">
-                        <!--<p class="current-time">
-
-                        </p>-->
-                        <button class="play-button"><i style="display: none" class="fas fa-pause pause"></i><i class="fas fa-play play"></i></button>
-                        <!--<p class="end-time">
-                        </p>-->
-                    </div>
-                    <div class="song-info">
-                        <div class="song-heading">
-                            <span class="songName"><%= song.name %></span>
-                            <span class="artistName"> - <%= song.artist %></span>
-                        </div>
-                        <div class="song-album">
-                            <span class="Album"><%= song.album %></span>
-                        </div>
-                    </div>
-                    <div class="audio-wrapper" id="audio-player-container">
-                        <audio class="audio-player" >
-                            <source src="<%=song.mp3url%>">
-                        </audio>
-                    </div>
-                </div>
-                <div class="progress-bar-wrapper">
-                    <div class="progress-background">
-                        <div class="progress">
-
-                        </div>
-                    </div>
-                </div>
-                <div class="views-likes">
-                    <button disabled><i class="far fa-eye"></i><span class="views"><%=song.views%></span></button>
-                    <button><i class="far fa-heart"></i><span class="likes"><%=song.likes%></span></button>
-                </div>
-            </div>
-    <% })}
-    else{ %>
-        <div class="no-songs"><h1>No added tracks yet</h1></div>
-    <% } %>
-    <script src="/javascripts/musicPlayer.js"> </script>
+    <%include partials/display_songs.ejs%>
     <script>
         function addSong(){
             $('.add-song').fadeIn(200);

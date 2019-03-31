@@ -6,21 +6,7 @@
 
         <div class="playlist-display">
             <button id="open_modal"><i class="fas fa-music"></i> Create Playlist</button>
-            <% if(typeof playlists === 'undefined' || Object.keys(playlists).length === 0){ %>
-                <h1>You currently don't have any playlists created</h1>
-            <% }else{
-            playlists.forEach(playlist=>{
-            %>
-                <div class="playlist-wrap">
-                    <div class="playlist-thumbnail">
-                        <img src="<%= playlist.thumbnailUrl %>" alt="playlist-thumbnail">
-                    </div>
-                    <div class="playlist_info">
-                        <div class="playlist-name"><%= playlist.name %></div>
-                        <div class="owner"><%= user.user %></div>
-                    </div>
-                </div>
-            <% })} %>
+            <%include partials/display_playlists.ejs%>
         </div>
         <div id="playlist-tracks">
 

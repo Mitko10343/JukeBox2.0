@@ -3,11 +3,15 @@
         <div class="form-wrapper">
             <form method="post" action="/login" id="login-form">
                 <div class="form-header">
-                    Artist Login
+                    Login
                     <div class="border-bottom-80"></div>
                 </div>
                 <div class="form-body">
-                    <div class="error-message"></div>
+                    <div class="error-message">
+                        <%if(typeof error !== 'undefined'){%>
+                            <%=error%>
+                        <%}%>
+                    </div>
                     <input type="text" id="username-input" name="username" placeholder="Username">
                     <input type="password" id="pwd-input" name="password" placeholder="Password">
                 </div>

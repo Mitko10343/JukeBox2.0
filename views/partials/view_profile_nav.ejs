@@ -1,0 +1,10 @@
+<div class="profile_nav">
+    <ul>
+        <li><a href="profile/overview">Account Overview</a></li>
+        <li><a href=`profile/playlists`>Playlists</a></li>
+        <%if(profile.account_type === 'artists'){%>
+            <li><a href="profile/songs">Tracks</a></li>
+            <li><a href="profile/merch">Merchandise</a></li>
+        <%}%>
+    </ul>
+</div>

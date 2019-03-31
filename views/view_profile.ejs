@@ -1,0 +1,33 @@
+<div class="content-wrapper">
+    <div class="content">
+        <div class="profile-heading">
+            <div class="cover-picture">
+                <%if(typeof profile.coverUrl === 'undefined'){ %>
+                    <img src="https://cdn0.iconfinder.com/data/icons/interface-set-vol-2/50/No_data_No_info_Missing-512.png" alt="image">
+                <%}else{%>
+                <img src="<%=profile.coverUrl%>" alt="image">
+                <%}%>
+                <div class="profile-picture" >
+                    <%if(typeof profile.profileUrl === 'undefined'){ %>
+                        <img src="https://cdn0.iconfinder.com/data/icons/interface-set-vol-2/50/No_data_No_info_Missing-512.png" alt="image">
+                    <%}else{%>
+                    <img src="<%=profile.profileUrl%>" alt="image">
+                    <%}%>
+                </div>
+            </div>
+        </div>
+        <div class="profile-content-wrap">
+            <div class="heading-wrapper">
+                <h1><%=profile.username%></h1>
+            </div>
+            <div class="overview-values-wrap">
+                <% include partials/view_profile_nav%>
+                <div class="overview-content">
+                    <input type="text" disabled value="<%=profile.username%>">
+                    <input type="text" disabled value="<%=profile.email%>">
+                    <input type="text" disabled value="<%=profile.account_type%>">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
