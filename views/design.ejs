@@ -3,7 +3,7 @@
         <div class="page-header">
             Your Merchandise:
         </div>
-        <div class="playlist-display">
+       <!-- <div class="playlist-display">
             <%if(typeof mechandise === 'undefined' || Object.keys(mechandise).length === 0){%>
                 <h1>You currently don't have any merchandise created</h1>
             <%}else{
@@ -12,33 +12,86 @@
 
             <%})}%>
             <button id="open_modal"><i class="fas fa-music"></i> Design Merchandise</button>
-        </div>
-        <canvas id="canvas">
+        </div>-->
+        <canvas id="canvas" >
 
         </canvas>
-        <select id="color_select">
-            <option value="blue">Blue</option>
-            <option value="red">Red</option>
-            <option value="green">Green</option>
-            <option value="yellow">Yellow</option>
-            <option value="black">Black</option>
-            <option value="purple">Purple</option>
-        </select>
-        <select id="merch_selects">
-            <option value="t-shirt">T-shirt</option>
-            <option value="pants">Pants</option>
-            <option value="socks">Pants</option>
-        </select>
-        <select id="texture_select">
-            <option value="textile">Textile</option>
-            <option value="fur">Fur</option>
-            <option value="waves">Waves</option>
-            <option value="image">Image</option>
-        </select>
 
 
+        <div class="design_controls">
+            <div class="selects">
+                <select id="merch_selects">
+                    <option value="t-shirt">T-shirt</option>
+                    <option value="pants">Pants</option>
+                    <option value="socks">Pants</option>
+                </select>
+                <select id="texture_select">
+                    <option value="cotton">Cotton</option>
+                    <option value="denim">Denim</option>
+                    <option value="camo">Camo</option>
+                </select>
+            </div>
+
+            <div class="sliders">
+                <label for="reds">
+                    Red
+                    <div class="slidecontainer">
+                        <input type="range" min="1" max="255" value="50" class="slider" id="reds">
+                    </div>
+                </label>
+                <label for="greens">
+                    Green
+                    <div class="slidecontainer">
+                        <input type="range" min="1" max="255" value="50" class="slider" id="greens">
+                    </div>
+                </label>
+                <label for="blues">
+                    Blue
+                    <div class="slidecontainer">
+                        <input type="range" min="1" max="255" value="50" class="slider" id="blues">
+                    </div>
+                </label>
+                <label for="light">
+                    Light Intensity:
+                    <div class="slidecontainer">
+                        <input type="range" min="1" max="100" value="50" class="slider" id="light">
+                    </div>
+                </label>
+            </div>
+
+            <div class="decals">
+                <button class="add_decals">Upload Decals</button>
+                <%if(typeof decals !== 'undefined'){%>
+                    <select id="decals_select">
+                        <% decals.forEach(decal=>{%>
+                            <option value="<%=decal.url%>"><%=decal.decal_name%></option>
+                        <%})%>
+                    </select>
+                <%}%>
+
+                <form id="decals_form" action="/users/decals/upload" method="post" enctype="multipart/form-data">
+                     <input type="file" name="decals" id="decals_upload">
+                    <button type="submit" id="decal-submit"></button>
+                 </form>
+
+            </div>
+            <div class="decals_added">
+                <ul id="decals_list">
+
+                </ul>
+            </div>
+        </div>
+
+
+        <script>
+            $('.add_decals').on('click',function () {
+                $('#decals_upload').click().on('change',function () {
+                    $('#decal-submit').click();
+                });
+            });
+        </script>
         <script src="../../javascripts/babylonjs/babylon.max.js"></script>
-        <script src="../../javascripts/design_tool.js"></script>
+        <script crossorigin="anonymous" src="../../javascripts/design_tool.js"></script>
         <script src="https://preview.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
     </div>
 </div>

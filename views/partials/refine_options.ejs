@@ -24,7 +24,7 @@
             </select>
         </li>
         <li>
-            <input class="search-box" type="text" placeholder="Search...">
+            <input class="search-box" id="search_input" type="text" placeholder="Search...">
             <div class="search"></div>
         </li>
         <li>
@@ -32,3 +32,23 @@
         </li>
     </ul>
 </div>
+
+<script>
+    //every time the value in the search field changes
+    $('#search_input').on('change',function(){
+        //get the value in the input field
+        let value = $('#search_input').val();
+        //make an Ajax query to firestore
+        $.ajax({
+            url:`/search?value=${value}`,
+            success:function (data){
+                $('.songs-display').fadeOut(500, function () {
+                    //filter the data returned so you get only the html for the new results to be displayed
+                    const newPage = $(data).find("div").filter('div .songs-display').html();
+                    //attach the new results to the song-display div and fade it back in
+                    $('.songs-display').html(newPage).fadeIn(500);
+                });
+            }
+        })
+    });
+</script>

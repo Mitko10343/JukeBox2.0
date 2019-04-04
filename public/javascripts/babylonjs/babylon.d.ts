@@ -26897,6 +26897,10 @@ declare module BABYLON {
          * @returns a new mesh
          */
         static MergeMeshes(meshes: Array<Mesh>, disposeSource?: boolean, allow32BitsIndices?: boolean, meshSubclass?: Mesh, subdivideWithSubMeshes?: boolean): Nullable<Mesh>;
+
+        CreateGroundFromHeightMap(name: string, url: string, width: number, height: number, subdivisions: number, scene: BABYLON.Scene) {
+            
+        }
     }
 }
 

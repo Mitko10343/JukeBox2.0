@@ -101,9 +101,7 @@ router.post('/playlist/addSong', loggedIn, (req, res) => {
         .then((tracks) => res.redirect('/users/profile/playlists'))
         .catch(error => console.error(error));
 });
-router.get('/profile/design', (req, res) => {
-    res.render('design.ejs');
-});
+
 router.post('/createPlaylist', loggedIn, uploads, (req, res) => {
     if (typeof req.files === 'undefined' && typeof req.body === 'undefined')
         res.sendStatus(404).render('uploads');
@@ -217,7 +215,7 @@ router.post('/upload', loggedIn, uploads, (req, res) => {
                     //upon success send status 200 + success message
                     res.status(200).send(`Song uploaded successfully`);
                 })
-                .catch(error =>{
+                .catch(error => {
                     //in the case of an error log the error message
                     console.error(error);
                 });//end promise
@@ -299,9 +297,117 @@ router.post('/uploadProfile', loggedIn, uploads, (req, res) => {
 
 //get route that destroys the current session and logs the user out
 router.get('/logout', loggedIn, (req, res) => {
+    //destroy the current user session
     req.session.destroy();
+    //redirect the user to the login page
     res.redirect('/login');
 });//end route
+
+//get route that adds a song to a users likes
+router.get('/like', loggedIn, (req, res) => {
+    //check if the query string of the request object contains is empty
+    //if it is then return a status code of 500
+    if (typeof req.query === 'undefined' || Object.keys(req.query).length === 0) {
+        res.status(500).end();
+    }
+
+    //if the req.query has some contents then extract the name of the song
+    const song_name = req.query.song_name;
+    //get the current likes of the song and increment them by one
+    const likes = parseInt(req.query.likes) + 1;
+    //get the currently logged in user's username
+    const username = req.session.user.user;
+
+    //add the user to as part of the likes of the song and also add the song the the users likes
+    db.addToLikes(song_name, username, likes)
+        .then(() => {
+            res.status(200).end();
+        })
+        .catch(error => {
+            //in the case of an error then log it
+            console.error(error);
+        })
+});//end route
+
+//get route that adds a song to a users likes
+router.get('/unlike', loggedIn, (req, res) => {
+    //check if the query string of the request object contains is empty
+    //if it is then return a status code of 500
+    if (typeof req.query === 'undefined' || Object.keys(req.query).length === 0) {
+        res.status(500).end();
+    }
+
+    //if the req.query has some contents then extract the name of the song
+    const song_name = req.query.song_name;
+    //get the current likes of the song and decrement them by one
+    const likes = parseInt(req.query.likes) - 1;
+    //get the currently logged in user's username
+    const username = req.session.user.user;
+
+
+    //remove the song from the users likes and remove the user from the people who like the song
+    db.unlikeSong(song_name, username, likes)
+        .then(() => {
+            res.status(200).end();
+        })
+        .catch(error => {
+            //in the case of an error then log it
+            console.error(error);
+        })
+});//end route
+
+
+//Get route that renders the design tool page
+router.get('/profile/design', loggedIn, (req, res) => {
+    //first of all get the data from the user record
+    db.getUser(req.session.user.user)
+        .then(data => {
+            //if the data is returned check if the user has any uploaded decals
+            if(typeof  data.decals === 'undefined' || Object.keys(data.decals).length === 0){
+                let decals = undefined;
+                res.render('design',{decals});
+            }else{
+                let decals = data.decals;
+                res.render('design',{decals});
+            }
+        })
+        .catch(error => {
+            console.error(error);
+        })
+
+});
+
+router.post('/decals/upload', loggedIn, uploads, (req, res) => {
+    if (typeof req.files === 'undefined' && typeof req.body === 'undefined')
+        res.sendStatus(404).send(`No file selected for upload`).end();
+    else {
+        //if the mime type of the image file is not valid then throw an error
+        if (req.files[0].mimetype !== 'image/jpeg' && req.files[0].mimetype !== 'image/png') {
+            res.status(500).send(`Invalid mime type of the file. Expected file
+                                    with type image/jpeg or image/png 
+                                  and received ${req.files[0].mimetype}instead`).end();
+        } else {
+            //get the username of the current user that is logged in
+            const user = req.session.user.user;
+            //upload the image to the firestore bucket
+            db.uploadImg(user, keys.DECALS, req.files[0], req.files[0].originalname)
+            //upon success return the public url to the image
+                .then(url => {
+                    //add the decal url to the user record
+                    return db.addDecalUrl(user, url, req.files[0].originalname);
+                })
+                .then(() => {
+                    //redirect the user to the profile page
+                    res.status(200).redirect('/users/profile/design');
+                })
+                .catch(error => {
+                    //in the case of an error log
+                    console.error(error)
+                });//end promise
+        }//end elese
+    }//end else
+});
+
 
 //export the routes
 module.exports = router;

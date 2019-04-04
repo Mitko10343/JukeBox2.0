@@ -1,34 +1,38 @@
+//when the document has finished loading then do the follwoing
 $(document).ready(function () {
-
-    //const playButtons = document.getElementsById('#play-button');
-    //console.log(playButtons);
+    //get a reference for each of the players rendered
+    //get a reference for each of the progress bars
     const progressBars = document.getElementsByClassName('progress');
     const progressBarsBackground = document.getElementsByClassName('progress-background');
+    //get a reference for each of the songNames
     const songNames = document.getElementsByClassName('songName');
+    //get a reference for each of the play buttons
     const buttons = document.getElementsByClassName('play-button');
+    //get a reference to the play button icons
     const plays = document.getElementsByClassName('play');
+    //get a reference to the pause button icons
     const pauses = document.getElementsByClassName('pause');
+    //get a reference to the views
     const views = document.getElementsByClassName('views');
+    //get a reference to the likes
     const likes = document.getElementsByClassName('likes');
+    //get a reference to the number of likes of each song
+    const likes_count = document.getElementsByClassName('like_count');
+    //get a reference to each of the audio elements
     const players = document.getElementsByClassName('audio-player');
+    //get a reference to the current time of the song
     const currentTimes = document.getElementsByClassName('current-time');
+    //get a reference to the duration of the song
     const endTimes = document.getElementsByClassName('end-time');
+    //initialise an empty array of just played
+    //this is going to be used so that views are accumulated only for one play per session
     let justPlayed = [];
+    //set the array length to that of the number of players that have been rendered
     justPlayed.length = players.length;
+    //variable that keeps track if any current tracks are playing
     let isPlaying = false;
 
-/*
-    console.log(`Music queue ${window.musicQueue}`);
-    if(players.length >0 && typeof window.musicQueue === 'undefined'){
-        console.log("Starting");
-        createMusicQueue(players);
-    }else{
-        console.log("Starting 222");
-        console.log(`Exists ${window.musicQueue}`);
-        console.log(`currently playing ${window.currentlyPlaying}`);
-    }*/
-
-
+    //Add an event listener to each one of the play buttons
     $(buttons).each(function (index) {
         $(currentTimes[index]).text('0:00');
         $(endTimes[index]).text(calculateTimeInMinutes(players[index].duration));
@@ -72,7 +76,43 @@ $(document).ready(function () {
             $(progressBars[index]).css('width',(percent*100)+"%");
         })
     });
-});
+
+    //function that add like to a song or removes it
+    //add an onclick listener to each like button that is rendered
+    $(likes).each(function(index){
+        //if a like button is clicked
+        $(this).on('click',function(event){
+            //get the name of the song using the index of the button clicked
+            let songLiked = $(songNames[index]).text();
+            let likes = $(likes_count[index]).text();
+            //check if the like button has a class liked
+            if($(this).hasClass('liked')){
+                //if the button clicked has a class liked then make a query to unlike the song
+                //pass in the name of the song whose button was clicked
+                $.ajax({
+                    url:`/users/unlike?song_name=${songLiked}&likes=${likes}`,
+                    success:function (data) {
+                        //upon success remove the class liked from the button
+                        $(this).removeClass('liked');
+                        $(this).css('color','white');
+                    }//end success
+                })//end ajax
+            }else{
+                //if the button clicked doesnt have a class liked then make a query to like the song
+                //pass in the name of the song whose button was clicked
+                $.ajax({
+                    url:`/users/like?song_name=${songLiked}&likes=${likes}`,
+                    success:function (data) {
+                        //upon success add a class liked to the button
+                        $(this).addClass('liked');
+                        $(this).css('color','crimson');
+                    }//end succes
+                })//end ajax
+            }//end else
+        });//end event listener
+    })//end $(likes).each();
+
+});//end $(document).ready();
 
 //function that pauses all the audio players that are currently playing
 function pauseAll(players,pauses,plays) {
@@ -116,6 +156,6 @@ function calculateTimeInMinutes(time) {
 function createMusicQueue(players){
     console.log(`Creating music queue`);
     console.log(players);
-    window.musicQueue = players;
-    console.log(`Music queue ${window.musicQueue}`);
+    window.localStorage['music_queue'] = players;
+    console.log(`Music queue ${window.localStorage['music_queue']}`);
 }

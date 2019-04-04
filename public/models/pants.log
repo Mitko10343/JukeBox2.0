@@ -10,6 +10,14 @@ Exporter version: 5.6.4, Blender version: 2.79 (sub 0)
 		Mat Weight Precision:  2
 		texture directory   :  D:\ExpressProjects\Jukebox\public\models\
 	Python World class constructor completed
+	processing begun of mesh:  13648PoloPants_button
+		processing begun of Standard material:  13648PoloPants_button
+		num positions      :  254
+		num normals        :  254
+		num uvs            :  508
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  1248
 	processing begun of mesh:  13648PoloPants_cloth_V2
 		processing begun of Standard material:  13648PoloPants_cloth
 			Ambient texture found "Ka"
@@ -22,17 +30,9 @@ Exporter version: 5.6.4, Blender version: 2.79 (sub 0)
 		num uvs2           :  0
 		num colors         :  0
 		num indices        :  176784
-	processing begun of mesh:  13648PoloPants_button
-		processing begun of Standard material:  13648PoloPants_button
-		num positions      :  254
-		num normals        :  254
-		num uvs            :  508
-		num uvs2           :  0
-		num colors         :  0
-		num indices        :  1248
 	processing begun of camera (UniversalCamera):  Camera
 	processing begun of light (POINT):  Lamp
 ========= Writing of scene file started =========
 ========= Writing of scene file completed =========
 ========= end of processing =========
-elapsed time:  0 min, 6.4688 secs
+elapsed time:  0 min, 6.4056 secs

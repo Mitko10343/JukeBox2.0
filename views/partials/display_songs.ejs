@@ -6,25 +6,23 @@
             </div>
             <div class="info">
                 <div class="play-buttons">
-                    <!--<p class="current-time">
-
-                    </p>-->
-                    <button class="play-button"><i style="display: none" class="fas fa-pause pause"></i><i class="fas fa-play play"></i></button>
-                    <!--<p class="end-time">
-                    </p>-->
+                    <!--<p class="current-time">                    </p>-->
+                    <button class="play-button"><i style="display: none" class="fas fa-pause pause"></i><i
+                                class="fas fa-play play"></i></button>
+                    <!--<p class="end-time">                   </p>-->
                 </div>
                 <div class="song-info">
                     <div class="song-heading">
                         <span class="songName"><%= song.name %></span>
-                             <span class="artistName"> - <%= song.artist %></span>
+                        <span class="artistName"> - <%= song.artist %></span>
                     </div>
                     <div class="song-album">
                         <span class="Album"><%= song.album %></span>
                     </div>
                 </div>
                 <div class="audio-wrapper" id="audio-player-container">
-                    <audio class="audio-player" >
-                        <source src="<%=song.mp3url%>">
+                    <audio class="audio-player">
+                        <source src="<%= song.mp3url %>">
                     </audio>
                 </div>
             </div>
@@ -36,8 +34,10 @@
                 </div>
             </div>
             <div class="views-likes">
-                <button disabled><i class="far fa-eye"></i><span class="views"><%=song.views%></span></button>
-                <button><i class="far fa-heart"></i><span class="likes"><%=song.likes%></span></button>
+                <button disabled><i class="far fa-eye"></i><span class="views"><%= song.views %></span></button>
+                <% if(typeof user !== 'undefined'){ %>
+                    <button class="likes <%if(typeof song.liked_by !=='undefined' && song.liked_by.includes(user)){%>liked<%}%>"><i class="far fa-heart"></i><span class="like_count"><%= song.likes %></span></button>
+                <% } %>
             </div>
         </div>
 <% })}
@@ -45,4 +45,5 @@ else{ %>
     <div class="No songs"><h1>No Uploaded songs yet</h1></div>
 <% } %>
 
-<script src="../../javascripts/musicPlayer.js"> </script>
+
+<script src="../../javascripts/musicPlayer.js"></script>

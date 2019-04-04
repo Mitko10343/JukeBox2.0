@@ -1,0 +1,162 @@
+Exporter version: 5.6.4, Blender version: 2.79 (sub 0)
+========= Conversion from Blender to Babylon.js =========
+	Scene settings used :
+		export scope        :  ALL
+		inline textures     :  false
+		Positions Precision :  4
+		Normals Precision   :  3
+		UVs Precision       :  3
+		Vert Color Precision:  3
+		Mat Weight Precision:  2
+		texture directory   :  D:\ExpressProjects\Jukebox\public\models\
+	Python World class constructor completed
+	processing begun of mesh:  Group10471
+		WARNING: No materials have been assigned: 
+		num positions      :  224
+		num normals        :  224
+		num uvs            :  0
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  672
+	processing begun of mesh:  Group64437
+		WARNING: No materials have been assigned: 
+		num positions      :  48
+		num normals        :  48
+		num uvs            :  0
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  198
+	processing begun of mesh:  Group56194
+		WARNING: No materials have been assigned: 
+		num positions      :  280
+		num normals        :  280
+		num uvs            :  0
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  1344
+	processing begun of mesh:  Group36378
+		WARNING: No materials have been assigned: 
+		num positions      :  3051
+		num normals        :  3051
+		num uvs            :  0
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  17376
+	processing begun of mesh:  Group51284
+		WARNING: No materials have been assigned: 
+		num positions      :  630
+		num normals        :  630
+		num uvs            :  0
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  3744
+	processing begun of mesh:  Group30394
+		WARNING: No materials have been assigned: 
+		num positions      :  288
+		num normals        :  288
+		num uvs            :  0
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  1152
+	processing begun of mesh:  Group56179
+		WARNING: No materials have been assigned: 
+		num positions      :  2937
+		num normals        :  2937
+		num uvs            :  0
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  16848
+	processing begun of mesh:  Group1996
+		WARNING: No materials have been assigned: 
+		num positions      :  576
+		num normals        :  576
+		num uvs            :  0
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  2304
+	processing begun of mesh:  Group22014
+		WARNING: No materials have been assigned: 
+		num positions      :  960
+		num normals        :  960
+		num uvs            :  0
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  4608
+	processing begun of mesh:  Group56663
+		WARNING: No materials have been assigned: 
+		num positions      :  2106
+		num normals        :  2106
+		num uvs            :  0
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  12672
+	processing begun of mesh:  Group24839
+		WARNING: No materials have been assigned: 
+		num positions      :  224
+		num normals        :  224
+		num uvs            :  0
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  1008
+	processing begun of mesh:  Group32026
+		WARNING: No materials have been assigned: 
+		num positions      :  1873
+		num normals        :  1873
+		num uvs            :  0
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  10200
+	processing begun of mesh:  Group63219
+		WARNING: No materials have been assigned: 
+		num positions      :  112
+		num normals        :  112
+		num uvs            :  0
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  336
+	processing begun of mesh:  Group32027
+		WARNING: No materials have been assigned: 
+		num positions      :  96
+		num normals        :  96
+		num uvs            :  0
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  360
+	processing begun of mesh:  Group32025
+		WARNING: No materials have been assigned: 
+		num positions      :  697
+		num normals        :  697
+		num uvs            :  0
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  3678
+	processing begun of mesh:  Group56209
+		WARNING: No materials have been assigned: 
+		num positions      :  280
+		num normals        :  280
+		num uvs            :  0
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  1344
+	processing begun of mesh:  Group32029
+		WARNING: No materials have been assigned: 
+		num positions      :  705
+		num normals        :  705
+		num uvs            :  0
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  3648
+	processing begun of mesh:  Group32028
+		WARNING: No materials have been assigned: 
+		num positions      :  147
+		num normals        :  147
+		num uvs            :  0
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  576
+	processing begun of camera (UniversalCamera):  Camera
+	processing begun of light (POINT):  Lamp
+========= Writing of scene file started =========
+========= Writing of scene file completed =========
+========= end of processing =========
+elapsed time:  0 min, 3.4999 secs

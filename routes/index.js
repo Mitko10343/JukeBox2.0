@@ -15,29 +15,64 @@ router.get('/', notLoggedIn, (req, res) => {
     res.render('index');
 });
 
-/*GET DISCOVER PAGE*/
+
+// Get Route that renders the discover music page
+// Returns a JSON object with all the data of the songs to be played
 router.get('/discover/music', (req, res) => {
-    const user = typeof req.session.user === 'undefined' ? '' : req.session.user;
+    const user = typeof req.session.user === 'undefined' ? undefined : req.session.user.user;
+    //check if hte query is empty and if its no then return a refined list of Songs
     if (Object.keys(req.query).length !== 0) {
+        //Extract the parameters of the query string
         const genre = req.query.genre;
         const order = req.query.order;
         const page = typeof req.query.page !== 'undefined' ? req.query.page : 1;
         const pagination = typeof req.query.pagination !== 'undefined' ? req.query.pagination : 10;
 
-        if (genre === 'default' && order !== 'default') {
-            db.order(order).then(orderedSongs => res.render('discover_music', {songData: orderedSongs}));
-        } else if (genre !== 'default' && order !== 'default') {
-            db.genreOrder(genre, order).then(orderedSongs => res.render('discover_music', {songData: orderedSongs}));
-        } else if (genre !== 'default' && order === 'default') {
-            db.getGenre(genre).then(orderedSongs => res.render('discover_music', {songData: orderedSongs}));
-        } else {
-            db.getSongs(pagination, page).then(songData => res.render('discover_music', {songData})).catch(err => console.log(err));
-        }
-    } else {
-        db.getSongs(0, 1).then(songData => res.render('discover_music', {songData}))
-            .catch(err => console.log(err));
-    }
+        //Query the database for an ordered JSON object with song based on criteria from the front end
+        if (genre === 'default' && order !== 'default')
+            db.order(order)
+                .then(songData => res.render('discover_music', {songData,user}).end() )
+                //in the case of an error return a status code of 500 and log the error
+                .catch(error => {
+                    console.error(error);
+                    res.status(500).end();
+                });
+        else if (genre !== 'default' && order !== 'default')
+            db.genreOrder(genre, order)
+                .then(songData => res.render('discover_music', {songData,user}).end() )
+                //in the case of an error return a status code of 500 and log the error
+                .catch(error => {
+                    console.error(error);
+                    res.status(500).end();
+                });
+        else if (genre !== 'default' && order === 'default')
+            db.getGenre(genre)
+                .then(songData => res.render('discover_music', {songData,user}).end() )
+                //in the case of an error return a status code of 500 and log the error
+                .catch(error => {
+                    console.error(error);
+                    res.status(500).end();
+                });
+        else
+            db.getSongs(pagination, page)
+                .then(songData => res.render('discover_music', {songData,user}).end() )
+                //in the case of an error return a status code of 500 and log the error
+                .catch(error => {
+                    console.error(error);
+                    res.status(500).end();
+                });
+    }//end if
+
+    //if the query string is empty just render the discover music page with an unordered list of the songs in the database
+    db.getSongs(0, 1)
+        .then(songData => res.render('discover_music', {songData,user}))
+        //in the case of an error return a status code of 500 and log the error
+        .catch(error => {
+            console.error(error);
+            res.status(500).end();
+        });
 });
+
 router.get('/discover/artists', (req, res) => {
     const user = typeof req.session.user === 'undefined' ? undefined : req.session.user;
 
@@ -46,12 +81,19 @@ router.get('/discover/artists', (req, res) => {
     }).catch(error => console.error(error));
 
 });
+//get route that renders the discover/playlist page
 router.get('/discover/playlists', (req, res) => {
+    //Check if a user session exists and if it doesnt set the user to undefined
+    //this is done as a check
+    //If a user session exists and the user doesn't have a certain playlist in his library, then an add button is rendered.
     const user = typeof req.session.user === 'undefined' ? undefined : req.session.user.user;
+    //if user is undefined set add button to true else set it to false
     let add_button = typeof user === undefined;
 
+    //Get all of the playlists in the database
     db.getAllPlaylists()
         .then(playlists => {
+            //render the  discover playlists page
             res.render("discover_playlists", {
                 playlists,
                 user,
@@ -59,17 +101,26 @@ router.get('/discover/playlists', (req, res) => {
             })
         })
         .catch(error => {
+            //in the case of an error log it and send a status of 500
             console.error(error);
             res.status(500).end();
         });
 });
+
+//get route that renders the tracks associated with a certain playlist
 router.get('/discover/playlist/tracks', (req, res) => {
-    if (Object.keys(req.query).length === 0 && typeof req.query === 'undefined') {
+    //check if the query string of the request object has the playlist name in it
+    //if it doesnt then return a 400 status and end the response
+    if (Object.keys(req.query).length === 0 && typeof req.query === 'undefined')
         res.status(400).end();
-    }
+
+    //If the query string has some data in it then extract the playlist name from it
     const playlist_name = req.query.playlist_name;
-    const owner = req.query.owner;
-    db.getPlaylistTracks(playlist_name, owner)
+
+
+    //Get the tracks for the playlist
+    db.getPlaylistTracks(playlist_name)
+    //If tracks are returned then render them on the page
         .then(tracks => {
             res.status(200).render("partials/discover_playlist_tracks", {
                 playlist_name,
@@ -77,13 +128,13 @@ router.get('/discover/playlist/tracks', (req, res) => {
             });
         })
         .catch(error => {
+            //in the case of an error log it and return a status of 500
             console.error(error);
             res.status(500).end();
-        });
-});
+        });//end promise
+});//end route
 
-/*NOT IMPLEMENTED YET*/
-/*GET STORE PAGE*/
+//Get route that renders the store page
 router.get('/store', (req, res) => {
     const user = typeof req.session.user === 'undefined' ? '' : req.session.user;
     res.render('store', {title: 'Store'});
@@ -148,9 +199,9 @@ router.post('/register', notLoggedIn, (req, res) => {
         })
         .catch(error => {
             //if the error message has an error code of 1 then render the register page with the error message
-            if(error.code === 1)
-                res.render('register',{error:error.message});
-            else{
+            if (error.code === 1)
+                res.render('register', {error: error.message});
+            else {
                 //if the error doesnt have an error code then it means it wasn't wasn't caused by the form input
                 //log the error and redirect to the register page
                 console.error(error);
@@ -159,9 +210,20 @@ router.post('/register', notLoggedIn, (req, res) => {
         });
 });
 
+//get route that searches for a song
 router.get('/search', (req, res) => {
-    const search = typeof req.query.value;
+    //get the search value from the search tab
+    const search = req.query.value;
 
+    //search for a song
+    db.searchForSong(search)
+        .then(songData => {
+            console.log(songData);
+            res.render('discover_music', {songData});
+        })
+        .catch(error => {
+            console.error(error)
+        })
 });
 
 //get route that displays a profile to a user
@@ -181,6 +243,7 @@ router.get('/view/profile', (req, res) => {
         if (typeof user === 'undefined')
             res.redirect('/dicover/artists');
         else {
+            //get the user record
             db.getUser(user)
                 .then(record => res.render('view_profile', {
                     profile: {
@@ -197,14 +260,6 @@ router.get('/view/profile', (req, res) => {
         }
     }
 });
-router.get('/view/playlists',(req,res)=>{
-    //If the query string of the request object is empty then redirect to discover/artists page
-    if (Object.keys(req.query).length === 0)
-        res.redirect('/discover/artists');
-    //if the user clicked on their own profile, just redirect them to their profile page
-    else if (typeof req.session.user !== 'undefined' && req.session.user.user === req.query.username)
-        res.redirect('/users/profile');
-});
 
 //post route that updates the views for a song
 router.post('/updateView', (req, res) => {
@@ -216,5 +271,7 @@ router.post('/updateView', (req, res) => {
     //return a status code 200 and end the response
     res.status(200).end();
 });
+
+
 
 module.exports = router;

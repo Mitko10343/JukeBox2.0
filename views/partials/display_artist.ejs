@@ -4,11 +4,31 @@
     <div class="profile-picture-discover">
         <div class="thumbnail">
             <img src="<%=artist.profileUrl%>" alt="profile photo">
-            <div class="profile-info">
-                <a href="/view/profile?username=<%=artist.username%>"><%=artist.username%></a>
-            </div>
+        </div>
+        <div class="profile-info">
+            <a class="artist" href="/view/profile?username=<%=artist.username%>"><%=artist.username%></a>
         </div>
     </div>
 <%})}else{%>
-
+    <div class="error-message">
+        <h1>No accounts found</h1>
+    </div>
 <%}%>
+
+<script>
+    const thumbnails = document.getElementsByClassName("thumbnail");
+    const profiles = document.getElementsByClassName("artist");
+
+    $(thumbnails).each(function (index) {
+        $(this).on('click',function (event) {
+            let href = $(profiles[index]).attr("href");
+
+             $.ajax({
+                 url:href,
+                 success:function(data){
+
+                 }
+             })
+        });
+    });
+</script>

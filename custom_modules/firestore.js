@@ -15,6 +15,7 @@ const bucket = admin.storage().bucket();
 const USERS = db.collection(keys.USERS);
 const SONGS = db.collection(keys.SONGS);
 const PLAYLISTS = db.collection(keys.PLAYLISTS);
+const default_img_url ="https://firebasestorage.googleapis.com/v0/b/finalyearproject-a8f42.appspot.com/o/default_images%2FNo_Image_Available.jpg?alt=media&token=d946bc05-33b9-4a03-a617-ffa163858e9a";
 
 /*Function that converts an array of firestore records into JSON objects*/
 const extractData = async (data) => {
@@ -44,6 +45,8 @@ const addUserToDb = async (userData) => {
             email: userData.email,
             password: userData.password,
             account_type: userData.account_type,
+            coverUrl:default_img_url,
+            profileUrl:default_img_url
         }).then(() => {
             resolve(`Added user ${userData.username}`);
         }).catch(error => {
@@ -200,24 +203,34 @@ const getPlaylist = async (playlist, user, shares) => {
     });
 };
 /**
- *
+ *Function that returns the tracks associated with a playlist
  * @param name
  * @param owner
  * @returns {Promise<any>}
  */
-const getPlaylistTracks = async (name, owner) => {
+const getPlaylistTracks = async (name) => {
+    //await until the promise is resolved before returning the function
     return await new Promise((resolve) => {
+        //get the record for the playlist name
         PLAYLISTS.doc(name).get()
+        //if a document is returned then extract the data
             .then(records => {
+                //get data from record
                 let data = records.data();
+                //if the tracks field of the record is undefined then return undefined
                 if (typeof data.tracks === 'undefined')
                     resolve(undefined);
+                //else get the tracks from the record and put them in a JSON object
                 else
                     return getSongData(data.tracks);
-            }).then(songs => resolve(songs))
+            })
+            //Resolve the promise with the JSON object containing hte tracks
+            .then(songs => resolve(songs))
+            //In the case of an error log it
             .catch(error => console.error(error));
-    });
-};
+    });//end promise
+};//end function
+
 //Function that adds a track to a playlist
 //takes in 3 parameters
 // song: which is the name of the track
@@ -325,7 +338,7 @@ const uploadFile = async (file, fileBucket) => {
         const uploadStream = fileBucket.createWriteStream({
             metadata: {
                 contentType: file.mimetype,
-                uploaded: Date.now()
+                uploaded: Date.now(),
             }
         });
 
@@ -416,10 +429,17 @@ const addImgUrl = async (user, url, imgType) => {
 };
 
 /*Functions that are used when refining songs in discover*/
+/**
+ * Function that returns songs in a specific order
+ * @param order
+ * @returns {Promise<T | void>}
+ */
 const order = async (order) => {
+    //set default variables
     let orderBy = '';
     let direction = 'asc';
 
+    //Check the order conditions and if a certain condition is met then update the default variables
     if (order === 'NewToOld' || order === "OldToNew") {
         orderBy = 'uploadDate';
         if (order === 'NewToOld')
@@ -430,18 +450,32 @@ const order = async (order) => {
             direction = 'desc'
     }
 
+    //get the songs in order and then return them to the server
     return await SONGS.orderBy(orderBy, direction).get()
+    //in the case of records being returned for the songs generate a JSON Object
         .then(data => {
             return extractData(data.docs)
         })
+        //return the songs JSON object
         .then(songData => {
             return songData;
-        }).catch(err => console.error(`Error: ${err}`));
-};
+        })
+        //In the case of an error log it
+        .catch(error => console.error(error));
+};//end function
+
+/**
+ * Function that returns a list of songs ordered by genre and the order specified
+ * @param genre
+ * @param order
+ * @returns {Promise<T | void>}
+ */
 const genreOrder = async (genre, order) => {
+    //set default variables
     let orderBy = '';
     let direction = 'asc';
 
+    //If a ceratain condition is met update the default variables
     if (order === 'NewToOld' || order === "OldToNew") {
         orderBy = 'uploadDate';
         if (order === 'OldToNew')
@@ -452,35 +486,60 @@ const genreOrder = async (genre, order) => {
             direction = 'desc'
     }
 
+    //Return the order songs to the server
     return await SONGS.where('genre', '==', genre).orderBy(orderBy, direction).get()
+    //in the case of a record being returned then convert the records into a JSON object
         .then(data => {
             return extractData(data.docs)
         })
+        //Return the JSON object with the song data
         .then(songData => {
             return songData;
-        }).catch(err => console.error(`Error: ${err}`));
+        })
+        //in the case of an error log it
+        .catch(error => console.error(error));
 };
+/**
+ * Function that filters song by genre
+ * @param genre
+ * @returns {Promise<T | void>}
+ */
 const getGenre = async (genre) => {
+    //get only the songs with specific genre
     return await SONGS.where('genre', '==', genre).get()
+    //in the case of records being returned then convert them into a JSON object
         .then(data => {
             return extractData(data.docs)
         })
+        //return the JSON object with the song data
         .then(songData => {
             return songData;
-        }).catch(err => console.error(`Error: ${err}`));
-};
+        })
+        //in the case of an error log  it
+        .catch(error => console.error(error));
+};//end function
 
+/**
+ * Function that returns all the artists account
+ * @returns {Promise<any>}
+ */
 const getArtists = async () => {
+    //wait until promise is resolved to return the artist accounts
     return await new Promise((resolve, reject) => {
+        //get all accounts where the account type is of artists
         USERS.where('account_type', '==', 'artists').get()
+        //if records are returned then convert them into a JSON object
             .then(artists => {
                 return extractData(artists.docs);
             })
+            //return the JSON object with the artist account data
             .then(artistsData => {
                 resolve(artistsData);
-            }).catch(error => {
-            reject(error);
-        })
+            })
+            //in the case of an error log it
+            .catch(error => {
+                reject(error);
+            })
     });
 };
 
@@ -507,7 +566,82 @@ const getAllPlaylists = async () => {
     })
 };
 
-//Export all the functions from the firestore odule
+/**
+ * Function that searches for a song based on an exact match
+ * @param value
+ * @returns {Promise<any>}
+ */
+const searchForSong = async (value) => {
+    return await new Promise((resolve) => {
+        SONGS.where('name', '==', value).limit(5).get()
+            .then(songs => {
+                return extractData(songs.docs);
+            })
+            .then(songData => {
+                resolve(songData);
+            })
+            .catch(error => {
+                console.error(error);
+            })
+    })
+};
+
+/**
+ * A Function that adds a song to a user's likes as well as
+ * adding the user to the people that like the song
+ * @param song_name
+ * @param username
+ * @param likes
+ * @returns {Promise<void>}
+ */
+const addToLikes = async (song_name,username,likes)=>{
+    USERS.doc(username).update({
+        likes:admin.firestore.FieldValue.arrayUnion(song_name)
+    }).then(()=>{
+        SONGS.doc(song_name).update({
+            liked_by:admin.firestore.FieldValue.arrayUnion(username),
+            likes : likes
+        })
+    }).catch(error=>{
+        console.error(error);
+    })
+};
+
+/**
+ *
+ * @param song_name
+ * @param username
+ * @param likes
+ * @returns {Promise<void>}
+ */
+const unlikeSong= async (song_name,username,likes)=>{
+    USERS.doc(username).update({
+        likes:admin.firestore.FieldValue.arrayRemove(song_name)
+    }).then(()=>{
+        SONGS.doc(song_name).update({
+            liked_by:admin.firestore.FieldValue.arrayRemove(username),
+            likes:likes
+        })
+    }).catch(error=>{
+        console.error(error);
+    })
+};
+
+const addDecalUrl = async(username,url,decal_name)=>{
+    USERS.doc(username).update({
+        decals: admin.firestore.FieldValue.arrayUnion({
+            decal_name,
+            url
+        })
+    }).catch(error=>console.error(error));
+};
+
+
+//Export all the functions from the firestore modules
+module.exports.addDecalUrl = addDecalUrl;
+module.exports.unlikeSong=unlikeSong;
+module.exports.addToLikes = addToLikes;
+module.exports.searchForSong = searchForSong;
 module.exports.getPlaylist = getPlaylist;
 module.exports.getAllPlaylists = getAllPlaylists;
 module.exports.addTrack = addTrack;
