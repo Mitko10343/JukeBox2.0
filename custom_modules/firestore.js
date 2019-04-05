@@ -15,7 +15,7 @@ const bucket = admin.storage().bucket();
 const USERS = db.collection(keys.USERS);
 const SONGS = db.collection(keys.SONGS);
 const PLAYLISTS = db.collection(keys.PLAYLISTS);
-const default_img_url ="https://firebasestorage.googleapis.com/v0/b/finalyearproject-a8f42.appspot.com/o/default_images%2FNo_Image_Available.jpg?alt=media&token=d946bc05-33b9-4a03-a617-ffa163858e9a";
+const default_img_url = "https://firebasestorage.googleapis.com/v0/b/finalyearproject-a8f42.appspot.com/o/default_images%2FNo_Image_Available.jpg?alt=media&token=d946bc05-33b9-4a03-a617-ffa163858e9a";
 
 /*Function that converts an array of firestore records into JSON objects*/
 const extractData = async (data) => {
@@ -45,8 +45,8 @@ const addUserToDb = async (userData) => {
             email: userData.email,
             password: userData.password,
             account_type: userData.account_type,
-            coverUrl:default_img_url,
-            profileUrl:default_img_url
+            coverUrl: default_img_url,
+            profileUrl: default_img_url
         }).then(() => {
             resolve(`Added user ${userData.username}`);
         }).catch(error => {
@@ -402,6 +402,51 @@ const uploadImage = async (user, collection, file, name) => {
     })//end Promise
 };//end function
 
+const uploadScreenshot = async (user, collection,file, name) => {
+
+    //Trim the username of the user and the name of the image file of any whitespaces
+    const uname = user.replace(/ /g, '');
+    name = name.replace(/ /g, '');
+
+
+    //get a reference to the storage bucket
+    const imageBucket = bucket.file(`${keys.USERS}/${uname}/${collection}/${name}`);
+
+    let stream = require('stream');
+    let bufferStream = new stream.PassThrough();
+    bufferStream.end(Buffer.from(file, 'base64'));
+
+    return await new Promise((resesolve, reject) => {
+
+        bufferStream.pipe(
+            //create a writable stream to the file bucket
+            //and set some metadata for the file
+            imageBucket.createWriteStream({
+                metadata: {
+                    contentType: 'image/png',
+                    uploaded: Date.now(),
+
+                },
+            })
+        ).on('finish', () => {
+            //generate a url for the file
+            const url = `https://storage.googleapis.com/${bucket.name}/${imageBucket.name}`;
+            //create the url of the file public
+            imageBucket.makePublic()
+                .then(() => {
+                    //resolve the promise and return url
+                    resesolve(url);
+                })
+                .catch(error => {
+                    //reject the promise in the case of an error
+                    reject(error);
+                });
+        }).on('error', error => {
+            reject(`Write Stream error: ${error}`);
+        });
+    });
+};//end function
+
 //First add a song reference in the songs collection
 //Then add a song reference to the artist document
 const addImgUrl = async (user, url, imgType) => {
@@ -594,15 +639,15 @@ const searchForSong = async (value) => {
  * @param likes
  * @returns {Promise<void>}
  */
-const addToLikes = async (song_name,username,likes)=>{
+const addToLikes = async (song_name, username, likes) => {
     USERS.doc(username).update({
-        likes:admin.firestore.FieldValue.arrayUnion(song_name)
-    }).then(()=>{
+        likes: admin.firestore.FieldValue.arrayUnion(song_name)
+    }).then(() => {
         SONGS.doc(song_name).update({
-            liked_by:admin.firestore.FieldValue.arrayUnion(username),
-            likes : likes
+            liked_by: admin.firestore.FieldValue.arrayUnion(username),
+            likes: likes
         })
-    }).catch(error=>{
+    }).catch(error => {
         console.error(error);
     })
 };
@@ -614,32 +659,33 @@ const addToLikes = async (song_name,username,likes)=>{
  * @param likes
  * @returns {Promise<void>}
  */
-const unlikeSong= async (song_name,username,likes)=>{
+const unlikeSong = async (song_name, username, likes) => {
     USERS.doc(username).update({
-        likes:admin.firestore.FieldValue.arrayRemove(song_name)
-    }).then(()=>{
+        likes: admin.firestore.FieldValue.arrayRemove(song_name)
+    }).then(() => {
         SONGS.doc(song_name).update({
-            liked_by:admin.firestore.FieldValue.arrayRemove(username),
-            likes:likes
+            liked_by: admin.firestore.FieldValue.arrayRemove(username),
+            likes: likes
         })
-    }).catch(error=>{
+    }).catch(error => {
         console.error(error);
     })
 };
 
-const addDecalUrl = async(username,url,decal_name)=>{
+const addDecalUrl = async (username, url, decal_name) => {
     USERS.doc(username).update({
         decals: admin.firestore.FieldValue.arrayUnion({
             decal_name,
             url
         })
-    }).catch(error=>console.error(error));
+    }).catch(error => console.error(error));
 };
 
 
 //Export all the functions from the firestore modules
+module.exports.uploadScreenshot = uploadScreenshot;
 module.exports.addDecalUrl = addDecalUrl;
-module.exports.unlikeSong=unlikeSong;
+module.exports.unlikeSong = unlikeSong;
 module.exports.addToLikes = addToLikes;
 module.exports.searchForSong = searchForSong;
 module.exports.getPlaylist = getPlaylist;

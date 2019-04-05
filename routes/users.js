@@ -2,6 +2,7 @@ const express = require('express');
 const spotify = require('../custom_modules/spotify');
 const router = express.Router();
 const keys = require('../keys/keys');
+const fs = require('fs');
 const db = require('../custom_modules/firestore');
 const multer = require('multer');
 const uploads = multer({
@@ -359,6 +360,7 @@ router.get('/unlike', loggedIn, (req, res) => {
 
 //Get route that renders the design tool page
 router.get('/profile/design', loggedIn, (req, res) => {
+    const user = req.session.user.user;
     //first of all get the data from the user record
     db.getUser(req.session.user.user)
         .then(data => {
@@ -368,13 +370,32 @@ router.get('/profile/design', loggedIn, (req, res) => {
                 res.render('design',{decals});
             }else{
                 let decals = data.decals;
-                res.render('design',{decals});
+                res.render('design',{decals,user});
             }
         })
         .catch(error => {
             console.error(error);
         })
 
+});
+router.post('/profile/design/convertImage',loggedIn,(req,res)=>{
+   const string = req.body.img;
+   const imgBase64 = string.split(';base64,').pop();
+
+
+   db.uploadScreenshot(req.session.user.user,`${keys.PRODUCTS}_${keys.IMAGES}`,imgBase64,"test")
+       .then(url=>{
+           console.log(url);
+       })
+       .catch(error=>{
+           console.error(error);
+       });
+   /*
+   fs.writeFile('image.png',imgBase64,{encoding:'base64'},function(err){
+        console.log("file created");
+       res.status(200).end();
+    });
+*/
 });
 
 router.post('/decals/upload', loggedIn, uploads, (req, res) => {

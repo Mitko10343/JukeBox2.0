@@ -16,19 +16,18 @@ $(document).ready(function () {
         let decals = [];
 
         //Create an instance of the babylon engine
-        const engine = new BABYLON.Engine(canvas, true);
+        const engine = new BABYLON.Engine(canvas,  true, { preserveDrawingBuffer: true, stencil: true });
         const createScene = function () {
             //disable offline support for gradle
             engine.enableOfflineSupport = false;
             //Create scene
             let scene = new BABYLON.Scene(engine);
             //configure the scene
-            scene.clearColor = new BABYLON.Color4(0.4, 0.3, 0.3, 1);
+            scene.clearColor = new BABYLON.Color4(0.5, 0.5, 0.5, 1);
 
             //create a light for the scene
             //create a light source for scene1 and attach it to the camera
-            const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 10, 0), scene);
-            light.intensity = 0.8;
+            const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 50, 0), scene);
             light.diffuseColor = new BABYLON.Color3.White();
 
             //create an arc rotate camera that will be rotating around the center
@@ -66,32 +65,26 @@ $(document).ready(function () {
             material.bumpTexture.vScale = 10.0;
 
 
-
             //render the mesh
             BABYLON.SceneLoader.ImportMesh("", "../../models/", "tshirt.babylon", scene, function (newMeshes) {
                 let mesh = newMeshes[1];
-                scene.onPointerDown = function (evt,pickInfo) {
+
+                scene.onPointerDown = function (evt, pickInfo) {
                     if (evt.button !== 0)
                         return;
-
-                    if (pickInfo.pickedMesh.id === 'decal') {
-                        pickInfo.pickedMesh.dispose(true);
-                        return;
-                    }
 
 
                     let decal_name = $('#decals_select').val();
 
-
                     let decalMaterial = new BABYLON.StandardMaterial(decal_name, scene);
-                    decalMaterial.diffuseTexture = new BABYLON.Texture(`https://cors-anywhere.herokuapp.com/${decal_name}`,scene);
+                    decalMaterial.diffuseTexture = new BABYLON.Texture(`https://cors-anywhere.herokuapp.com/${decal_name}`, scene);
                     decalMaterial.diffuseTexture.hasAlpha = true;
                     decalMaterial.specularColor = new BABYLON.Color3.Black();
                     decalMaterial.zOffset = -2;
                     decalMaterial.xOffset = -2;
                     decalMaterial.yOffset = -2;
 
-                    let decalSize = new BABYLON.Vector3(2, 2, 1);
+                    let decalSize = new BABYLON.Vector3(3, 3, 1);
                     let decal = BABYLON.MeshBuilder.CreateDecal("decal", mesh,
                         {
                             position: pickInfo.pickedPoint,
@@ -103,7 +96,9 @@ $(document).ready(function () {
                     decal.material = decalMaterial;
 
                     decals.push(decal);
+                    decal.tag = decals.length - 1;
                 };
+
                 newMeshes.forEach(function (mesh) {
                     mesh.material = material;
                     mesh.name = "merch";
@@ -118,28 +113,29 @@ $(document).ready(function () {
             //get the value from the drop down of what model should be displayed
             scene.registerBeforeRender(function () {
 
-
             });
+
 
             return scene;
         };
 
+        //get a reference to the scene
         const scene = createScene();
         //RENDER LOOP
         engine.runRenderLoop(function () {
             //GET THE VALUES OF THE  RGB Sliders
-            let reds =$("#reds").val()/255;
-            let blues =$("#blues").val()/255;
-            let greens =$("#greens").val()/255;
+            let reds = $("#reds").val() / 255;
+            let blues = $("#blues").val() / 255;
+            let greens = $("#greens").val() / 255;
             //get teh value of the light sliders
-            let light_intensity =$("#light").val()/100;
+            let light_intensity = $("#light").val() / 100;
 
             //get the light of the scene
             let light = scene.getLightByName("light");
             //get the material of the model
             let material = scene.getMaterialByName("material");
             //set the color of the material and the light intensity
-            material.diffuseColor = new BABYLON.Color4(reds,greens,blues);
+            material.diffuseColor = new BABYLON.Color4(reds, greens, blues);
             light.intensity = light_intensity;
 
 
@@ -198,20 +194,48 @@ $(document).ready(function () {
                     material.diffuseTexture.vScale = 3.0;
                     material.bumpTexture.uScale = 3.0;
                     material.bumpTexture.vScale = 3.0;
+                } else if (value === 'knit') {
+                    material.diffuseTexture = new BABYLON.Texture("../../models/textures/knit_texture.jpg", scene);
+                    material.bumpTexture = new BABYLON.Texture("../../models/textures/knit_bump.jpg", scene);
+                    material.diffuseTexture.uScale = 10.0;
+                    material.diffuseTexture.vScale = 10.0;
+                    material.bumpTexture.uScale = 10.0;
+                    material.bumpTexture.vScale = 10.0;
                 }
+            });
+
+            $('.x_pos').each(function (index) {
+                $(this).on('change', function () {
+                    let tag = document.getElementsByClassName("anchors")[index].id;
+                    let decal = scene.getMeshesByTags(tag);
+                    decals.xScale = $('.x_pos').val();
+                });
             });
 
             scene.render()
         });
-
-        window.setInterval(function(){
+        //Update the list of the decals every second
+        window.setInterval(function () {
             updateDecalsList(decals);
-        },3000);
-
+        }, 1000);
         // Watch for browser/canvas resize events
         window.addEventListener("resize", function () {
             engine.resize();
         });
+
+
+        let screenshot = document.getElementById("screenshot");
+        $(screenshot).on('click',function(){
+            BABYLON.Tools.CreateScreenshot(engine, scene.getCameraByName("camera"), { width: 480, height: 480 },
+                function (data) {
+                    $.post("/users/profile/design/convertImage",{img:data},function(err){
+                        if(err)
+                            console.log(err);
+                    });
+                });
+        });
+
+
     } else {
         console.log("Babylon.js is not supported by your browser");
     }
@@ -535,16 +559,38 @@ $(document).ready(function () {
 function updateDecalsList(decals) {
     //get the list element
     let decal_list = document.getElementById("decals_list");
+    let index = 0;
     //clear it
     decal_list.innerHTML = '';
 
     //add the decals on the thing
-    decals.forEach(function(decal){
-        console.log(decal.id);
-       let li = document.createElement("li");
-       li.innerText = decal.id;
-       $(li).addClass("decal_list_item");
-       decal_list.appendChild(li);
+    decals.forEach(function (decal) {
+        if (decal !== 0) {
+            let li = document.createElement("li");
+            let decal_id = document.createElement("div");
+            $(decal_id).addClass("decal_id");
+            decal_id.innerHTML = `<span>decal_${decal.tag}</span>`;
+            let button = document.createElement("button");
+            button.innerHTML = `<span>&times</span>`;
+            button.onclick = function f() {
+                decal.dispose();
+                decals[decal.tag] = 0;
+            };
+
+            decal_id.appendChild(button);
+            li.appendChild(decal_id);
+            $(li).addClass("decal_list_item");
+            decal_list.appendChild(li);
+            index++;
+        } else {
+
+        }
+
     });
 
 }
+
+
+
+
+

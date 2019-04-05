@@ -21,6 +21,7 @@ router.get('/', notLoggedIn, (req, res) => {
 router.get('/discover/music', (req, res) => {
     const user = typeof req.session.user === 'undefined' ? undefined : req.session.user.user;
     //check if hte query is empty and if its no then return a refined list of Songs
+    //check if hte query is empty and if its no then return a refined list of Songs
     if (Object.keys(req.query).length !== 0) {
         //Extract the parameters of the query string
         const genre = req.query.genre;

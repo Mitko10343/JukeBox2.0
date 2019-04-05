@@ -34,7 +34,7 @@ app.use(cors());
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: false ,limit: '10mb' }));
 app.use(cookieParser());
 express.static.mime.define({
   'application/babylon': ['babylon'],
@@ -46,9 +46,6 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
-
-
-
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
