@@ -15,6 +15,7 @@ const bucket = admin.storage().bucket();
 const USERS = db.collection(keys.USERS);
 const SONGS = db.collection(keys.SONGS);
 const PLAYLISTS = db.collection(keys.PLAYLISTS);
+const PRODUCTS = db.collection(keys.PRODUCTS);
 const default_img_url = "https://firebasestorage.googleapis.com/v0/b/finalyearproject-a8f42.appspot.com/o/default_images%2FNo_Image_Available.jpg?alt=media&token=d946bc05-33b9-4a03-a617-ffa163858e9a";
 
 /*Function that converts an array of firestore records into JSON objects*/
@@ -402,22 +403,18 @@ const uploadImage = async (user, collection, file, name) => {
     })//end Promise
 };//end function
 
-const uploadScreenshot = async (user, collection,file, name) => {
-
+const uploadScreenshot = async (user, file, product_name, image_name) => {
     //Trim the username of the user and the name of the image file of any whitespaces
     const uname = user.replace(/ /g, '');
-    name = name.replace(/ /g, '');
-
 
     //get a reference to the storage bucket
-    const imageBucket = bucket.file(`${keys.USERS}/${uname}/${collection}/${name}`);
+    const imageBucket = bucket.file(`${keys.USERS}/${uname}/products/${product_name}/${image_name}`);
 
     let stream = require('stream');
     let bufferStream = new stream.PassThrough();
     bufferStream.end(Buffer.from(file, 'base64'));
 
-    return await new Promise((resesolve, reject) => {
-
+    return await new Promise((resolve, reject) => {
         bufferStream.pipe(
             //create a writable stream to the file bucket
             //and set some metadata for the file
@@ -425,7 +422,6 @@ const uploadScreenshot = async (user, collection,file, name) => {
                 metadata: {
                     contentType: 'image/png',
                     uploaded: Date.now(),
-
                 },
             })
         ).on('finish', () => {
@@ -435,7 +431,7 @@ const uploadScreenshot = async (user, collection,file, name) => {
             imageBucket.makePublic()
                 .then(() => {
                     //resolve the promise and return url
-                    resesolve(url);
+                    resolve(url);
                 })
                 .catch(error => {
                     //reject the promise in the case of an error
@@ -681,8 +677,55 @@ const addDecalUrl = async (username, url, decal_name) => {
     }).catch(error => console.error(error));
 };
 
+/**
+ * Function that adds a product record to the database
+ * @param user
+ * @param product_name
+ * @param price
+ * @param img_urls
+ * @returns {Promise<any>}
+ */
+const addProductToDB = async (user, product_name, price, img_urls) => {
+    return await new Promise((resolve, reject) => {
+        PRODUCTS.add({
+            product_name,
+            price,
+            owner: user,
+            img_urls,
+        }).then(() => {
+            resolve(`${product_name} added successfully`);
+        }).catch(error => {
+            console.error(error);
+        });
+    });
+};
+
+/**
+ * Get the products of a user
+ * @param user
+ * @returns {Promise<any>}
+ */
+const getProducts =async (user)=>{
+   return await new Promise((resolve,reject)=>{
+       PRODUCTS.where('owner','==',user).get()
+           .then(records =>{
+               if(typeof records.docs === 'undefined')
+                   resolve(undefined);
+               else
+                   return extractData(records.docs);
+           })
+           .then(data=>{
+               resolve(data);
+           })
+           .catch(error=>{
+               console.log(error)
+           });
+   })
+};
 
 //Export all the functions from the firestore modules
+module.exports.getProducts = getProducts;
+module.exports.addProductToDB = addProductToDB;
 module.exports.uploadScreenshot = uploadScreenshot;
 module.exports.addDecalUrl = addDecalUrl;
 module.exports.unlikeSong = unlikeSong;

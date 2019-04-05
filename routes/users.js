@@ -361,41 +361,99 @@ router.get('/unlike', loggedIn, (req, res) => {
 //Get route that renders the design tool page
 router.get('/profile/design', loggedIn, (req, res) => {
     const user = req.session.user.user;
-    //first of all get the data from the user record
-    db.getUser(req.session.user.user)
-        .then(data => {
-            //if the data is returned check if the user has any uploaded decals
-            if(typeof  data.decals === 'undefined' || Object.keys(data.decals).length === 0){
-                let decals = undefined;
-                res.render('design',{decals});
-            }else{
-                let decals = data.decals;
-                res.render('design',{decals,user});
-            }
+
+    db.getProducts(user)
+        .then(products => {
+            db.getUser(req.session.user.user)
+                .then(data => {
+                    //if the data is returned check if the user has any uploaded decals
+                    if (typeof data.decals === 'undefined' || Object.keys(data.decals).length === 0) {
+                        let decals = undefined;
+                        res.render('design', {decals, products});
+                    } else {
+                        let decals = data.decals;
+                        res.render('design', {decals, user, products});
+                    }
+                })
         })
         .catch(error => {
             console.error(error);
-        })
+        });
+
 
 });
-router.post('/profile/design/convertImage',loggedIn,(req,res)=>{
-   const string = req.body.img;
-   const imgBase64 = string.split(';base64,').pop();
+router.post('/profile/design/convertImage', loggedIn, (req, res) => {
+    let name = req.body.product_name;
+    name = name.replace(/ /g, '');
+    const price = req.body.price;
+    console.log(Object.keys(req.body.price));
+    const imgBase1 = req.body.img1;
+    const imgBase2 = req.body.img2;
+    const imgBase3 = req.body.img3;
+    const imgBase4 = req.body.img4;
 
 
-   db.uploadScreenshot(req.session.user.user,`${keys.PRODUCTS}_${keys.IMAGES}`,imgBase64,"test")
-       .then(url=>{
-           console.log(url);
-       })
-       .catch(error=>{
-           console.error(error);
-       });
-   /*
-   fs.writeFile('image.png',imgBase64,{encoding:'base64'},function(err){
-        console.log("file created");
-       res.status(200).end();
+    const img1 = imgBase1.split(';base64,').pop();
+    const img2 = imgBase2.split(';base64,').pop();
+    const img3 = imgBase3.split(';base64,').pop();
+    const img4 = imgBase4.split(';base64,').pop();
+
+
+    const url1 = new Promise(resolve => {
+        db.uploadScreenshot(req.session.user.user, img1, name, `${name}_1.png`)
+            .then(url => {
+                resolve(url);
+            })
+            .catch(error => {
+                console.error(error);
+            });
     });
-*/
+    const url2 = new Promise(resolve => {
+        db.uploadScreenshot(req.session.user.user, img2, name, `${name}_2.png`)
+            .then(url => {
+                resolve(url);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    });
+    const url3 = new Promise(resolve => {
+        db.uploadScreenshot(req.session.user.user, img3, name, `${name}_3.png`)
+            .then(url => {
+                resolve(url);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    });
+    const url4 = new Promise(resolve => {
+        db.uploadScreenshot(req.session.user.user, img4, name, `${name}_4.png`)
+            .then(url => {
+                resolve(url);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    });
+
+    Promise.all([url1, url2, url3, url4])
+        .then(urls => {
+            return db.addProductToDB(req.session.user.user, name, price, urls);
+        })
+        .then(response => {
+            console.log(response);
+            res.status(200).redirect('/users/profile/design');
+        })
+        .catch(error => {
+            console.error(error);
+            res.status(500).send(error).end();
+        })
+
+    /*
+    fs.writeFile('image.png',imgBase64,{encoding:'base64'},function(err){
+         console.log("file created");
+        res.status(200).end();
+     });*/
 });
 
 router.post('/decals/upload', loggedIn, uploads, (req, res) => {

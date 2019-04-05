@@ -16,7 +16,7 @@ $(document).ready(function () {
         let decals = [];
 
         //Create an instance of the babylon engine
-        const engine = new BABYLON.Engine(canvas,  true, { preserveDrawingBuffer: true, stencil: true });
+        const engine = new BABYLON.Engine(canvas, true, {preserveDrawingBuffer: true, stencil: true});
         const createScene = function () {
             //disable offline support for gradle
             engine.enableOfflineSupport = false;
@@ -31,8 +31,16 @@ $(document).ready(function () {
             light.diffuseColor = new BABYLON.Color3.White();
 
             //create an arc rotate camera that will be rotating around the center
-            const camera = new BABYLON.ArcRotateCamera("camera", BABYLON.Tools.ToRadians(270), BABYLON.Tools.ToRadians(90), 10.0, new BABYLON.Vector3(0, 7, 0), scene);
+            const camera = new BABYLON.ArcRotateCamera("camera", BABYLON.Tools.ToRadians(270), BABYLON.Tools.ToRadians(90), 14.0, new BABYLON.Vector3(0, 7, 0), scene);
+            const camera1 = new BABYLON.ArcRotateCamera("camera1", BABYLON.Tools.ToRadians(270), BABYLON.Tools.ToRadians(90), 12.0, new BABYLON.Vector3(0, 7, 0), scene);
+            const camera2 = new BABYLON.ArcRotateCamera("camera2", BABYLON.Tools.ToRadians(360), BABYLON.Tools.ToRadians(90), 12.0, new BABYLON.Vector3(0, 7, 0), scene);
+            const camera3 = new BABYLON.ArcRotateCamera("camera3", BABYLON.Tools.ToRadians(90), BABYLON.Tools.ToRadians(90), 12.0, new BABYLON.Vector3(0, 7, 0), scene);
+            const camera4 = new BABYLON.ArcRotateCamera("camera4", BABYLON.Tools.ToRadians(180), BABYLON.Tools.ToRadians(90), 12.0, new BABYLON.Vector3(0, 7, 0), scene);
             camera.attachControl(canvas, true);
+
+
+
+
             //Configure limit for the camera zoom and rotation
             camera.lowerBetaLimit = 0.1;
             camera.upperBetaLimit = (Math.PI / 2) * 0.99;
@@ -217,22 +225,69 @@ $(document).ready(function () {
         //Update the list of the decals every second
         window.setInterval(function () {
             updateDecalsList(decals);
-        }, 1000);
+        }, 500);
         // Watch for browser/canvas resize events
         window.addEventListener("resize", function () {
             engine.resize();
         });
 
 
-        let screenshot = document.getElementById("screenshot");
-        $(screenshot).on('click',function(){
-            BABYLON.Tools.CreateScreenshot(engine, scene.getCameraByName("camera"), { width: 480, height: 480 },
-                function (data) {
-                    $.post("/users/profile/design/convertImage",{img:data},function(err){
-                        if(err)
-                            console.log(err);
+        //100% working
+        let publish = document.getElementById("publish_product_button");
+        $(publish).on('click', async function () {
+            console.log("getting images");
+            const img1 = new Promise(function (resolve, reject) {
+                BABYLON.Tools.CreateScreenshotUsingRenderTarget(engine, scene.getCameraByID("camera1"), {
+                    width: 480,
+                    height: 480
+                }, function (data) {
+                    resolve(data);
+                })
+            });
+            const img2 = new Promise(function (resolve, reject) {
+                BABYLON.Tools.CreateScreenshotUsingRenderTarget(engine, scene.getCameraByName("camera2"), {
+                    width: 480,
+                    height: 480
+                }, function (data) {
+                    resolve(data);
+                })
+            });
+            const img3 = new Promise(function (resolve, reject) {
+                BABYLON.Tools.CreateScreenshotUsingRenderTarget(engine, scene.getCameraByName("camera3"), {
+                    width: 480,
+                    height: 480
+                }, function (data) {
+                    resolve(data);
+                })
+            });
+            const img4 = new Promise(function (resolve, reject) {
+                BABYLON.Tools.CreateScreenshotUsingRenderTarget(engine, scene.getCameraByName("camera4"), {
+                    width: 480,
+                    height: 480
+                }, function (data) {
+                    resolve(data);
+                })
+            });
+
+            await Promise.all([img1, img2, img3, img4])
+                .then(values => {
+                    console.log(values);
+                    $.post('/users/profile/design/convertImage',{
+                        product_name:$('#product_name').val(),
+                        price:$('#sale_price').val(),
+                        img1:values[0],
+                        img2:values[1],
+                        img3:values[2],
+                        img4:values[3],
+                    },function (error) {
+                        if(error)
+                            console.error(error);
                     });
-                });
+                })
+                .catch(error => {
+                    console.error();
+                })
+
         });
 
 
@@ -569,9 +624,16 @@ function updateDecalsList(decals) {
             let li = document.createElement("li");
             let decal_id = document.createElement("div");
             $(decal_id).addClass("decal_id");
+            $(decal_id).css("padding", "8px 10px");
+            $(decal_id).css("width", "90%");
+            $(decal_id).css("border-bottom", "1px solid white");
+            $(decal_id).css("font-size", "1em");
+            $(decal_id).css("float", "left");
             decal_id.innerHTML = `<span>decal_${decal.tag}</span>`;
             let button = document.createElement("button");
             button.innerHTML = `<span>&times</span>`;
+            $(button).addClass("publish_btn");
+            $(button).css("margin-left", "10px");
             button.onclick = function f() {
                 decal.dispose();
                 decals[decal.tag] = 0;
@@ -582,10 +644,7 @@ function updateDecalsList(decals) {
             $(li).addClass("decal_list_item");
             decal_list.appendChild(li);
             index++;
-        } else {
-
         }
-
     });
 
 }

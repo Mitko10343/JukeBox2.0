@@ -33,7 +33,40 @@ button {
  */
 /*The scrollbar itself*/
 ::-webkit-scrollbar {
+    background: rgba(0, 0, 0, 0.7);
+    border: 1px solid rgba(32, 32, 32, 0.6);
+}
+
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px rgba(255, 59, 73, 0.46);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.48);
+    border-radius: 10px;
+}
+
+
+select {
+    color: #fff;
+    border: none;
+    border-bottom: 1px solid #6d6d6d;
+    font-size: 1em;
     background: transparent;
+    padding: 10px 10px 3px 10px;
+}
+
+select option {
+    background: rgb(12, 6, 6);
+}
+
+select option:hover {
+    box-shadow: 0 0 10px 100px #1e0b13 !important;
+}
+
+select:focus {
+    color: white;
+    outline: none;
 }
 
 
@@ -543,7 +576,7 @@ MUSIC OPTIONS STYLES
     background-color: #6d6d6d;
 }
 
-.music-options-nav-wrap input, select {
+.music-options-nav-wrap input {
     color: #fff;
     border: none;
     border-bottom: 1px solid #6d6d6d;
@@ -890,21 +923,32 @@ MUSIC OPTIONS STYLES
     height: 80vh;
 }
 
+#canvas:focus {
+    outline: none;
+}
+
 .design_controls {
     position: absolute;
     display: block;
     width: 20vw;
-    height:80vh;
-    background: rgba(0,0,0,0.4);
+    height: 80vh;
+    background: rgba(0, 0, 0, 0.4);
 }
 
-.selects{
+.selects {
     padding: 2px 0 10px 0;
 }
+
+#merch_selects, #texture_select, .publish_btn {
+    margin-left: 3%;
+    float: left;
+}
+
 .slidecontainer {
     width: 100%; /* Width of the outside container */
-    padding: 3px 0 10px 0  ;
+    padding: 3px 0 10px 0;
 }
+
 .slider {
     -webkit-appearance: none;
     width: 95%;
@@ -915,6 +959,8 @@ MUSIC OPTIONS STYLES
     opacity: 0.7;
     -webkit-transition: .2s;
     transition: opacity .2s;
+    margin: 0 auto;
+    padding: 0;
 }
 
 .slider::-webkit-slider-thumb {
@@ -924,18 +970,22 @@ MUSIC OPTIONS STYLES
     height: 25px;
     border-radius: 50%;
     cursor: pointer;
+
 }
 
-#greens::-webkit-slider-thumb{
-     background: green;
- }
-#reds::-webkit-slider-thumb{
+#greens::-webkit-slider-thumb {
+    background: green;
+}
+
+#reds::-webkit-slider-thumb {
     background: red;
 }
+
 #blues::-webkit-slider-thumb {
     background: blue;
 }
-#light::-webkit-slider-thumb{
+
+#light::-webkit-slider-thumb {
     background: black;
 }
 
@@ -947,33 +997,36 @@ MUSIC OPTIONS STYLES
     cursor: pointer;
 }
 
-#decals_select{
+#decals_select {
     width: 20vw !important;
 }
 
-#decals_upload{
-    display: none;
-}
-#decals_form{
+#decals_upload {
     display: none;
 }
 
-.decals_added{
-    height:20vh;
+#decals_form {
+    display: none;
+}
+
+.decals_added {
+    height: 31vh;
     overflow-y: scroll;
     text-align: left;
     padding: 0 10px;
 }
+
 #decals_list {
     list-style: none;
 }
-.decals_list_tem{
-    padding:10px 0;
+
+.decals_list_tem {
+    padding: 10px 0;
 }
 
-.add_decals{
+.add_decals {
     border: none;
-    background: rgba(0,0,0,0.7);
+    background: rgba(0, 0, 0, 0.7);
     width: 100%;
     -webkit-transition: 0.3s background ease-in-out;
     -moz-transition: 0.3s background ease-in-out;
@@ -981,11 +1034,83 @@ MUSIC OPTIONS STYLES
     -o-transition: 0.3s background ease-in-out;
     transition: 0.3s background ease-in-out;
 }
-.add_decals:hover{
+
+.add_decals:hover {
     cursor: pointer;
     background: rgba(93, 93, 93, 0.7);
 }
 
+
+.publish_btn {
+    font-size: 1em;
+    border: none;
+    padding: 8px 10px;
+    background: rgba(0, 0, 0, 0.7);
+    -webkit-transition: 0.3s background ease-in-out;
+    -moz-transition: 0.3s background ease-in-out;
+    -ms-transition: 0.3s background ease-in-out;
+    -o-transition: 0.3s background ease-in-out;
+    transition: 0.3s background ease-in-out;
+}
+
+.publish_modal_body{
+    height:50vh !important;
+    overflow: hidden;
+}
+.publish_btn:hover {
+    cursor: pointer;
+    background: rgba(93, 93, 93, 0.7);
+}
+
+.publish_modal_body label{
+    float: left;
+    display: block;
+    width: 30%;
+}
+.publish_modal_body input{
+    float: left;
+    display: block;
+    width: 50%;
+}
+
+.publish_modal_body label,input{
+    margin:2%;
+    padding:10px;
+}
+.publish_product_button{
+    font-size: 1em;
+    margin-left: 2%;
+    border: none;
+    padding: 8px 10px;
+    background: rgba(0, 0, 0, 1);
+    -webkit-transition: 0.3s background ease-in-out;
+    -moz-transition: 0.3s background ease-in-out;
+    -ms-transition: 0.3s background ease-in-out;
+    -o-transition: 0.3s background ease-in-out;
+    transition: 0.3s background ease-in-out;
+}
+
+.publish_product_button:hover{
+    cursor: pointer;
+    background: rgba(93, 93, 93, 0.7);
+}
+
+.product_slider{
+
+    position:relative;
+    height: 40vh;
+    overflow-x: scroll;
+    overflow-y: hidden;
+}
+.user_products{
+    position: relative;
+    float: left;
+    height: 100%;
+    padding: 10px;
+}
+.user_products img{
+    height: 70%;
+}
 /*
   Spotify Page Style
 */

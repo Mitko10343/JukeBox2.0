@@ -1,19 +1,19 @@
 <div class="content-wrapper">
     <div class="content">
-        <div class="page-header">
-            Your Merchandise:
+        <div class="page-header ">
+            Design Merchandise
         </div>
-       <!-- <div class="playlist-display">
-            <%if(typeof mechandise === 'undefined' || Object.keys(mechandise).length === 0){%>
-                <h1>You currently don't have any merchandise created</h1>
-            <%}else{
-                merchandise.forEach(merch =>{%>
-
-
-            <%})}%>
-            <button id="open_modal"><i class="fas fa-music"></i> Design Merchandise</button>
-        </div>-->
-        <canvas id="canvas" >
+        <div class="product_slider">
+            <% if(typeof products !== 'undefined' && Object.keys(products).length !== 0 ){%>
+                <% products.forEach(product=>{ %>
+                    <div class="user_products">
+                        <img src="<%= product.img_urls[0] %>" alt="Product_img"><br/>
+                        <span><%= product.product_name %></span><br/>
+                        <span>€<%= product.price %></span>
+                    </div>
+            <% })} %>
+        </div>
+        <canvas id="canvas">
 
         </canvas>
 
@@ -31,9 +31,7 @@
                     <option value="camo">Camo</option>
                     <option value="knit">Knit</option>
                 </select>
-                <button id="screenshot">
-                    Take Image
-                </button>
+                <button class="publish_btn" id="publish_product">Publish</button>
             </div>
 
             <div class="sliders">
@@ -65,18 +63,18 @@
 
             <div class="decals">
                 <button class="add_decals">Upload Decals</button>
-                <%if(typeof decals !== 'undefined'){%>
+                <% if(typeof decals !== 'undefined'){ %>
                     <select id="decals_select">
-                        <% decals.forEach(decal=>{%>
-                            <option value="<%=decal.url%>"><%=decal.decal_name%></option>
-                        <%})%>
+                        <% decals.forEach(decal=>{ %>
+                            <option value="<%= decal.url %>"><%= decal.decal_name %></option>
+                        <% }) %>
                     </select>
-                <%}%>
+                <% } %>
 
                 <form id="decals_form" action="/users/decals/upload" method="post" enctype="multipart/form-data">
-                     <input type="file" name="decals" id="decals_upload">
+                    <input type="file" name="decals" id="decals_upload">
                     <button type="submit" id="decal-submit"></button>
-                 </form>
+                </form>
 
             </div>
             <div class="decals_added">
@@ -84,14 +82,24 @@
 
                 </ul>
             </div>
+
+            <% include partials/product_create_modal.ejs %>
         </div>
 
 
+
         <script>
-            $('.add_decals').on('click',function () {
-                $('#decals_upload').click().on('change',function () {
+            $('.add_decals').on('click', function () {
+                $('#decals_upload').click().on('change', function () {
                     $('#decal-submit').click();
                 });
+            });
+            $('#publish_product').on('click', function () {
+                console.log("clicked");
+                $('.publish_product_modal').fadeIn(500);
+            });
+            $('.close_button').on('click', function () {
+                $('.publish_product_modal').fadeOut(500);
             });
         </script>
         <script src="../../javascripts/babylonjs/babylon.max.js"></script>
