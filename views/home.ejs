@@ -1,0 +1,56 @@
+<div class="content-wrapper">
+    <div class="content">
+        <div class="page-header">
+            Home Page
+            <hr>
+        </div>
+
+        <% if(user.account_type === 'artists'){ %>
+            <label class="home_labels">Songs</label>
+            <div class="songs_vertical">
+                <% if(typeof songData === 'undefined'){ %>
+                    <div id="song_prompt"><i class="fas fa-music crimson"></i> Upload Songs to your account <a
+                                href="/users/upload" id="song_prompt_link">here!</a></div>
+                <% }else{ %>
+                    <% include partials/display_songs_thumb.ejs %>
+                <% } %>
+            </div>
+        <% } %>
+        <hr>
+        <label class="home_labels">Playlists</label>
+        <div class="playlists_vertical">
+            <% if(typeof playlists === 'undefined'){ %>
+                <div id="playlist_prompt"><i class="fas fa-music crimson"></i> Create a playlist <a
+                            href="/users/profile/playlists" id="playlist_prompt_link">here!</a></div>
+            <% }else{ %>
+                <% include partials/display_playlists_thumb.ejs %>
+            <% } %>
+        </div>
+        <hr>
+        <label class="home_labels">Spotify</label>
+        <div class="spotfiy_vertical">
+            <% if(typeof user.spotify_acces_token === 'undefined'){ %>
+                <span id="spotify_prompt"><i class="fab fa-spotify"></i>  Connect your account to <a
+                            href="/users/spotify" id="spotify_prompt_link">Spotify</a></span>
+            <% }else{ %>
+                <%if(typeof spotify_playlists === 'undefined'){%>
+                    <span id="spotify_prompt"> You dont have any playlists on Spotify </span>
+                <%}else{%>
+                    <%include partials/spotify_playlist_thumb.ejs%>
+                <%}%>
+            <% } %>
+        </div>
+        <hr>
+        <label class="home_labels">Likes</label>
+        <div class="likes_horizontal">
+            <% if(typeof likes === 'undefined'){ %>
+                <span id="likes_prompt"><i class="far fa-heart crimson"></i> Discover Music <a href="/users/discover/music"
+                                                                                               id="likes_prompt_link">now !</a></span>
+            <% }else{ %>
+                <% include partials/likes_display_thumb.ejs %>
+            <% } %>
+        </div>
+        <hr>
+
+    </div>
+</div>

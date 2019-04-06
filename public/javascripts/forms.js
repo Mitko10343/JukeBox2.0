@@ -48,9 +48,24 @@ $(document).ready(function () {
             $('#username-input').css("outline", "none");
             $('#pwd-input').css("border", "none");
             //submit the form
-            $('#login-form').submit().on('error', function (error) {
-                $('.error-message').text(error).css("display", "block");
+           $('#login-form').submit().on('error', function (error) {
+                   $('.error-message').text(error).css("display", "block");
             });
+/*
+            $.ajax({
+                url:'/login',
+                method:'post',
+                data:{
+                    username,
+                    password
+                },
+                success:function (data) {
+                    console.log(data);
+                },
+                error:function (error) {
+                    $('.error-message').text(error.message).css("display", "block");
+                }
+            })*/
         }
     });//end login-form trigger
 

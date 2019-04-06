@@ -1,0 +1,20 @@
+<% if(typeof likes === 'object' && likes && Object.keys(likes).length !== 0){ %>
+    <% likes.forEach(like =>{ %>
+        <div class="music-player_thumb">
+            <div class="thumbnail">
+                <img src="<%= like.thumbnailUrl %>" alt="Thumbnail Image">
+            </div>
+            <div class="info">
+                <div class="song_name"><%=like.name%></div>
+                <div class="audio-wrapper" id="audio-player-container">
+                    <audio class="audio-player">
+                        <source src="<%= like.mp3url %>">
+                    </audio>
+                </div>
+            </div>
+        </div>
+<% })}
+else{ %>
+    <div class="No songs"><h1>No Uploaded songs yet</h1></div>
+<% } %>
+

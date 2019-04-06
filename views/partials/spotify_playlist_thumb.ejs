@@ -1,0 +1,11 @@
+<% spotify_playlists.forEach(playlist =>{ %>
+    <div class="playlist-wrap_thumb">
+        <div class="thumbnail">
+            <img src="<%= playlist.images[0].url%>">
+        </div>
+        <div class="info">
+            <div class="name"><%= playlist.name %></div>
+            <div class="playlist_id"><%=playlist.id%></div>
+        </div>
+    </div>
+<% }) %>

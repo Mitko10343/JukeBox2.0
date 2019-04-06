@@ -9,11 +9,11 @@
             </a>
             <div class="side-dropdown">
                 <ul>
-                    <li><a href="/users/profile/overview">Overview</a></li>
-                    <li><a href="/users/profile/design">Design</a></li>
-                    <li><a href="/users/profile/playlists">Playlists</a></li>
+                    <li><a href="/users/profile/overview"><i class="far fa-question-circle"></i> Overview</a></li>
+                    <li><a href="/users/profile/design"><i class="fas fa-spray-can"></i> Design</a></li>
+                    <li><a href="/users/profile/playlists"><i class="fas fa-headphones-alt"></i> Playlists</a></li>
                     <%if(user.account_type === 'artists'){%>
-                        <li><a href="/users/profile/songs">My Songs</a></li>
+                        <li><a href="/users/profile/songs"><i class="fas fa-music"></i> My Songs</a></li>
                     <%}%>
                 </ul>
             </div>
@@ -23,10 +23,29 @@
         <%if(user.account_type === 'artists'){%>
             <div class="nav-item"><a href="/users/upload" id="upload-link"><i class="fas fa-upload"></i><span class="nav-text">Upload</span></a></div>
         <%}%>
-        <%if(typeof musicQueue === "undefined"){%>
-            <div class="nav-item"><a href="/login" id="player-link"><i class="fas fa-play"></i><span class="nav-text">Player</span></a></div>
-        <%}%>
         <div class="nav-item"><a href="/users/logout" id="logout-link"><i class="fas fa-sign-out-alt"></i><span class="nav-text">Log Out</span></a></div>
+        <div class="player">
+            <div class="player_thumbnail" id="player_thumbnail">
+
+            </div>
+            <div class="player_info">
+                <div class="player_name" id="player_name">
+
+
+                </div>
+                <div class="player_controls">
+                    <span class="backwards" id="backwards"><i class="fa fa-step-backward"></i></span>
+
+                    <span class="play" id="play"><i class="fa play_icon fa-play"></i><i class="fa pause_icon fa-pause" style="display: none"></i></span>
+                    <span class="forwards" id="forwards"><i class="fa fa-step-forward"></i></span>
+                </div>
+                <div class="player_progress" id="player_progress">
+
+                </div>
+            </div>
+
+
+        </div>
     </nav>
 <% }else{ %>
     <nav class="vertical-nav">

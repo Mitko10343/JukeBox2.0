@@ -1,0 +1,32 @@
+<%if(typeof songData === 'object' && songData && Object.keys(songData).length !== 0){ %>
+    <% songData.forEach(song =>{ %>
+        <div class="music-player_thumb">
+            <div class="thumbnail">
+                <img src="<%= song.thumbnailUrl %>" alt="Thumbnail Image">
+            </div>
+            <div class="info">
+                <div class="song_name"><%=song.name%></div>
+                <div class="audio-wrapper" id="audio-player-container">
+                    <audio class="audio-player">
+                        <source src="<%=song.mp3url%>">
+                    </audio>
+                </div>
+            </div>
+        </div>
+        <div style="display: none">
+            <span class="thumbnailsUrl"><%= song.thumbnailUrl %></span>
+            <span class="names"><%=song.name%></span>
+            <span class="albums"><%=song.album%></span>
+            <span class="artists"><%=song.artist%></span>
+            <span class="mp3Urls"><%=song.name%></span>
+
+        </div>
+<% })}
+else{ %>
+    <div class="No songs"><h1>No Uploaded songs yet</h1></div>
+<% } %>
+
+
+
+
+

@@ -8,12 +8,17 @@ body {
     height: 100vh;
     position: relative;
     font: 1em "Lucida Grande", Helvetica, Arial, sans-serif;
-    background: rgb(0, 0, 0) linear-gradient(0deg, rgba(0, 0, 0, 1) 23%, rgb(30, 11, 19) 100%) no-repeat;
+    background: rgb(0, 0, 0) linear-gradient(3deg, rgba(0, 0, 0, 1) 3%, rgba(1, 7, 28, 0.84) 22%) no-repeat;
     overflow-x: hidden;
     text-transform: initial;
     text-align: center;
 }
 
+hr {
+    border: 0;
+    height: 2px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), crimson, rgba(0, 0, 0, 0));
+}
 a {
     color: #ffffff;
     text-decoration: none;
@@ -24,8 +29,8 @@ button {
     font-weight: bold;
     font-size: 1.4em;
     color: white;
-    border: 1px solid crimson;
-    background-color: #1a1a1a;
+    border: 1px solid rgb(255, 255, 255);
+    background-color: rgb(10, 10, 10);
     transition: 0.2s background-color linear;
 }
 
@@ -33,17 +38,13 @@ button {
  */
 /*The scrollbar itself*/
 ::-webkit-scrollbar {
-    background: rgba(0, 0, 0, 0.7);
-    border: 1px solid rgba(32, 32, 32, 0.6);
+    background: black;
 }
 
-::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 5px rgba(255, 59, 73, 0.46);
-}
+
 
 ::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.48);
-    border-radius: 10px;
+    background: rgba(0, 11, 255, 0.17);
 }
 
 
@@ -69,6 +70,107 @@ select:focus {
     outline: none;
 }
 
+/*
+    Home Page for users
+*/
+.songs_vertical,.playlists_vertical,.spotfiy_vertical,.likes_horizontal{
+    position:relative;
+    width:100%;
+    margin: 5vh 2vh;
+    height: 32vh;
+    content:'';
+    overflow-y: hidden;
+    overflow-x: auto;
+
+}
+#spotify_prompt,#likes_prompt,#song_prompt,#playlist_prompt{
+    float: left;
+    margin: 8vh 15vw;
+    font-weight: bold;
+}
+#spotify_prompt_link{
+    color: green;
+    text-decoration: underline;
+}
+#likes_prompt_link,#song_prompt_link,#playlist_prompt_link{
+    text-decoration: underline;
+    color: crimson;
+}
+.crimson{
+    color:crimson;
+}
+.fa-spotify{
+    color:green;
+    font-size: 1.3em;
+}
+.home_labels{
+    float: left;
+    margin: 1vh 0 0 1vw;
+    font-weight: bold;
+}
+.music-player_thumb,.playlist_thumb,.playlist-wrap_thumb{
+    position: relative;
+    display: table-cell;
+    white-space: nowrap;
+    padding: 10px
+}
+.music-player_thumb .thumbnail{
+    float: left;
+    height: 80%;
+    width: 200px;
+    -webkit-transition: 0.3s background ease-in-out;
+    -moz-transition: 0.3s background ease-in-out;
+    -ms-transition: 0.3s background ease-in-out;
+    -o-transition: 0.3s background ease-in-out;
+    transition: 0.3s background ease-in-out;
+}
+.music-player_thumb .thumbnail:hover{
+    background: linear-gradient(rgba(6, 0, 255, 0.41), rgba(255, 255, 255, 0) 40%);
+    cursor: pointer;
+}
+.playlist-wrap_thumb .thumbnail{
+    float: left;
+    height: 80%;
+    width: 200px;
+    -webkit-transition: 0.3s background ease-in-out;
+    -moz-transition: 0.3s background ease-in-out;
+    -ms-transition: 0.3s background ease-in-out;
+    -o-transition: 0.3s background ease-in-out;
+    transition: 0.3s background ease-in-out;
+}
+.playlist-wrap_thumb .thumbnail:hover{
+    background: linear-gradient(rgba(6, 0, 255, 0.41), rgba(255, 255, 255, 0) 40%);
+    cursor: pointer;
+}
+.playlist_thumb .thumbnail{
+    float: left;
+    height: 80%;
+    width: 200px;
+    -webkit-transition: 0.3s background ease-in-out;
+    -moz-transition: 0.3s background ease-in-out;
+    -ms-transition: 0.3s background ease-in-out;
+    -o-transition: 0.3s background ease-in-out;
+    transition: 0.3s background ease-in-out;
+}
+.playlist_thumb .thumbnail:hover{
+    background: linear-gradient(rgba(0, 11, 255, 0.04), rgba(255, 255, 255, 0.04));
+    cursor: pointer;
+}
+.music-player_thumb .info{
+    margin: 0;
+    text-align: center;
+    position: relative;
+}
+.playlist-wrap_thumb .info{
+    margin: 0;
+    text-align: center;
+    position: relative;
+}
+.playlist_thumb .info{
+    margin: 0;
+    text-align: center;
+    position: relative;
+}
 
 /*
   index page css
@@ -81,7 +183,6 @@ select:focus {
     color: crimson;
     transition: 0.3s background-color ease-in-out;
 }
-
 .reg-btn:hover {
     background-color: #9a9a9a;
 }
@@ -90,19 +191,16 @@ select:focus {
   NAVIGATION BAR CSS
 */
 .vertical-nav {
-    background: rgb(0, 0, 0);
+    background: rgba(3, 3, 3, 0.68);
     position: fixed;
     z-index: 1;
     width: 3vw;
     height: 100vh;
-    border-right: 1px solid #9a9a9a;
     transition: 0.3s width ease-in-out;
 }
-
 .vertical-nav:hover {
     width: 12vw;
 }
-
 .nav-item {
     display: block;
     text-align: left;
@@ -111,62 +209,128 @@ select:focus {
     border-bottom: 1px solid #9a9a9a;
     transition: 0.3s background-color ease-in-out;
 }
-
 .nav-item:hover {
     background-color: #9a9a9a;
 }
-
 .nav-item a {
     display: block;
     padding: 2vh 1.5vh;
 }
-
 .player {
+    display: none;
+    background: linear-gradient(rgba(1, 4, 22, 1) 20%,rgba(3, 3, 3, 1));
     position: absolute;
+    height: 20vh;
+    width: 100vw;
     border-bottom: 0;
-    border-top: 1px solid #9a9a9a;
     bottom: 0;
 }
+.player_thumbnail{
+    display: block;
+    float:left;
+    margin:1% 10px;
+    width: 15vw;
+    height: 98%;
+    content: '';
+    position: relative;
+}
+.player_info{
+    color: white;
+    width: 80vw;
+    display: block;
+    float:left;
+    margin: 10px 0;
+    height: 80%;
+    position: relative;
+}
+.player_info span{
+    display: block;
+    float: left;
+    margin: 0 30% 0 0;
+    padding: 2px;
+}
+.player_name{
+    position: relative;
+    display: block;
+    float:left;
+    margin:0 ;
+    width: 20%;
+    height: 79%;
+    content: '';
+}
+.player_controls{
+    position: relative;
+    display: block;
+    float:left;
+    margin:0 ;
+    width: 60%;
+    height: 79%;
+    content: '';
+}
+.backwards,.forwards{
+    padding: 10%;
+    color: white;
+    font-size: 1.4em;
+}
+.backwards{
+    margin: 3% 0 3% 25%!important;
+}
+.forwards{
+    margin: 3% 10% 3% 0!important;
+}
+.play{
+    margin: 2.5% 10% 3% 10% !important;
+    color: white;
+    font-size:1.6em
+}
 
+.backwards,.forwards.play{
+    transition: 0.3s color ease-in-out;
+}
+.backwards:hover,.forwards:hover,.play:hover {
+    cursor: pointer;
+    color: #6d6d6d;
+}
+.player_progress{
+    position: relative;
+    display: block;
+    float:left;
+    background: rgb(253, 255, 255);
+    margin: 10px 0;
+    width: 100%;
+    height: 10%;
+    content: '';
+}
 .nav-text {
     display: none;
     margin-left: 10px;
     position: fixed;
 }
-
 .active a:first-child {
     color: crimson;
 }
-
 .side-dropdown {
     display: none;
-    border: 1px solid #9a9a9a;
-    border-left: none;
-    background-color: #0a0a0a;
+    background: rgba(3, 3, 3, 0.8);
     z-index: 100;
     position: absolute;
     width: 10vw;
-    margin-top: -3vw;
-    margin-left: 12.1vw;
+    margin-top: -7vh;
+    margin-left: 12vw;
 }
-
 .side-dropdown ul {
     list-style-type: none;
 }
-
 .side-dropdown li {
     border-bottom: 1px solid #9a9a9a;
     transition: 0.3s background-color ease-in-out;
 }
-
 .side-dropdown li:hover {
     background-color: #9a9a9a;
 }
-
 .side-dropdown li:last-child {
     border: none;
 }
-
 .side-dropdown a {
     font-size: 0.8em !important;
     color: white !important;
@@ -192,8 +356,12 @@ select:focus {
 }
 
 .page-header {
-    text-align: left;
+    display: block;
+    width: 100%;
+    float: left;
+    text-align: center !important;
     font-size: 2.5em;
+    margin-top: 2vh;
     margin-bottom: 1vh;
 }
 
@@ -334,6 +502,7 @@ MUSIC PLAYER STYLES
 .songs-display {
     position: absolute;
     margin: 0 auto;
+    top: 25vh;
     display: block;
     height: auto;
     width: 70%;
@@ -506,10 +675,9 @@ MUSIC PLAYER STYLES
     display: block;
     color: white;
     font-weight: bolder;
-    font-size: 1em;
+    font-size: 1.2em;
     width: 100%;
     height: 5vh;
-    border-top: 1px solid crimson;
 }
 
 .discover-nav-bar ul {
@@ -519,7 +687,7 @@ MUSIC PLAYER STYLES
 }
 
 .discover-nav-bar li {
-    float: left;
+    margin: 0 auto;
     display: inline;
     padding: 10px 42px;
     transition: 0.3s background-color ease-in-out;
@@ -890,7 +1058,7 @@ MUSIC OPTIONS STYLES
 
 
 /*
-  Playlist Page css
+  Playlist - css
 */
 
 .playlist-display {
@@ -921,6 +1089,7 @@ MUSIC OPTIONS STYLES
     left: 16vw;
     width: 70vw;
     height: 80vh;
+    margin: 50px 0;
 }
 
 #canvas:focus {
@@ -929,6 +1098,7 @@ MUSIC OPTIONS STYLES
 
 .design_controls {
     position: absolute;
+    margin: 50px 0;
     display: block;
     width: 20vw;
     height: 80vh;

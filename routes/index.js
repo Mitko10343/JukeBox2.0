@@ -173,7 +173,7 @@ router.post('/login', notLoggedIn, (req, res) => {
                     profileUrl: user.profileUrl,
                 };
                 //redirect the user to the /users route
-                res.redirect(`/users`);
+                res.redirect('/users');
             }
         }).catch(error => {
         //in the case of an error log it

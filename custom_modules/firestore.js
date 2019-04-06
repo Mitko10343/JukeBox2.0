@@ -16,7 +16,7 @@ const USERS = db.collection(keys.USERS);
 const SONGS = db.collection(keys.SONGS);
 const PLAYLISTS = db.collection(keys.PLAYLISTS);
 const PRODUCTS = db.collection(keys.PRODUCTS);
-const default_img_url = "https://firebasestorage.googleapis.com/v0/b/finalyearproject-a8f42.appspot.com/o/default_images%2FNo_Image_Available.jpg?alt=media&token=d946bc05-33b9-4a03-a617-ffa163858e9a";
+const default_img_url = "https://firebasestorage.googleapis.com/v0/b/finalyearproject-a8f42.appspot.com/o/default_images%2Fnoimage.png?alt=media&token=22515dec-c076-41de-a498-c7977af23a2c";
 
 /*Function that converts an array of firestore records into JSON objects*/
 const extractData = async (data) => {
@@ -36,7 +36,32 @@ const getSongData = async (tracks) => {
             })
             .catch(error => console.error(error));
     }
+    return songData;
+};
 
+/**
+ * Function that returns the data for the songs liked by a user
+ * Accepts an array of song names
+ * returns an array JSON objs that hold the data of the songs
+ * @param likes
+ * @returns {Promise<Array>}
+ */
+const getLikedSongs = async (likes) => {
+    //Array of JSON objects
+    let songData = [];
+    //for each song name in likes
+    for (let song of likes) {
+        //get the data of the song
+        await getSong(song)
+            .then(song => {
+                //push the song to the array
+                songData.push(song);
+            })
+            //in the case of an error log it
+            .catch(error => console.error(error));
+    }//end for
+
+    //return an array of json objects
     return songData;
 };
 const addUserToDb = async (userData) => {
@@ -264,7 +289,6 @@ const getUserSongs = async (artist, limit, page) => {
                 return extractData(songRecords.docs);
             })
             .then(songData => {
-                console.log(JSON.stringify(songData));
                 resolve(songData);
             })
             .catch(error => {
@@ -723,7 +747,42 @@ const getProducts =async (user)=>{
    })
 };
 
+/**
+ * Function that returns data of songs like by the user
+ * accepts the username of the user
+ * @param user
+ * @returns {Promise<any>}
+ */
+const getUserLikes = async (user)=>{
+    //return a promise
+    return await new Promise((resolve,reject)=>{
+        //get the user records
+        USERS.doc(user).get()
+            .then(record=>{
+                //if the record doesnt exist reject promise
+                if(!record.exists)
+                    reject("User does not exits");
+                //if the record exists then extract the data
+                else
+                    return record.data();
+            })
+            .then(userData =>{
+                //from the user data get the data for the songs the user has liked
+                return getLikedSongs(userData.likes);
+            })
+            .then(likes =>{
+                //resolve the promise returning the song data
+                resolve(likes);
+            })
+            .catch(error=>{
+                //in the case of an error reject the promise
+                reject(error);
+            });
+    });//end promise
+};//end function
+
 //Export all the functions from the firestore modules
+module.exports.getUserLikes = getUserLikes;
 module.exports.getProducts = getProducts;
 module.exports.addProductToDB = addProductToDB;
 module.exports.uploadScreenshot = uploadScreenshot;

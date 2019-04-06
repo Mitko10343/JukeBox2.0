@@ -184,17 +184,17 @@ $(document).ready(function () {
                 if (value === 'cotton') {
                     material.diffuseTexture = new BABYLON.Texture("../../models/textures/fabric_texture2.jpg", scene);
                     material.bumpTexture = new BABYLON.Texture("../../models/textures/fabric_bump.jpg", scene);
-                    material.diffuseTexture.uScale = 10.0;
-                    material.diffuseTexture.vScale = 10.0;
-                    material.bumpTexture.uScale = 10.0;
-                    material.bumpTexture.vScale = 10.0;
+                    material.diffuseTexture.uScale = 15.0;
+                    material.diffuseTexture.vScale = 15.0;
+                    material.bumpTexture.uScale = 15.0;
+                    material.bumpTexture.vScale = 15.0;
                 } else if (value === 'denim') {
                     material.diffuseTexture = new BABYLON.Texture("../../models/textures/denim_texture.jpg", scene);
                     material.bumpTexture = new BABYLON.Texture("../../models/textures/denim_bump.jpg", scene);
-                    material.diffuseTexture.uScale = 10.0;
-                    material.diffuseTexture.vScale = 10.0;
-                    material.bumpTexture.uScale = 10.0;
-                    material.bumpTexture.vScale = 10.0;
+                    material.diffuseTexture.uScale = 15.0;
+                    material.diffuseTexture.vScale = 15.0;
+                    material.bumpTexture.uScale = 15.0;
+                    material.bumpTexture.vScale = 15.0;
                 } else if (value === 'camo') {
                     material.diffuseTexture = new BABYLON.Texture("../../models/textures/camo_texture.jpg", scene);
                     material.bumpTexture = new BABYLON.Texture("../../models/textures/camo_bump.jpg", scene);

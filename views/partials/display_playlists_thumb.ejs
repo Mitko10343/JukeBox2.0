@@ -1,0 +1,15 @@
+<% if(typeof playlists === 'object' && playlists && Object.keys(playlists).length !== 0){ %>
+    <% playlists.forEach(playlist =>{ %>
+        <div class="playlist_thumb">
+            <div class="thumbnail">
+                <img src="<%= playlist.thumbnailUrl %>" alt="Thumbnail Image">
+            </div>
+            <div class="info">
+                <div class="song_name"><%=playlist.playlist_name%></div>
+            </div>
+
+        </div>
+<% })}
+else{ %>
+    <div class="No songs"><h1>No playlists  yet</h1></div>
+<% } %>

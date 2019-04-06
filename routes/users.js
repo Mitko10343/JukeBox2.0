@@ -17,9 +17,72 @@ const loggedIn = (req, res, next) => {
         res.redirect('/login');
 };
 
-/* GET users listing. */
+/**
+ * Render the home page that a user sees when they log in
+ */
 router.get('/', loggedIn, (req, res) => {
-    res.render('index', {title: 'Users', user: req.session.user});
+    //get the username of the logged in user fromt he session
+    const user = req.session.user;
+
+
+    //get the songs uploaded by the user
+
+    let songs = new Promise((resolve)=>{
+        db.getUserSongs(user.user, 10, 1)
+            .then(songData => {
+                console.log(`Songs : ${songData}`);
+                resolve(songData);
+            }).catch(error => {
+            console.error(error);
+        })
+    });
+
+    const spotify_pls = new Promise(resolve => {
+        spotify.getPlaylists()
+            .then(playlists => {
+                const playlist = JSON.parse(playlists);
+                resolve(playlist.items);
+            }).catch(error => console.error(error));
+    });
+   //get the user's playlists
+    const pls = new Promise((resolve) => {
+        db.getUserPlaylists(user.user)
+            .then(playlists => {
+                console.log(`Playlists ${playlists}`);
+                resolve(playlists);
+            })
+            .catch(error => {
+                console.error(error);
+            })
+    });
+    //get teh user's likes
+    const ls = new Promise((resolve) => {
+        db.getUserLikes(user.user)
+            .then(likes => {
+                console.log(`likes ${likes}`);
+                resolve(likes);
+            })
+            .catch(error => {
+                console.error(error);
+            })
+    });
+
+
+    //when all promises are resolved
+   Promise.all([songs, pls, ls,spotify_pls])
+        .then(values => {
+            console.log("resolved");
+            res.render('home', {
+                user,
+                songData: values[0],
+                playlists: values[1],
+                likes:values[2],
+                spotify_playlists:values[3]
+            });
+        })
+        .catch(error=>{
+            console.error(error);
+        });
 });
 /*GET Profile PAGE*/
 router.get('/profile', loggedIn, (req, res) => {
