@@ -655,7 +655,7 @@ const getAllPlaylists = async () => {
  */
 const searchForSong = async (value) => {
     return await new Promise((resolve) => {
-        SONGS.where('name', '==', value).limit(5).get()
+        SONGS.where('name', '>=', value).limit(5).get()
             .then(songs => {
                 return extractData(songs.docs);
             })
@@ -798,7 +798,53 @@ const getUserLikes = async (user)=>{
     });//end promise
 };//end function
 
+
+/**
+ * Function that returns a list of all of the merchandise that is in the database
+ * @returns {Promise<void>}
+ */
+const getAllProducts = async ()=>{
+    return await new Promise((resolve,reject) => {
+        PRODUCTS.limit(10).get()
+            .then(records=>{
+                return extractData(records.docs);
+            })
+            .then(productData=>{
+                resolve(productData);
+            })
+            .catch(error=>{
+                reject(error);
+            })
+    });
+};//end function
+
+/**
+ * Function that returns the record for a single product
+ * @param name
+ * @param owner
+ * @returns {Promise<any>}
+ */
+const getProduct = async(name,owner)=>{
+    console.log(name);
+    console.log(owner);
+    return await new Promise((resolve,reject)=>{
+        PRODUCTS.where('product_name','==',name).where('owner','==',owner).limit(1).get()
+            .then(record=>{
+                return extractData(record.docs)
+            })
+            .then(data=>{
+                console.log(data);
+                resolve(data[0]);
+            })
+            .catch(error=>{
+                reject(error)
+            })//end promise
+    });//end promise
+};//end function
+
 //Export all the functions from the firestore modules
+module.exports.getProduct = getProduct;
+module.exports.getAllProducts = getAllProducts;
 module.exports.getUserLikes = getUserLikes;
 module.exports.getProducts = getProducts;
 module.exports.addProductToDB = addProductToDB;

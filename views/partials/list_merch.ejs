@@ -1,0 +1,52 @@
+<% if(typeof merchandise === 'undefined'){ %>
+    <h1>There is currently no merchandise on the market</h1>
+<% }else { %>
+    <table class="merchandise_table">
+        <% merchandise.forEach(merch=>{ %>
+            <tr class="merch_row">
+                <td class="merch_thumbnail">
+                    <img src="<%= merch.img_urls[0] %>" alt="Merchandise_image">
+                </td>
+                <td class="merchandise_info">
+                    <div class="product_name"><%= merch.product_name %></div>
+                    <div class="product_owner"><%= merch.owner %></div>
+                    <div class="product_price"> € <%= merch.price %></div>
+                </td>
+            </tr>
+        <% }) %>
+    </table>
+
+    <script>
+        //once the DOm has completely rendered
+        $(document).ready(function () {
+            //get a reference to all the merchandise thumbnails
+            const merchandise = document.getElementsByClassName('merch_thumbnail');
+            //get the name of each product
+            const merch_names = document.getElementsByClassName('product_name');
+            //get the owner names of each product
+            const owner_names = document.getElementsByClassName('product_owner');
+
+            //for each product thumbnail
+            $(merchandise).each(function (index) {
+                //add an onclick listener
+                $(this).on('click', function (event) {
+                    //get the name of the product that was clicked
+                    const prod_name = $(merch_names[index]).text();
+                    //get the name of the product owner
+                    const owner = $(owner_names[index]).text();
+
+                    //make an ajax request to get the page of that product
+                    $.ajax({
+                        url: `/view/product?name=${prod_name}&owner=${owner}`,
+                        success: function (data) {
+                            //filter the data to extract only the content-wrapper div from the response
+                            const newPage = $(data).find("div").filter('div .content-wrapper').html();
+                            //attach the html of the filtered response to the wrapper div and fade it in again
+                            $('.wrapper').html(newPage).fadeIn(500);
+                        }
+                    })
+                });
+            });
+        })
+    </script>
+<% } %>

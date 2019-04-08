@@ -181,6 +181,7 @@ select:focus {
     border-radius: 20px;
     margin-right: 5vw;
     color: crimson;
+    background: #000000;
     transition: 0.3s background-color ease-in-out;
 }
 .reg-btn:hover {
@@ -345,6 +346,104 @@ select:focus {
     padding: 2vh !important;
 }
 
+/*
+    Store Page Css
+*/
+.store_nav{
+    position: absolute;
+    display: block;
+    border-bottom: 1px solid crimson;
+    width: 60% !important;
+}
+.store_nav_ul{
+    position: relative;
+    list-style-type:none;
+}
+.store_nav_li{
+    position: relative;
+    display: inline-block;
+    float: left;
+    padding:10px 20px;
+    transition: 0.3s background-color ease-in-out;
+}
+.store_nav_li{
+    border:1px solid crimson ;
+    border-bottom:none;
+}
+.store_nav_li:first-child{
+    border-right: none;
+}
+.store_nav_li:hover{
+    background-color: #6d6d6d;
+}
+.store_nav_li a{
+    padding:10px 20px;
+}
+.store_face{
+    width: 100%;
+    height: 100vh !important;
+    content: '';
+    border-right: 1px solid crimson;
+}
+
+.merchandise_table{
+    border: none;
+    margin-top: 10vh;
+}
+.merch_thumbnail img{
+    width:20vw;
+    height:30vh;
+    transition: 0.3s opacity ease-in-out;
+}
+
+.merch_thumbnail img:hover{
+    opacity: 0.7;
+    cursor: pointer;
+}
+.merchandise_info{
+    padding: 20px;
+    margin: 0;
+    text-align: left;
+}
+
+.product_images{
+    display: block;
+    float: left;
+    width: 60%;
+}
+.product_info{
+    display: block;
+    width: 20%;
+    float:left;
+    text-align: left;
+}
+
+
+#product_name,#product_owner,#product_price{
+    margin: 10px 0;
+}
+#purchase_button button{
+    transition: 0.3s color ease-in-out;
+}
+#purchase_button button:hover{
+    background: #6d6d6d;
+    cursor: pointer;
+}
+#product_image1 img{
+    width: 40vw;
+    height: 55vh;
+}
+#product_image2 img,#product_image3 img,#product_image4 img{
+    width: 13.2vw;
+    height:25vh;
+}
+
+#product_image1,#product_image2,#product_image3,#product_image4{
+    float: left;
+    padding: 0px !important;
+    border: 1px solid rgba(1,1,1,0.3);
+}
+
 
 /*
   MAIN CONTENT AREA CSS
@@ -365,10 +464,11 @@ select:focus {
 
 .page-header {
     display: block;
-    width: 100%;
-    text-align: center !important;
-    font-size: 2.5em;
+    width: 80%;
+    text-align: left ;
+    font-size: 1.5em;
     margin-top: 2vh;
+    margin-left: 16vw;
     margin-bottom: 1vh;
 }
 
@@ -526,7 +626,6 @@ MUSIC PLAYER STYLES
     height: auto;
     color: white;
     background: linear-gradient(rgba(1, 4, 22, 1) 20%,rgba(3, 3, 3, 1));
-    /*    box-shadow:inset 0 0 20px #00badc;*/
     border: 0.5px solid rgba(35, 35, 35, 0.4);
 }
 
@@ -1133,6 +1232,7 @@ MUSIC OPTIONS STYLES
 
 .selects {
     padding: 2px 0 10px 0;
+    height:50px;
 }
 
 #merch_selects, #texture_select, .publish_btn {
@@ -1259,25 +1359,26 @@ MUSIC OPTIONS STYLES
 }
 
 .publish_modal_body label{
-    float: left;
-    display: block;
-    width: 30%;
+    text-align: left;
+    display: inline-block;
+    width: 100%;
+    margin: 2% 0;
 }
 .publish_modal_body input{
-    float: left;
-    display: block;
-    width: 50%;
+    padding: 10px;
+    float: right;
+    margin: -10px 50px 0 0 !important;
+    width: 60%;
+
 }
 
-.publish_modal_body label,input{
-    margin:2%;
-    padding:10px;
-}
+
 .publish_product_button{
     font-size: 1em;
     margin-left: 2%;
     border: none;
     padding: 8px 10px;
+    float: left;
     background: rgba(0, 0, 0, 1);
     -webkit-transition: 0.3s background ease-in-out;
     -moz-transition: 0.3s background ease-in-out;
@@ -1303,6 +1404,9 @@ MUSIC OPTIONS STYLES
     float: left;
     height: 100%;
     padding: 10px;
+}
+.user_products:hover{
+    cursor: pointer;
 }
 .user_products img{
     height: 70%;

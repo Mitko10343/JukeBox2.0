@@ -1,0 +1,41 @@
+<div class="content-wrapper">
+    <div class="content">
+        <% if(typeof product === 'undefined'){ %>
+            <h1>Product cannot be found</h1>
+        <% }else{ %>
+            <div class="product_images">
+                <div id="product_image1">
+                    <img alt="product image" src="<%= product.img_urls[0] %>">
+                </div>
+
+                <div id="product_image2">
+                    <img alt="product image" src="<%= product.img_urls[1] %>">
+                </div>
+
+                <div id="product_image3">
+                    <img alt="product image" src="<%= product.img_urls[2] %>">
+                </div>
+
+                <div id="product_image4">
+                    <img alt="product image" src="<%= product.img_urls[3] %>">
+                </div>
+
+            </div>
+
+            <div class="product_info">
+                <div id="product_name">
+                    <h3><%= product.product_name %></h3>
+                </div>
+                <div id="product_owner">
+                    Published By: <%= product.owner %>
+                </div>
+                <div id="product_price">
+                    Price: € <%= product.price %>
+                </div>
+                <div id="purchase_button">
+                    <button id="purchase_btn">Purchase</button>
+                </div>
+            </div>
+        <% } %>
+    </div>
+</div>

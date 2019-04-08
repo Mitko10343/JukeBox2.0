@@ -222,7 +222,9 @@ router.get('/getPlaylist', loggedIn, (req, res) => {
 
 });//end route
 
+//Router that adds a song to a a playlist
 router.post('/playlist/addSong', loggedIn, (req, res) => {
+    //add song to a playlists
     db.addTrack(req.body.name, req.body.artist, req.body.playlist, req.session.user.user)
         .then((tracks) => res.redirect('/users/profile/playlists'))
         .catch(error => console.error(error));
@@ -490,16 +492,16 @@ router.get('/unlike', loggedIn, (req, res) => {
 
 //Get route that renders the design tool page
 router.get('/profile/design', loggedIn, (req, res) => {
-    const user = req.session.user.user;
+    const user = req.session.user;
 
-    db.getProducts(user)
+    db.getProducts(user.user)
         .then(products => {
             db.getUser(req.session.user.user)
                 .then(data => {
                     //if the data is returned check if the user has any uploaded decals
                     if (typeof data.decals === 'undefined' || Object.keys(data.decals).length === 0) {
                         let decals = undefined;
-                        res.render('design', {decals, products});
+                        res.render('design', {decals,user, products});
                     } else {
                         let decals = data.decals;
                         res.render('design', {decals, user, products});
@@ -509,8 +511,6 @@ router.get('/profile/design', loggedIn, (req, res) => {
         .catch(error => {
             console.error(error);
         });
-
-
 });
 //Route that converts images from bas64 into byte arrays
 //and uploads them to firebase storage as well as adding them to

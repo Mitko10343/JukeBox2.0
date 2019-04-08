@@ -214,8 +214,8 @@ function pauseAll(players,pauses,plays) {
 function togglePlay(player,pause,play) {
     if (player.paused === false) {
         player.pause();
-        $(play).css('display','block');
-        $(pause).css('display','none');
+        $('.play_icon').css("display","block");
+        $('.pause_icon').css("display","none");
         return false;
     } else {
         player.play();

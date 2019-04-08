@@ -12,7 +12,7 @@ const notLoggedIn = (req, res, next) => {
 
 //get route that renders the index page
 router.get('/', notLoggedIn, (req, res) => {
-    res.render('index',{title:"Welcome"});
+    res.render('index', {title: "Welcome"});
 });
 
 
@@ -35,8 +35,8 @@ router.get('/discover/music', (req, res) => {
                 .then(songData => res.render('discover_music', {
                     songData,
                     user,
-                    title:"Discover Music",
-                }).end() )
+                    title: "Discover Music",
+                }).end())
                 //in the case of an error return a status code of 500 and log the error
                 .catch(error => {
                     console.error(error);
@@ -44,7 +44,7 @@ router.get('/discover/music', (req, res) => {
                 });
         else if (genre !== 'default' && order !== 'default')
             db.genreOrder(genre, order)
-                .then(songData => res.render('discover_music', {songData,user}).end() )
+                .then(songData => res.render('discover_music', {songData, user}).end())
                 //in the case of an error return a status code of 500 and log the error
                 .catch(error => {
                     console.error(error);
@@ -52,7 +52,7 @@ router.get('/discover/music', (req, res) => {
                 });
         else if (genre !== 'default' && order === 'default')
             db.getGenre(genre)
-                .then(songData => res.render('discover_music', {songData,user}).end() )
+                .then(songData => res.render('discover_music', {songData, user}).end())
                 //in the case of an error return a status code of 500 and log the error
                 .catch(error => {
                     console.error(error);
@@ -60,7 +60,7 @@ router.get('/discover/music', (req, res) => {
                 });
         else
             db.getSongs(pagination, page)
-                .then(songData => res.render('discover_music', {songData,user}).end() )
+                .then(songData => res.render('discover_music', {songData, user}).end())
                 //in the case of an error return a status code of 500 and log the error
                 .catch(error => {
                     console.error(error);
@@ -70,7 +70,7 @@ router.get('/discover/music', (req, res) => {
 
     //if the query string is empty just render the discover music page with an unordered list of the songs in the database
     db.getSongs(0, 1)
-        .then(songData => res.render('discover_music', {songData,user}))
+        .then(songData => res.render('discover_music', {songData, user}))
         //in the case of an error return a status code of 500 and log the error
         .catch(error => {
             console.error(error);
@@ -114,7 +114,7 @@ router.get('/discover/playlists', (req, res) => {
 
 //get route that renders the tracks associated with a certain playlist
 router.get('/discover/playlist/tracks', (req, res) => {
-    const user = typeof req.session.user === 'undefined' ? '' : req.session.user;
+    const user = typeof req.session.user === 'undefined' ? undefined : req.session.user;
     //check if the query string of the request object has the playlist name in it
     //if it doesnt then return a 400 status and end the response
     if (Object.keys(req.query).length === 0 && typeof req.query === 'undefined')
@@ -142,19 +142,34 @@ router.get('/discover/playlist/tracks', (req, res) => {
 
 //Get route that renders the store page
 router.get('/store', (req, res) => {
-    const user = typeof req.session.user === 'undefined' ? '' : req.session.user;
+    const user = typeof req.session.user === 'undefined' ? undefined : req.session.user;
     res.render('store', {user});
+});
+router.get('/store/merchandise', (req, res) => {
+    //Check if a user session exists
+    const user = typeof req.session.user === 'undefined' ? undefined : req.session.user;
+
+    //get all of the merchandise that is up on sale
+    db.getAllProducts()
+        .then(merchandise => {
+            res.render('store_merch', {
+                merchandise,
+                user
+            });
+        })
+        //in the case of an error log it
+        .catch(error => console.error(error));
 });
 
 //Get route that renders the login page
 router.get('/login', notLoggedIn, (req, res) => {
-    res.render('logIn',{title:'Login'});//render login page template
+    res.render('logIn', {title: 'Login'});//render login page template
 });//end route
 
 
 //get route that renders the register page
 router.get('/register', notLoggedIn, (req, res) => {
-    res.render('register',{title:'Register'});//render the register page template
+    res.render('register', {title: 'Register'});//render the register page template
 });//end route
 
 //post route that authenticates the a user for login
@@ -229,7 +244,8 @@ router.get('/search', (req, res) => {
             res.render('discover_music', {songData});
         })
         .catch(error => {
-            console.error(error)
+            console.error(error);
+            res.redirect('/discover/music');
         })
 });
 
@@ -268,6 +284,33 @@ router.get('/view/profile', (req, res) => {
     }
 });
 
+//Router that renders the page for a product
+router.get('/view/product', (req, res) => {
+    //ensure the query string isn't empty
+    if (typeof req.query === 'undefined' && Object.keys(req.query).length === 0) {
+        res.status(400).redirect('/store/merchandise');
+    }
+
+    //check if a user session exists
+    const user = typeof req.session.user === 'undefined' ? undefined : req.session.user;
+    //get the product name from the query string
+    const prod_name = req.query.name;
+    //get the owner name from the query string
+    const owner = req.query.owner;
+
+    //Get the record of the product
+    db.getProduct(prod_name, owner)
+        .then(product => {
+            //render the product
+            res.render('product_page', {
+                product,
+                user
+            })
+        })
+        //in the case of an error log it
+        .catch(error => console.error(error));
+});//end route
+
 //post route that updates the views for a song
 router.post('/updateView', (req, res) => {
     //get the current views from the page as well ass the song name
@@ -278,7 +321,6 @@ router.post('/updateView', (req, res) => {
     //return a status code 200 and end the response
     res.status(200).end();
 });
-
 
 
 module.exports = router;

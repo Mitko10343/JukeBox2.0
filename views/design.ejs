@@ -8,8 +8,9 @@
                 <% products.forEach(product=>{ %>
                     <div class="user_products">
                         <img src="<%= product.img_urls[0] %>" alt="Product_img"><br/>
-                        <span><%= product.product_name %></span><br/>
+                        <span class="prod_names"><%= product.product_name %></span><br/>
                         <span>€<%= product.price %></span>
+                        <span class="owners" style="display: none;"><%= user.user %></span>
                     </div>
             <% })} %>
         </div>
@@ -19,11 +20,11 @@
 
         <div class="design_controls">
             <div class="selects">
-                <select id="merch_selects">
+                <!--<select id="merch_selects">
                     <option value="t-shirt">T-shirt</option>
                     <option value="pants">Pants</option>
                     <option value="socks">Pants</option>
-                </select>
+                </select>-->
                 <select id="texture_select">
                     <option value="cotton">Cotton</option>
                     <option value="denim">Denim</option>
@@ -55,7 +56,7 @@
                 <label for="light">
                     Light Intensity:
                     <div class="slidecontainer">
-                        <input type="range" min="1" max="100" value="50" class="slider" id="light">
+                        <input type="range" min="1" max="100" value="100" class="slider" id="light">
                     </div>
                 </label>
             </div>
@@ -106,3 +107,30 @@
         <script src="https://preview.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
     </div>
 </div>
+
+<script>
+    //when the dom is full rendered
+    $(document).ready(function(){
+        //get a reference to the user products
+        const products = document.getElementsByClassName('user_products');
+        const product_names = document.getElementsByClassName('prod_names');
+        const owners     = document.getElementsByClassName('owners');
+        
+        //for each product
+        $(products).each(function(index){
+            //add an on click even handler
+            $(this).on('click',function () {
+                //make an ajax request to get the page of that product
+                $.ajax({
+                    url: `/view/product?name=${$(product_names[index]).text()}&owner=${$(owners[index]).text()}`,
+                    success: function (data) {
+                        //filter the data to extract only the content-wrapper div from the response
+                        const newPage = $(data).find("div").filter('div .content-wrapper').html();
+                        //attach the html of the filtered response to the wrapper div and fade it in again
+                        $('.wrapper').html(newPage).fadeIn(500);
+                    }
+                })
+            })
+        });
+    });
+</script>

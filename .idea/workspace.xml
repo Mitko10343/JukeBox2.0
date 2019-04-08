@@ -7,22 +7,15 @@
       <change beforePath="$PROJECT_DIR$/public/javascripts/design_tool.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/javascripts/design_tool.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/javascripts/functions.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/javascripts/functions.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/javascripts/musicPlayer.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/javascripts/musicPlayer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/javascripts/music_player.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/javascripts/music_player.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/javascripts/playlists.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/javascripts/playlists.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/stylesheets/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/stylesheets/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/users.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/users.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/design.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/design.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/discover_playlists.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/discover_playlists.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/discover_music.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/discover_music.ejs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/home.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/home.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/partials/display_playlists.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/partials/display_playlists.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/partials/display_songs.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/partials/display_songs.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/partials/display_songs_thumb.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/partials/display_songs_thumb.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/partials/vertical_nav.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/partials/vertical_nav.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/playlist_tracks.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/playlist_tracks.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/playlists.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/playlists.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/profile.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/profile.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/spotify_playlists.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/spotify_playlists.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/index.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/index.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/partials/product_create_modal.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/partials/product_create_modal.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/store.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/store.ejs" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -50,122 +43,22 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/partials/display_songs.ejs">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="368">
-              <caret line="49" column="14" selection-start-line="49" selection-start-column="14" selection-end-line="49" selection-end-column="14" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/routes/users.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="933">
-              <caret line="215" column="49" lean-forward="true" selection-start-line="215" selection-start-column="49" selection-end-line="215" selection-end-column="49" />
-              <folding>
-                <element signature="e#1183#3442#0" />
-                <element signature="e#2520#2932#0" />
-                <element signature="e#3026#3262#0" />
-                <element signature="e#3322#3619#0" />
-                <element signature="e#5780#6323#0" />
-                <element signature="e#6665#6874#0" />
-                <element signature="e#5113#5321#0" />
-                <element signature="e#5389#6070#0" />
-                <element signature="e#6155#6535#0" />
-                <element signature="e#6592#6633#0" />
-                <element signature="e#6687#7315#0" />
-                <element signature="e#7373#7671#0" />
-                <element signature="e#7785#8134#0" />
-                <element signature="e#8226#8296#0" />
-                <element signature="e#8489#10585#0" />
-                <element signature="e#10842#12510#0" />
-                <element signature="e#12769#14442#0" />
-                <element signature="e#14571#14710#0" />
-                <element signature="e#14815#15719#0" />
-                <element signature="e#15826#16731#0" />
-                <element signature="e#16847#17604#0" />
-                <element signature="e#17822#20718#0" />
-                <element signature="e#20796#22270#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routes/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="69">
-              <caret line="93" column="87" selection-start-line="93" selection-start-column="87" selection-end-line="93" selection-end-column="87" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/discover_playlists.ejs">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="253">
-              <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/playlist_tracks.ejs">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="92">
-              <caret line="4" column="91" selection-start-line="4" selection-start-column="91" selection-end-line="4" selection-end-column="91" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/custom_modules/firestore.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="368">
-              <caret line="254" selection-start-line="254" selection-end-line="254" />
-              <folding>
-                <element signature="e#255#435#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/partials/display_playlists.ejs">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="368">
-              <caret line="18" column="49" lean-forward="true" selection-start-line="18" selection-start-column="49" selection-end-line="18" selection-end-column="76" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/playlists.ejs">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="115">
-              <caret line="5" column="12" selection-start-line="5" selection-start-column="12" selection-end-line="5" selection-end-column="12" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/partials/playlist_modal.ejs">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="276">
-              <caret line="12" column="71" lean-forward="true" selection-start-line="12" selection-start-column="71" selection-end-line="12" selection-end-column="71" />
-              <folding>
-                <element signature="n#script#0;n#div#0;n#div#0;n#!!top" />
-              </folding>
+            <state relative-caret-position="162">
+              <caret line="240" column="13" lean-forward="true" selection-start-line="240" selection-start-column="13" selection-end-line="240" selection-end-column="13" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/public/stylesheets/style.css">
+        <entry file="file://$PROJECT_DIR$/custom_modules/firestore.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="311">
-              <caret line="528" column="1" selection-start-line="528" selection-start-column="1" selection-end-line="528" selection-end-column="46" />
+            <state relative-caret-position="157">
+              <caret line="657" selection-start-line="657" selection-end-line="658" />
+              <folding>
+                <element signature="e#255#435#0" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -181,20 +74,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>/playlist</find>
-      <find>/like</find>
-      <find>/</find>
-      <find>/login</find>
-      <find>user</find>
-      <find>/spotify</find>
-      <find>.player</find>
-      <find>body</find>
-      <find>active</find>
-      <find>player_name</find>
-      <find>/logout</find>
-      <find>view_profile</find>
-      <find>view</find>
-      <find>profile</find>
       <find>upload</find>
       <find>profile_nav</find>
       <find>over</find>
@@ -211,6 +90,20 @@
       <find>open_modal</find>
       <find>playlist-trac</find>
       <find>music-player</find>
+      <find>reg</find>
+      <find>page</find>
+      <find>/store</find>
+      <find>where</find>
+      <find>modal_body</find>
+      <find>design</find>
+      <find>slider</find>
+      <find>selects</find>
+      <find>/users/profile/design</find>
+      <find>/profile/design</find>
+      <find>product_info</find>
+      <find>user</find>
+      <find>/search</find>
+      <find>/searc</find>
     </findStrings>
     <replaceStrings>
       <replace>playlist-display</replace>
@@ -222,13 +115,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/views/partials/display_artists.ejs" />
-        <option value="$PROJECT_DIR$/views/discover_artists.ejs" />
-        <option value="$PROJECT_DIR$/views/partials/design_modal.ejs" />
-        <option value="$PROJECT_DIR$/custom_modules/spotify.js" />
-        <option value="$PROJECT_DIR$/views/index.ejs" />
-        <option value="$PROJECT_DIR$/views/my_songs.ejs" />
-        <option value="$PROJECT_DIR$/views/spotify.ejs" />
         <option value="$PROJECT_DIR$/public/javascripts/spotify.js" />
         <option value="$PROJECT_DIR$/views/partials/add_song_modal.ejs" />
         <option value="$PROJECT_DIR$/views/partials/playlist_modal.ejs" />
@@ -242,37 +128,44 @@
         <option value="$PROJECT_DIR$/public/javascripts/discover_playlists.js" />
         <option value="$PROJECT_DIR$/public/javascripts/babylonjs/babylon.d.ts" />
         <option value="$PROJECT_DIR$/app.js" />
-        <option value="$PROJECT_DIR$/views/partials/product_create_modal.ejs" />
         <option value="$PROJECT_DIR$/views/logIn.ejs" />
         <option value="$PROJECT_DIR$/views/partials/refine_options.ejs" />
-        <option value="$PROJECT_DIR$/views/discover_music.ejs" />
         <option value="$PROJECT_DIR$/public/javascripts/forms.js" />
         <option value="$PROJECT_DIR$/views/partials/display_playlists_thumb.ejs" />
         <option value="$PROJECT_DIR$/views/partials/spotify_playlist_thumb.ejs" />
         <option value="$PROJECT_DIR$/views/partials/likes_display_thumb.ejs" />
-        <option value="$PROJECT_DIR$/views/home.ejs" />
-        <option value="$PROJECT_DIR$/keys/keys.js" />
-        <option value="$PROJECT_DIR$/views/design.ejs" />
-        <option value="$PROJECT_DIR$/public/javascripts/design_tool.js" />
-        <option value="$PROJECT_DIR$/public/javascripts/functions.js" />
         <option value="$PROJECT_DIR$/public/javascripts/music_player.js" />
         <option value="$PROJECT_DIR$/views/partials/display_songs_thumb.ejs" />
         <option value="$PROJECT_DIR$/views/partials/display_songs.ejs" />
-        <option value="$PROJECT_DIR$/public/javascripts/musicPlayer.js" />
         <option value="$PROJECT_DIR$/views/partials/vertical_nav.ejs" />
         <option value="$PROJECT_DIR$/views/partials/profile_nav.ejs" />
         <option value="$PROJECT_DIR$/views/profile.ejs" />
         <option value="$PROJECT_DIR$/public/javascripts/playlists.js" />
-        <option value="$PROJECT_DIR$/custom_modules/firestore.js" />
         <option value="$PROJECT_DIR$/views/layout.ejs" />
         <option value="$PROJECT_DIR$/views/spotify_playlists.ejs" />
         <option value="$PROJECT_DIR$/views/partials/display_playlists.ejs" />
         <option value="$PROJECT_DIR$/views/playlists.ejs" />
         <option value="$PROJECT_DIR$/views/playlist_tracks.ejs" />
-        <option value="$PROJECT_DIR$/routes/users.js" />
         <option value="$PROJECT_DIR$/views/discover_playlists.ejs" />
-        <option value="$PROJECT_DIR$/routes/index.js" />
+        <option value="$PROJECT_DIR$/views/index.ejs" />
+        <option value="$PROJECT_DIR$/keys/keys.js" />
+        <option value="$PROJECT_DIR$/views/partials/store_nav.ejs" />
+        <option value="$PROJECT_DIR$/views/store.ejs" />
+        <option value="$PROJECT_DIR$/public/javascripts/functions.js" />
+        <option value="$PROJECT_DIR$/views/partials/list_merch.ejs" />
+        <option value="$PROJECT_DIR$/views/partials/product_page.ejs" />
+        <option value="$PROJECT_DIR$/views/partials/product_create_modal.ejs" />
+        <option value="$PROJECT_DIR$/public/javascripts/design_tool.js" />
+        <option value="$PROJECT_DIR$/views/store_merch.ejs" />
+        <option value="$PROJECT_DIR$/routes/users.js" />
         <option value="$PROJECT_DIR$/public/stylesheets/style.css" />
+        <option value="$PROJECT_DIR$/views/design.ejs" />
+        <option value="$PROJECT_DIR$/views/product_page.ejs" />
+        <option value="$PROJECT_DIR$/views/home.ejs" />
+        <option value="$PROJECT_DIR$/views/discover_music.ejs" />
+        <option value="$PROJECT_DIR$/public/javascripts/musicPlayer.js" />
+        <option value="$PROJECT_DIR$/routes/index.js" />
+        <option value="$PROJECT_DIR$/custom_modules/firestore.js" />
       </list>
     </option>
   </component>
@@ -294,6 +187,11 @@
             <path>
               <item name="Jukebox" type="b2602c69:ProjectViewProjectNode" />
               <item name="Jukebox" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Jukebox" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Jukebox" type="462c0819:PsiDirectoryNode" />
+              <item name="custom_modules" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Jukebox" type="b2602c69:ProjectViewProjectNode" />
@@ -355,17 +253,17 @@
     <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\WebStorm 2018.3.4\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\ExpressProjects\Jukebox\public\images" />
-      <recent name="D:\ExpressProjects\Jukebox\custom_modules" />
-      <recent name="D:\ExpressProjects\Jukebox\public\javascripts" />
-      <recent name="D:\ExpressProjects\Jukebox\views" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\ExpressProjects\Jukebox\public\models" />
       <recent name="D:\ExpressProjects\Jukebox\views\partials" />
       <recent name="D:\ExpressProjects\Jukebox\public\javascripts" />
       <recent name="D:\ExpressProjects\Jukebox\keys" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\ExpressProjects\Jukebox\views" />
+      <recent name="D:\ExpressProjects\Jukebox\public\images" />
+      <recent name="D:\ExpressProjects\Jukebox\custom_modules" />
+      <recent name="D:\ExpressProjects\Jukebox\public\javascripts" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -434,11 +332,14 @@
       <workItem from="1554711228925" duration="6426000" />
       <workItem from="1554723396641" duration="2676000" />
       <workItem from="1554731976028" duration="7192000" />
+      <workItem from="1554739659016" duration="282000" />
+      <workItem from="1554741604214" duration="1596000" />
+      <workItem from="1554755957854" duration="9158000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="311875000" />
+    <option name="totallyTimeSpent" value="322911000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="840" extended-state="6" />
@@ -448,12 +349,12 @@
       <window_info id="Job Explorer" order="2" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info id="npm" order="4" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="5" visible="true" weight="0.1852349" />
+      <window_info content_ui="combo" id="Project" order="5" visible="true" weight="0.1932886" />
       <window_info id="Structure" order="6" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="DB Execution Console" order="0" />
       <window_info anchor="bottom" id="Docker" order="1" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="2" weight="0.32876712" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="3" visible="true" weight="0.36712328" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="3" visible="true" weight="0.32054794" />
       <window_info anchor="bottom" id="Event Log" order="4" side_tool="true" />
       <window_info anchor="bottom" id="Database Changes" order="5" />
       <window_info anchor="bottom" id="Console" order="6" />
@@ -475,48 +376,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/public/models/pants.babylon">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
-          <caret line="3927" column="5" selection-start-line="3927" selection-start-column="2" selection-end-line="3927" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/models/tshirt.babylon">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
-          <caret line="8" column="5" selection-start-line="8" selection-start-column="2" selection-end-line="8" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/babylonjs/babylon.d.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="20114" column="11" lean-forward="true" selection-start-line="20114" selection-start-column="11" selection-end-line="20114" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascripts/babylonjs/babylon.d.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="23">
-          <caret line="24227" column="8" selection-start-line="24227" selection-start-column="8" selection-end-line="24227" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/cors/lib/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5405">
-          <caret line="235" column="2" selection-start-line="235" selection-start-column="2" selection-end-line="235" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/partials/profileCover.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="15" column="38" selection-start-line="15" selection-start-column="33" selection-end-line="15" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/image.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
@@ -534,24 +393,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/partials/product_create_modal.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="253">
-          <caret line="11" column="87" selection-start-line="11" selection-start-column="77" selection-end-line="11" selection-end-column="87" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/partials/discover_nav.ejs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="69">
           <caret line="3" column="68" selection-start-line="3" selection-start-column="68" selection-end-line="3" selection-end-column="68" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/index.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="276">
-          <caret line="12" column="6" selection-end-line="13" />
         </state>
       </provider>
     </entry>
@@ -594,20 +439,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/home.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1219">
-          <caret line="53" column="29" selection-start-line="53" selection-start-column="29" selection-end-line="53" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/keys/keys.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="736">
-          <caret line="32" column="13" selection-start-line="32" selection-start-column="13" selection-end-line="32" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/partials/likes_display_thumb.ejs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="46">
@@ -618,55 +449,8 @@
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/design.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="18" column="8" selection-start-line="18" selection-start-column="8" selection-end-line="18" selection-end-column="8" />
-          <folding>
-            <element signature="n#div#1;n#div#0;n#div#0;n#!!top" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/javascripts/spotify.js">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascripts/discover_playlists.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="368">
-          <caret line="16" column="24" selection-start-line="16" selection-start-column="24" selection-end-line="16" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascripts/functions.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="644">
-          <caret line="30" column="41" selection-start-line="30" selection-start-column="41" selection-end-line="30" selection-end-column="41" />
-          <folding>
-            <element signature="e#270#299#0" />
-            <element signature="n#!!block;n#fadeNavIn#0" />
-            <element signature="n#!!block;n#fadeNavOut#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascripts/design_tool.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="346">
-          <caret line="283" column="37" selection-start-line="283" selection-start-column="37" selection-end-line="283" selection-end-column="37" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <element signature="n#!!block;n#updateDecalsList#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/discover_music.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="138">
-          <caret line="6" column="14" lean-forward="true" selection-start-line="6" selection-start-column="14" selection-end-line="6" selection-end-column="14" />
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/views/my_songs.ejs">
       <provider selected="true" editor-type-id="text-editor" />
@@ -678,31 +462,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/partials/vertical_nav.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="47">
-          <caret line="11" column="48" selection-start-line="11" selection-start-column="48" selection-end-line="11" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/partials/display_songs_thumb.ejs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="245">
           <caret line="22" column="6" selection-start-line="22" selection-start-column="6" selection-end-line="22" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascripts/music_player.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="253">
-          <caret line="111" column="8" selection-start-line="111" selection-start-column="8" selection-end-line="112" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascripts/musicPlayer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="253">
-          <caret line="165" column="39" selection-start-line="165" selection-start-column="39" selection-end-line="165" selection-end-column="39" />
         </state>
       </provider>
     </entry>
@@ -747,13 +510,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/partials/display_songs.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="368">
-          <caret line="49" column="14" selection-start-line="49" selection-start-column="14" selection-end-line="49" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/javascripts/playlists.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="253">
@@ -761,19 +517,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/playlist_tracks.ejs">
+    <entry file="file://$PROJECT_DIR$/views/index.ejs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="92">
-          <caret line="4" column="91" selection-start-line="4" selection-start-column="91" selection-end-line="4" selection-end-column="91" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/custom_modules/firestore.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="368">
-          <caret line="254" selection-start-line="254" selection-end-line="254" />
+        <state relative-caret-position="138">
+          <caret line="6" column="32" lean-forward="true" selection-start-line="6" selection-start-column="32" selection-end-line="6" selection-end-column="32" />
           <folding>
-            <element signature="e#255#435#0" />
+            <element signature="n#style#0;n#h1#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -781,10 +530,7 @@
     <entry file="file://$PROJECT_DIR$/views/partials/playlist_modal.ejs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="276">
-          <caret line="12" column="71" lean-forward="true" selection-start-line="12" selection-start-column="71" selection-end-line="12" selection-end-column="71" />
-          <folding>
-            <element signature="n#script#0;n#div#0;n#div#0;n#!!top" />
-          </folding>
+          <caret line="12" column="71" selection-start-line="12" selection-start-column="71" selection-end-line="12" selection-end-column="71" />
         </state>
       </provider>
     </entry>
@@ -798,60 +544,198 @@
     <entry file="file://$PROJECT_DIR$/views/partials/display_playlists.ejs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="368">
-          <caret line="18" column="49" lean-forward="true" selection-start-line="18" selection-start-column="49" selection-end-line="18" selection-end-column="76" />
+          <caret line="18" column="49" selection-start-line="18" selection-start-column="49" selection-end-line="18" selection-end-column="76" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/playlist_tracks.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="92">
+          <caret line="4" column="91" selection-start-line="4" selection-start-column="91" selection-end-line="4" selection-end-column="91" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/keys/keys.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="368">
+          <caret line="32" column="13" selection-start-line="32" selection-start-column="13" selection-end-line="32" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/partials/store_nav.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="69">
+          <caret line="3" column="60" selection-start-line="3" selection-start-column="60" selection-end-line="3" selection-end-column="60" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/store_merchandise.ejs">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/store.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="230">
+          <caret line="10" column="6" lean-forward="true" selection-start-line="10" selection-start-column="6" selection-end-line="10" selection-end-column="6" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/views/discover_playlists.ejs">
       <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-line="1" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/javascripts/design_tool.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="161">
+          <caret line="143" column="35" selection-start-line="143" selection-start-column="35" selection-end-line="143" selection-end-column="35" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="n#!!block;n#updateDecalsList#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/javascripts/discover_playlists.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="368">
+          <caret line="16" column="24" selection-start-line="16" selection-start-column="24" selection-end-line="16" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/store_merch.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="9" column="10" selection-start-line="9" selection-start-column="10" selection-end-line="9" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/partials/list_merch.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="34" column="55" lean-forward="true" selection-start-line="34" selection-start-column="55" selection-end-line="34" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/partials/product_create_modal.ejs">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="253">
-          <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
+          <caret line="11" column="46" selection-start-line="11" selection-start-column="46" selection-end-line="11" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/javascripts/functions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="103">
+          <caret line="43" column="56" lean-forward="true" selection-start-line="43" selection-start-column="56" selection-end-line="43" selection-end-column="56" />
+          <folding>
+            <element signature="e#270#299#0" />
+            <element signature="n#!!block;n#fadeNavIn#0" />
+            <element signature="n#!!block;n#fadeNavOut#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/design.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="276">
+          <caret line="58" column="72" selection-start-line="58" selection-start-column="72" selection-end-line="58" selection-end-column="72" />
+          <folding>
+            <element signature="n#style#0;n#span#2;n#div#0;n#div#1;n#div#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/partials/vertical_nav.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="47">
+          <caret line="11" column="48" selection-start-line="11" selection-start-column="48" selection-end-line="11" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/product_page.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="230">
+          <caret line="35" column="44" selection-start-line="35" selection-start-column="44" selection-end-line="35" selection-end-column="44" />
+          <folding>
+            <element signature="n#div#0;n#div#0;n#div#0;n#!!top" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/stylesheets/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="1408" column="19" selection-start-line="1408" selection-start-column="19" selection-end-line="1408" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/javascripts/music_player.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="253">
+          <caret line="111" column="8" selection-start-line="111" selection-start-column="8" selection-end-line="112" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/partials/display_songs.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="103">
+          <caret line="9" column="58" lean-forward="true" selection-start-line="9" selection-start-column="58" selection-end-line="9" selection-end-column="58" />
+          <folding>
+            <element signature="n#style#0;n#i#0;n#button#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/javascripts/musicPlayer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="552">
+          <caret line="222" column="45" selection-start-line="222" selection-start-column="45" selection-end-line="222" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/discover_music.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="92">
+          <caret line="4" column="72" selection-start-line="4" selection-start-column="72" selection-end-line="4" selection-end-column="72" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/home.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="46">
+          <caret line="2" column="8" lean-forward="true" selection-start-line="2" selection-start-column="8" selection-end-line="2" selection-end-column="76" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/routes/users.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="933">
-          <caret line="215" column="49" lean-forward="true" selection-start-line="215" selection-start-column="49" selection-end-line="215" selection-end-column="49" />
+        <state relative-caret-position="139">
+          <caret line="583" column="16" selection-start-line="583" selection-start-column="16" selection-end-line="583" selection-end-column="16" />
           <folding>
-            <element signature="e#1183#3442#0" />
-            <element signature="e#2520#2932#0" />
-            <element signature="e#3026#3262#0" />
-            <element signature="e#3322#3619#0" />
-            <element signature="e#5780#6323#0" />
-            <element signature="e#6665#6874#0" />
-            <element signature="e#5113#5321#0" />
-            <element signature="e#5389#6070#0" />
-            <element signature="e#6155#6535#0" />
-            <element signature="e#6592#6633#0" />
-            <element signature="e#6687#7315#0" />
-            <element signature="e#7373#7671#0" />
-            <element signature="e#7785#8134#0" />
-            <element signature="e#8226#8296#0" />
-            <element signature="e#8489#10585#0" />
-            <element signature="e#10842#12510#0" />
-            <element signature="e#12769#14442#0" />
-            <element signature="e#14571#14710#0" />
-            <element signature="e#14815#15719#0" />
-            <element signature="e#15826#16731#0" />
-            <element signature="e#16847#17604#0" />
-            <element signature="e#17822#20718#0" />
-            <element signature="e#20796#22270#0" />
+            <element signature="e#7028#7982#0" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/routes/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="69">
-          <caret line="93" column="87" selection-start-line="93" selection-start-column="87" selection-end-line="93" selection-end-column="87" />
+        <state relative-caret-position="162">
+          <caret line="240" column="13" lean-forward="true" selection-start-line="240" selection-start-column="13" selection-end-line="240" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/stylesheets/style.css">
+    <entry file="file://$PROJECT_DIR$/custom_modules/firestore.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="311">
-          <caret line="528" column="1" selection-start-line="528" selection-start-column="1" selection-end-line="528" selection-end-column="46" />
+        <state relative-caret-position="157">
+          <caret line="657" selection-start-line="657" selection-end-line="658" />
+          <folding>
+            <element signature="e#255#435#0" />
+          </folding>
         </state>
       </provider>
     </entry>
