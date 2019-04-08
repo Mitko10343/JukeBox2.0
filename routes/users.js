@@ -1,3 +1,4 @@
+//import the required modules for this route handler module
 const express = require('express');
 const spotify = require('../custom_modules/spotify');
 const router = express.Router();
@@ -11,83 +12,100 @@ const uploads = multer({
 
 //Authentication function
 const loggedIn = (req, res, next) => {
+    //if a user session is present then proceed
     if (typeof req.session.user !== 'undefined')
         next();
+    //otherwise redirect the user back to the login page
     else
         res.redirect('/login');
-};
+};//end loggedin() middleware
 
-/**
- * Render the home page that a user sees when they log in
- */
+//middleware function that checks if a user account is of type artists
+const artistAccount = (req, res, next) => {
+    //if account type is of typ artist then proceed
+    if (req.session.user.account_type === 'artist')
+        next();
+    //otherwise redirect the user back to their home page
+    else
+        res.redirect('/users/');
+};// end artistAccount() middleware
+
+
+//Render the home page that a user sees when they log in
 router.get('/', loggedIn, (req, res) => {
-    //get the username of the logged in user fromt he session
+    //get the username of the logged in user from the session storage
     const user = req.session.user;
 
 
-    //get the songs uploaded by the user
-
-    let songs = new Promise((resolve)=>{
+    //get the first 10 songs uploaded by the user
+    let songs = new Promise((resolve) => {
         db.getUserSongs(user.user, 10, 1)
             .then(songData => {
-                console.log(`Songs : ${songData}`);
+                //resolve the promise and return the song data of the user's account
                 resolve(songData);
-            }).catch(error => {
-            console.error(error);
-        })
-    });
+            })
+            //in the case of an error then log it
+            .catch(error => console.error(error));
+    });//end promise
 
+    //get the user's spotify playlists if his account is synchronised
     const spotify_pls = new Promise(resolve => {
         spotify.getPlaylists()
             .then(playlists => {
+                //parse the playlist data into a JSON object
                 const playlist = JSON.parse(playlists);
+                //return the user's spotify playlists
                 resolve(playlist.items);
-            }).catch(error => console.error(error));
-    });
-   //get the user's playlists
+            })
+            //in the case of an error then log it
+            .catch(error => console.error(error));
+    });//end promise
+
+    //get the user's playlists
     const pls = new Promise((resolve) => {
         db.getUserPlaylists(user.user)
             .then(playlists => {
-                console.log(`Playlists ${playlists}`);
+                //resolve promise and return playlists
                 resolve(playlists);
             })
-            .catch(error => {
-                console.error(error);
-            })
-    });
-    //get teh user's likes
+            //in the case of an error log it
+            .catch(error => console.error(error))
+    });//end promise
+
+    //get teh user's liked songs
     const ls = new Promise((resolve) => {
         db.getUserLikes(user.user)
             .then(likes => {
-                console.log(`likes ${likes}`);
+                //resolve the promise and return the liked songs
                 resolve(likes);
             })
-            .catch(error => {
-                console.error(error);
-            })
-    });
-
+            //in the case of an error log it
+            .catch(error => console.error(error))
+    });//end promise
 
     //when all promises are resolved
-   Promise.all([songs, pls, ls,spotify_pls])
+    Promise.all([songs, pls, ls, spotify_pls])
         .then(values => {
-            console.log("resolved");
+            //render the users home page
             res.render('home', {
                 user,
                 songData: values[0],
                 playlists: values[1],
-                likes:values[2],
-                spotify_playlists:values[3]
+                likes: values[2],
+                spotify_playlists: values[3],
+                title: `Home Page`
             });
         })
-        .catch(error=>{
-            console.error(error);
-        });
-});
-/*GET Profile PAGE*/
+        //in the case of an error then log it
+        .catch(error => console.error(error))
+});//end route
+
+// Route that renders a users profile page
 router.get('/profile', loggedIn, (req, res) => {
+    //get the user data from the database
     db.getUser(req.session.user.user)
         .then(record => {
+            //render the user profile
             res.render('profile', {
                 user: {
                     username: record.username,
@@ -95,77 +113,120 @@ router.get('/profile', loggedIn, (req, res) => {
                     account_type: record.account_type,
                     coverUrl: record.coverUrl,
                     profileUrl: record.profileUrl
-                }
+                },
+                title: `Profile Page`
+            });
+        })//end db.getUser()
+});//end route
+
+//Route that displays the songs uploaded by a user
+router.get('/profile/songs', [loggedIn, artistAccount], (req, res) => {
+    //get the user's username from the session storage
+    const username = req.session.user.user;
+    //get teh user's account type
+    const account_type = req.session.user.account_type;
+    //create a user object
+    const user = {
+        user: req.session.user,
+        account_type
+    };
+    //get the first 10 songs from the database
+    db.getUserSongs(username, 10, 0)
+        .then(songData => {
+            //render the user's songs
+            res.render('my_songs', {
+                title: 'My Songs',
+                user,
+                songData
             });
         })
-});
-//GET REQUEST FOR TO LIST USERS SONGS
-router.get('/profile/songs', loggedIn, (req, res) => {
-    const username = req.session.user.user;
+        .catch(error => console.error(error));
+});//end route
 
-    db.getUserSongs(username, 10, 0).then(songData => {
-        res.render('my_songs', {title: 'My Songs', user: req.session.user, songData});
-    }).catch(error => console.error(error));
-});
+//Route that displays the user's playlists
 router.get('/profile/playlists', loggedIn, (req, res) => {
-    db.getUserPlaylists(req.session.user.user)
+    //get the user data from the session storage
+    const user = req.session.user;
+    //get the playlists associated with the user
+    db.getUserPlaylists(user.user)
         .then(playlists => {
-            res.render('playlists', {playlists, user: req.session.user, add_button: false});
-        }).catch(error => {
-        console.error(error);
-        res.render('playlists', {user: req.session.user});
-    });
-});
+            //render a page displaying the users playlists
+            res.render('playlists', {
+                playlists,
+                user,
+                add_button: false,
+                title: 'Playlists'
+            });//end res.render()
+        })
+        //in the case of an error log it and render the page
+        .catch(error => {
+            console.error(error);
+            res.render('playlists', {user, title: "Playlists"});
+        });//end query
+});//end route
+
+//Route that fetches the tracks associated with a playlist
 router.get('/playlist/tracks', loggedIn, (req, res) => {
-    if (Object.keys(req.query).length === 0 && typeof req.query === 'undefined') {
+    //if the query string of the request object is empty then send a response with a status code of 400
+    if (Object.keys(req.query).length === 0 && typeof req.query === 'undefined')
         res.status(400).end();
-    }
 
+    //get teh playlist name from the query string
     const playlist_name = req.query.playlist_name;
-    const owner = req.query.owner;
 
-    db.getPlaylistTracks(playlist_name, owner)
+    //get the tracks associated with a playlist
+    db.getPlaylistTracks(playlist_name)
         .then(tracks => {
-            res.status(200).render("playlist_tracks", {playlist_name, songData: tracks});
-        }).catch(error => {
-        res.status(500).end();
-    });
-});
+            //On successs end a status code of 200(success) and render the playlist tracks
+            res.status(200)
+                .render("playlist_tracks", {
+                    playlist_name,
+                    songData: tracks,
+                    title: 'Playlist Tracks',
+                });
+        })
+        //in the case of an error log it
+        .catch(error => console.error(error));
+});//end route
+/*
 router.get('/playlist/getSongs', loggedIn, (req, res) => {
     db.getSongs(0, 0).then(songs => {
         res.status(200).send(songs).end();
     }).catch(error => {
         console.error(error);
     })
-});
-router.get('/getPlaylist', loggedIn, (req, res) => {
-    if (Object.keys(req.query).length === 0 && typeof req.query === 'undefined') {
-        res.status(500).end();
-    }
+});*/
 
+//Route that adds a one users playlist into another user's library
+router.get('/getPlaylist', loggedIn, (req, res) => {
+    //If the query string is empty then return a status code 500 (Internal Server Error)
+    if (Object.keys(req.query).length === 0 && typeof req.query === 'undefined')
+        res.status(500).end();
+
+    //Get the playlist name from the query string of the url
     let playlist = req.query.playlist_name;
+    //Get the name of the owner of the playlist from the query string of the url
     let owner = req.query.owner;
+    //Get the username of the currently logged in user from the session storage
     let userSession = req.session.user.user;
+    //get the number of shares of the playlist from the query string
     let shares = req.query.shares;
 
-    if (owner === userSession) {
-        res.stat(200).send('This playlist already belongs to you!').end();
-    } else {
-        db.getPlaylist(playlist, userSession, shares)
-            .then(() => {
-                res.status(200).send(`Playlist ${playlist} added to your collection!`);
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    }
-});
+    //add the playlist to the users library
+    db.getPlaylist(playlist, userSession, shares)
+        .then(() => {
+            res.status(200).send(`Playlist ${playlist} added to your collection!`);
+        })
+        //in the case of an error, log it
+        .catch(error => console.error(error))
+
+});//end route
+
 router.post('/playlist/addSong', loggedIn, (req, res) => {
     db.addTrack(req.body.name, req.body.artist, req.body.playlist, req.session.user.user)
         .then((tracks) => res.redirect('/users/profile/playlists'))
         .catch(error => console.error(error));
 });
-
 router.post('/createPlaylist', loggedIn, uploads, (req, res) => {
     if (typeof req.files === 'undefined' && typeof req.body === 'undefined')
         res.sendStatus(404).render('uploads');
@@ -184,9 +245,16 @@ router.post('/createPlaylist', loggedIn, uploads, (req, res) => {
 //GET REQUEST TO USER SPOTIFY PAGE
 router.get('/spotify', loggedIn, (req, res) => {
     const username = req.session.user.user;
+    const account_type = req.session.user.account_type;
     db.getUser(username)
         .then(user => {
-            res.render('spotify', {user, token: req.session.user.spotify_acces_token});
+            res.render('spotify', {
+                user: {
+                    user,
+                    account_type,
+                }
+                , token: req.session.user.spotify_acces_token
+            });
         });
 });
 router.get('/spotifyConnect', loggedIn, (req, res) => {
@@ -236,7 +304,6 @@ router.get('/spotify/playlist/tracks', loggedIn, (req, res) => {
 
 
 });
-
 //Get route that renders the uploads page
 router.get('/upload', loggedIn, (req, res) => {
     res.render('uploads', {
@@ -445,23 +512,27 @@ router.get('/profile/design', loggedIn, (req, res) => {
 
 
 });
+//Route that converts images from bas64 into byte arrays
+//and uploads them to firebase storage as well as adding them to
+//the firestore database
 router.post('/profile/design/convertImage', loggedIn, (req, res) => {
+    //extract the name of the product
     let name = req.body.product_name;
     name = name.replace(/ /g, '');
+    //extract the price of the product
     const price = req.body.price;
-    console.log(Object.keys(req.body.price));
+    //get the base 64 strings of the images
     const imgBase1 = req.body.img1;
     const imgBase2 = req.body.img2;
     const imgBase3 = req.body.img3;
     const imgBase4 = req.body.img4;
-
-
+    //Trim the base 64 strings from their tag at the front
     const img1 = imgBase1.split(';base64,').pop();
     const img2 = imgBase2.split(';base64,').pop();
     const img3 = imgBase3.split(';base64,').pop();
     const img4 = imgBase4.split(';base64,').pop();
 
-
+    //Upload the screenshots to a google cloud bucket
     const url1 = new Promise(resolve => {
         db.uploadScreenshot(req.session.user.user, img1, name, `${name}_1.png`)
             .then(url => {
@@ -499,25 +570,27 @@ router.post('/profile/design/convertImage', loggedIn, (req, res) => {
             });
     });
 
+    //When all of the promises are resolved then add a database entry of the merchandise product
+    //in the document of the musician that designed the merchandise
     Promise.all([url1, url2, url3, url4])
         .then(urls => {
+            //Add a merchandise product to database
+            //Pass in the user who designed it, the name of the merchandise, its price and the urls to the images
             return db.addProductToDB(req.session.user.user, name, price, urls);
         })
         .then(response => {
+            //When the product is added to the database log the response
             console.log(response);
+            //send a status code of 200(success) and redirect the user back to the design page
             res.status(200).redirect('/users/profile/design');
         })
         .catch(error => {
+            //in the case of an error log the error
             console.error(error);
+            //send a status code 500 (internal server error) and end the response
             res.status(500).send(error).end();
-        })
-
-    /*
-    fs.writeFile('image.png',imgBase64,{encoding:'base64'},function(err){
-         console.log("file created");
-        res.status(200).end();
-     });*/
-});
+        })//end promise
+});//end route
 
 router.post('/decals/upload', loggedIn, uploads, (req, res) => {
     if (typeof req.files === 'undefined' && typeof req.body === 'undefined')

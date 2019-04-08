@@ -9,7 +9,7 @@
             </a>
             <div class="side-dropdown">
                 <ul>
-                    <li><a href="/users/profile/overview"><i class="far fa-question-circle"></i> Overview</a></li>
+                    <li><a href="/users/profile/"><i class="far fa-question-circle"></i> Overview</a></li>
                     <li><a href="/users/profile/design"><i class="fas fa-spray-can"></i> Design</a></li>
                     <li><a href="/users/profile/playlists"><i class="fas fa-headphones-alt"></i> Playlists</a></li>
                     <%if(user.account_type === 'artists'){%>
@@ -43,7 +43,9 @@
 
                 </div>
             </div>
-
+            <div id="close_player">
+                <span class="close_button">&times</span>
+            </div>
 
         </div>
     </nav>
@@ -53,5 +55,29 @@
         <div class="nav-item"><a href="/discover/music" id="discover-link"><i class="fas fa-globe-europe"></i><span class="nav-text">Discover</span></a></div>
         <div class="nav-item"><a href="/store" id="store-link"><i class="fas fa-store"></i><span class="nav-text">Store</span></a></div>
         <div class="nav-item"><a href="/login" id="login-link"><i class="fas fa-sign-in-alt"></i><span class="nav-text">Login</span></a></div>
+        <div class="player">
+            <div class="player_thumbnail" id="player_thumbnail">
+
+            </div>
+            <div class="player_info">
+                <div class="player_name" id="player_name">
+
+
+                </div>
+                <div class="player_controls">
+                    <span class="backwards" id="backwards"><i class="fa fa-step-backward"></i></span>
+
+                    <span class="play" id="play"><i class="fa play_icon fa-play"></i><i class="fa pause_icon fa-pause" style="display: none"></i></span>
+                    <span class="forwards" id="forwards"><i class="fa fa-step-forward"></i></span>
+                </div>
+                <div class="player_progress" id="player_progress">
+
+                </div>
+            </div>
+            <div id="close_player">
+                <span class="close_button">&times</span>
+            </div>
+
+        </div>
     </nav>
 <%}%>

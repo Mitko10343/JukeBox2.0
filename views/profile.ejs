@@ -4,9 +4,8 @@
             <% include partials/profileCover.ejs %>
         </div>
         <div class="profile-content-wrap">
-            <div class="heading-wrapper">
-                <h1>Account Overview</h1>
-            </div>
+            <%include partials/profile_nav.ejs%>
+
             <div class="overview-values-wrap">
                 <div class="overview-content">
                     <input type="text" disabled value="<%=user.username%>">

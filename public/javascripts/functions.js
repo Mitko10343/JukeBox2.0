@@ -46,6 +46,7 @@ $(document).ready(function () {
                     const newPage = $(data).find("div").filter('div .content-wrapper').html();
                     //attach the html of the filtered response to the wrapper div and fade it in again
                     $('.wrapper').html(newPage).fadeIn(500);
+                    $('a').attr('disabled',false);
                 });
             }//End of the success function
         });//end of the ajax call

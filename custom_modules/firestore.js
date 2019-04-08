@@ -163,6 +163,12 @@ const getSong = async (name) => {
             .catch(error => console.error(error));
     })
 };
+/**
+ * Function that gets songs from the database
+ * @param limit
+ * @param page
+ * @returns {Promise<T>}
+ */
 const getSongs = async (limit, page) => {
     limit = limit === 0 ? 10 : limit;
     page = page === 0 ? 1 : page;
@@ -240,12 +246,13 @@ const getPlaylistTracks = async (name) => {
         //get the record for the playlist name
         PLAYLISTS.doc(name).get()
         //if a document is returned then extract the data
-            .then(records => {
+            .then(record => {
                 //get data from record
-                let data = records.data();
+                let data = record.data();
                 //if the tracks field of the record is undefined then return undefined
                 if (typeof data.tracks === 'undefined')
                     resolve(undefined);
+
                 //else get the tracks from the record and put them in a JSON object
                 else
                     return getSongData(data.tracks);
@@ -427,6 +434,15 @@ const uploadImage = async (user, collection, file, name) => {
     })//end Promise
 };//end function
 
+/**
+ * Function that converts a base64 string of an image into a byte array
+ * and uploads it to the firestore storage bucket
+ * @param user
+ * @param file
+ * @param product_name
+ * @param image_name
+ * @returns {Promise<any>}
+ */
 const uploadScreenshot = async (user, file, product_name, image_name) => {
     //Trim the username of the user and the name of the image file of any whitespaces
     const uname = user.replace(/ /g, '');
@@ -434,6 +450,7 @@ const uploadScreenshot = async (user, file, product_name, image_name) => {
     //get a reference to the storage bucket
     const imageBucket = bucket.file(`${keys.USERS}/${uname}/products/${product_name}/${image_name}`);
 
+    //Create a stream that the decoded image strings will get piped through to be uploaded
     let stream = require('stream');
     let bufferStream = new stream.PassThrough();
     bufferStream.end(Buffer.from(file, 'base64'));

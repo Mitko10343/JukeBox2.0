@@ -38,7 +38,12 @@ $(document).ready(function(){
                 isPlaying = togglePlay(players[index]);
             }
         })
-    })
+    });
+
+    $('#close_player').on('click',function () {
+        pauseAll(players);
+        $('.player').fadeOut(300);
+    });
 
     $(play).on('click',function () {
         //else just toggle play for the player

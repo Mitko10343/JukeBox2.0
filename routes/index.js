@@ -12,7 +12,7 @@ const notLoggedIn = (req, res, next) => {
 
 //get route that renders the index page
 router.get('/', notLoggedIn, (req, res) => {
-    res.render('index');
+    res.render('index',{title:"Welcome"});
 });
 
 
@@ -32,7 +32,11 @@ router.get('/discover/music', (req, res) => {
         //Query the database for an ordered JSON object with song based on criteria from the front end
         if (genre === 'default' && order !== 'default')
             db.order(order)
-                .then(songData => res.render('discover_music', {songData,user}).end() )
+                .then(songData => res.render('discover_music', {
+                    songData,
+                    user,
+                    title:"Discover Music",
+                }).end() )
                 //in the case of an error return a status code of 500 and log the error
                 .catch(error => {
                     console.error(error);
@@ -87,7 +91,7 @@ router.get('/discover/playlists', (req, res) => {
     //Check if a user session exists and if it doesnt set the user to undefined
     //this is done as a check
     //If a user session exists and the user doesn't have a certain playlist in his library, then an add button is rendered.
-    const user = typeof req.session.user === 'undefined' ? undefined : req.session.user.user;
+    const user = typeof req.session.user === 'undefined' ? undefined : req.session.user;
     //if user is undefined set add button to true else set it to false
     let add_button = typeof user === undefined;
 
@@ -110,6 +114,7 @@ router.get('/discover/playlists', (req, res) => {
 
 //get route that renders the tracks associated with a certain playlist
 router.get('/discover/playlist/tracks', (req, res) => {
+    const user = typeof req.session.user === 'undefined' ? '' : req.session.user;
     //check if the query string of the request object has the playlist name in it
     //if it doesnt then return a 400 status and end the response
     if (Object.keys(req.query).length === 0 && typeof req.query === 'undefined')
@@ -118,7 +123,6 @@ router.get('/discover/playlist/tracks', (req, res) => {
     //If the query string has some data in it then extract the playlist name from it
     const playlist_name = req.query.playlist_name;
 
-
     //Get the tracks for the playlist
     db.getPlaylistTracks(playlist_name)
     //If tracks are returned then render them on the page
@@ -126,6 +130,7 @@ router.get('/discover/playlist/tracks', (req, res) => {
             res.status(200).render("partials/discover_playlist_tracks", {
                 playlist_name,
                 songData: tracks,
+                user
             });
         })
         .catch(error => {
@@ -138,17 +143,18 @@ router.get('/discover/playlist/tracks', (req, res) => {
 //Get route that renders the store page
 router.get('/store', (req, res) => {
     const user = typeof req.session.user === 'undefined' ? '' : req.session.user;
-    res.render('store', {title: 'Store'});
+    res.render('store', {user});
 });
 
 //Get route that renders the login page
 router.get('/login', notLoggedIn, (req, res) => {
-    res.render('logIn');//render login page template
+    res.render('logIn',{title:'Login'});//render login page template
 });//end route
+
 
 //get route that renders the register page
 router.get('/register', notLoggedIn, (req, res) => {
-    res.render('register');//render the register page template
+    res.render('register',{title:'Register'});//render the register page template
 });//end route
 
 //post route that authenticates the a user for login

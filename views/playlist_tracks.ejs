@@ -2,7 +2,8 @@
     <div class="playlist_name">
         <h3 id="p_name"><%=playlist_name%></h3>
     </div>
-    <button class="add_song" type="button" onclick="addSong()">Add a song </button>
+    <button class="add_song" type="button" onclick="addSong()"><i class="fas fa-plus"></i> Tracks </button>
+
     <%include partials/display_songs.ejs%>
     <script>
         function addSong(){

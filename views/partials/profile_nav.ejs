@@ -1,0 +1,12 @@
+<div class="profile_nav">
+    <ul class="profile_nav_ul">
+        <li class="profile_nav_li"><a href="/users/profile">Overview</a></li>
+        <li class="profile_nav_li"><a href="/users/profile/playlists">Playlists</a></li>
+        <li class="profile_nav_li"><a href="/users/profile/likes">Likes</a></li>
+        <%if(user.account_type === 'artists'){%>
+            <li class="profile_nav_li"><a href="/users/upload">Upload</a></li>
+            <li class="profile_nav_li"><a href="/users/profile/songs">My Songs</a></li>
+            <li class="profile_nav_li"><a href="/users/profile/design">Design</a></li>
+        <%}%>
+    </ul>
+</div>

@@ -14,15 +14,15 @@ playlists.forEach(playlist=>{
             <%if(typeof playlist.tracks !== 'undefined'){%>
                 <div class="tracks">Tracks: <%= playlist.tracks.length %></div>
             <%}%>
-        </div>
-        <%if(add_button === true ){%>
-            <div class="add_playlist_btn">
-                <button class="add_playlist"><i class="fas fa-plus"></i></button>
-            </div>
-        <%}else if(playlist.original_owner !== user && typeof user !== 'undefined'){%>
-            <div class="add_playlist_btn">
+            <%if(add_button === true ){%>
+                <div class="add_playlist_btn">
                     <button class="add_playlist"><i class="fas fa-plus"></i></button>
-            </div>
-        <%}%>
+                </div>
+            <%}else if(playlist.original_owner !== user && typeof user !== 'undefined'){%>
+                <div class="add_playlist_btn">
+                    <button class="add_playlist"><i class="fas fa-plus"></i></button>
+                </div>
+            <%}%>
+        </div>
     </div>
 <% })} %>
